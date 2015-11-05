@@ -40,15 +40,10 @@ Date.prototype.addDays = function(days) {
     return dat;
 }
 
-domready(() => {
-    document.body.innerHTML = renderMainTemplate();
-    loadData(data);
-})
-
-
 class BurnCanvas {
-    constructor(width, height) {
-        this.burns = [];
+    constructor(width, height, fires) {
+        this.delay = 1000 * 60 * 60 * 24 * 5;
+        this.sortedFires = fires.sort((a,b) => a.dateObj > b.dateObj ? 1 : b.dateObj > a.dateObj ? -1 : 0);
         this.width = width;
         this.height = height;
         this.canvas = document.createElement('canvas');
@@ -57,6 +52,21 @@ class BurnCanvas {
         this.canvas.height = height;
         this.context = this.canvas.getContext('2d');
         this.context.globalCompositeOperation = 'source-over';
+        this.lastBurns = [];
+    }
+
+    setDate(date) {
+        var burns = [];
+        let d = date - this.delay;
+        for (var i = 0; i < this.sortedFires.length; i++) {
+            if (d < this.sortedFires[i].dateObj) break;
+            burns.push(this.sortedFires[i]);
+        }
+        let newBurns = burns.length - this.lastBurns.length;
+        if (newBurns > 0) {
+            burns.slice(this.lastBurns.length).forEach(b => this.drawBurn(b))
+        }
+        this.lastBurns = burns;
     }
 
     drawBurn(burn) {
@@ -66,15 +76,45 @@ class BurnCanvas {
         this.context.fillStyle = burn.burnGradient;
         this.context.fill();
     }
-    addBurns(burns) {
-        burns.forEach(b => this.drawBurn(b))
-        this.burns = this.burns.concat(burns);
-    }
     redraw(width, height) {
         this.width = width || this.width;
         this.height = height || this.height;
         this.context.clearRect(0, 0, this.width, this.height);
         this.burns.forEach(f => this.drawBurn(f))
+    }
+}
+
+class DayFrame {
+    constructor(width, height, fires) {
+        this.width = width;
+        this.height = height;
+        this.fires = fires;
+        this.date = fires[0].dateObj;
+        this.canvas = document.createElement('canvas');
+        this.canvas.className = 'map__burns';
+        this.canvas.width = width;
+        this.canvas.height = height;
+        this.context = this.canvas.getContext('2d');
+        this.context.globalCompositeOperation = 'color-burn';
+        this.draw();
+    }
+    draw() {
+        this.context.clearRect(0, 0, this.width, this.height);
+        this.context.globalAlpha = 1.0;
+        this.fires.forEach(f => {
+            this.context.beginPath();
+            this.context.arc(f.coords[0], f.coords[1] , f.radius*1.2, 0, 2*Math.PI);
+            this.context.fillStyle = f.gradient;
+            this.context.fill();
+        })
+    }
+    getOpacity(renderDate) {
+        let fadeIn = 1000 * 60 * 60 * 24;
+        let fadeOut = 1000 * 60 * 60 * 24 * 5;
+        let elapsed = renderDate - this.date;
+        if (elapsed < 0) return 0;
+        else if (elapsed < fadeIn) return elapsed / fadeIn;
+        else return Math.max(0, 1 - ((elapsed - fadeIn) / fadeOut))
     }
 }
 
@@ -86,22 +126,21 @@ function loadData(idn) {
     })
     var center = d3.geo.centroid(features.geo);
 
-    var width = 1200, height = 600;
-
     var container = d3.select("#map-container");
 
     var els = {
         mapContainer: document.querySelector("#map-container"),
         fireDate: document.querySelector('.fire-date'),
         cumulativeFires: document.querySelector('.cumulative-fires'),
-        activeFires: document.querySelector('.active-fires'),
-        svg: container.append("svg")
-                .attr({class: 'map', width: width, height: height}),
-        canvas: container.append("canvas")
-                .attr({class: 'map__fires', width: width, height: height}),
-        burnCanvas: new BurnCanvas(width, height)
-    }
-    els.mapContainer.appendChild(els.burnCanvas.canvas)
+        activeFires: document.querySelector('.active-fires')
+    };
+
+    var {width, height} = els.mapContainer.getBoundingClientRect();
+
+    els.svg = container.append("svg")
+        .attr({class: 'map', width: width, height: height}),
+    els.canvas = container.append("canvas")
+        .attr({class: 'map__fires', width: width, height: height})
 
     els.context = els.canvas.node().getContext("2d");
 
@@ -178,6 +217,7 @@ function loadData(idn) {
                 burnGradient.addColorStop(1,"rgba(180, 180, 180, 0)");
                 return {
                     date: f.properties.date,
+                    dateObj: new Date(f.properties.date),
                     freeze: new Date(f.properties.date) >= endDate,
                     coords: coords,
                     color: d3.rgb(fireColor(f.properties.confidence)),
@@ -197,12 +237,17 @@ function loadData(idn) {
 
     var fires = processFires(features.fires.features);
 
-    var activeFires = [],
-        burnedFires = [];
+    els.burnCanvas = new BurnCanvas(width, height, fires.objects);
+    els.mapContainer.appendChild(els.burnCanvas.canvas);
+
+    fires.dayFrames = Object.keys(fires.byDate).map(d => {
+        return new DayFrame(width, height, fires.byDate[d]);
+    })
+
     var totalFires = 0;
 
-    function fireOpacity(fire, currentTime) {
-        let aliveTime = currentTime - fire.added;
+    function fireOpacity(fireTime, currentTime) {
+        let aliveTime = currentTime - fireTime;
         if (aliveTime < 200) {
             return aliveTime / 200
         } else if (fire.freeze) {
@@ -215,56 +260,39 @@ function loadData(idn) {
 
     var canvasDrawTimeout;
 
+    let animationStartTime = new Date();
+    let animationDuration = 20000;
+    let animationTimePeriod = fires.endDate - fires.startDate;
+    let timeRatio = animationTimePeriod / animationDuration;
     function canvasFrame() {
+        let now = new Date();
+        let elapsed = timeRatio * (now - animationStartTime);
+        let currentTime = new Date(fires.startDate.getTime() + elapsed);
+
+        let displayDate = strftime('%B %e %Y', currentTime);
+        if (els.fireDate.textContent !== displayDate) els.fireDate.textContent = displayDate;
+
         els.context.clearRect(0, 0, width, height);
-        let now = new Date();
-
         els.context.globalCompositeOperation = 'color-burn';
-        activeFires.forEach(f => {
-            els.context.beginPath();
-            els.context.globalAlpha = fireOpacity(f, now);
-            els.context.arc(f.coords[0], f.coords[1] , f.radius*1.2, 0, 2*Math.PI);
-            els.context.fillStyle = f.gradient;
-            els.context.fill();
-        })
-        canvasDrawTimeout = window.requestAnimationFrame(canvasFrame);
-    }
 
-    let tickDuration = 150,
-        date;
+        els.burnCanvas.setDate(currentTime);
 
-    function fireTimer() {
-        let oldDate = date;
-        date = date ? date.addDays(1) : fires.startDate;
-        let now = new Date();
-        let isBurning = f => now - f.added < 1000;
-
-        [activeFires, newlyBurnedFires] = partition(activeFires, isBurning)
-        els.burnCanvas.addBurns(newlyBurnedFires);
-        if (date <= fires.endDate) {
-            window.setTimeout(fireTimer, tickDuration)
-            let dateKey = strftime('%Y/%m/%d', date);
-            els.fireDate.textContent = strftime('%B %e %Y', date);
-            let newFires = fires.byDate[dateKey];
-            newFires.forEach(f => f.added = now)
-            totalFires += newFires.length;
-            activeFires = activeFires.concat(newFires);
-        } else {
-            // activeFires = activeFires
-            //     .filter(f => f.freeze || now - f.added < 1000)
-            // if (activeFires.filter(f => f.freeze).length === activeFires.length) {
-            if (activeFires.filter(isBurning).length === 0) {
-                console.log('CLEAR');
-                window.cancelAnimationFrame(canvasDrawTimeout);
-            } else {
-                window.setTimeout(fireTimer, tickDuration)
+        fires.dayFrames.forEach(dayFrame => {
+            let opacity = dayFrame.getOpacity(currentTime);
+            if (opacity > 0) {
+                els.context.globalAlpha = opacity;
+                els.context.drawImage(dayFrame.canvas, 0, 0);
             }
+        });
+        if (currentTime < fires.endDate) {
+            canvasDrawTimeout = window.requestAnimationFrame(canvasFrame);
         }
-
-        els.cumulativeFires.textContent = `${totalFires} total fires`;
-        els.activeFires.textContent = `${activeFires.length} active fires`;
     }
 
-    fireTimer();
     canvasFrame();
 }
+
+domready(() => {
+    document.body.innerHTML = renderMainTemplate();
+    loadData(data);
+})
