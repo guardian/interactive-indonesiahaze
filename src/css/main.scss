@@ -1,0 +1,69 @@
+@import 'font';
+@import 'mq';
+
+
+.map__country {
+    stroke-width: 1px;
+    stroke: #ccc;
+    fill: #efefef;
+}
+
+.map__palm {
+    fill: #C1B213;
+}
+
+.map__fiber {
+    fill: #4E4DBD;
+}
+
+.map__logging {
+    fill: #B5442B;
+}
+
+.map__heading {
+    text-align: left;
+    font-family: "Guardian Egyptian Web";
+    font-size: 22px;
+    margin: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    color: #333;
+    .fire-date {
+        display: inline-block;
+        text-align: left;
+        width: 200px;
+    }
+}
+
+.fires circle {
+    fill: red;
+    stroke: #333;
+    stroke-width: 0.5px;
+    display: none;
+    // opacity: 0;
+    &.decay {
+		transition: opacity 0.5s ease-out;
+		display: block;
+		opacity: 0;
+	}
+	&.visible {
+		// transition: opacity 0.1 ease-out;
+		display: block;
+		// opacity: 1;
+	}
+}
+
+#map-container {
+    position: relative;
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+	z-index: 1;
+}
+.cumulative-fires, .active-fires {
+    display: none;
+}

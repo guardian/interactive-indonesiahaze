@@ -1,0 +1,9 @@
+build
+jspm_packages
+node_modules
+bower_components
+*.tmp
+aws-keys.json
+npm-debug.log
+docs
+data/airs/AIRS*
