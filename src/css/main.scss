@@ -77,3 +77,36 @@
 .cumulative-fires, .active-fires {
     display: none;
 }
+
+svg {
+    @include fs-textSans(2);
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #333;
+  shape-rendering: crispEdges;
+}
+
+@keyframes test {
+    to { stroke-dashoffset: 0; }
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+  stroke-dasharray: 1200;
+  stroke-dashoffset: 1200;
+  animation: test 2s linear forwards;
+}
+
+.preset {
+    stroke: #bdbdbd;
+    stroke-dasharray: 2;
+}
+
+.country {
+    fill: #333;
+}
