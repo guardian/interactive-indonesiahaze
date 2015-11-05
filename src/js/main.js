@@ -124,6 +124,7 @@ function loadData(idn) {
     (['geo','palmoil','fiber','logging', 'fires']).forEach(key => {
         features[key] = topojson.feature(idn, idn.objects[key])
     })
+    console.log(features);
     var center = d3.geo.centroid(features.geo);
 
     var container = d3.select("#map-container");
