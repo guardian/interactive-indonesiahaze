@@ -3,8 +3,6 @@
 
 
 .map__country {
-    stroke-width: 1px;
-    stroke: #ccc;
     fill: #efefef;
 }
 
@@ -58,12 +56,21 @@
     position: relative;
 }
 
-canvas {
+.map {
+}
+.map__fires, .map__burns {
     position: absolute;
     top: 0;
     left: 0;
-	z-index: 1;
 }
+
+.map__fires {
+    z-index: 2;
+}
+.map__burns {
+    z-index: 1;
+}
+
 .cumulative-fires, .active-fires {
     display: none;
 }

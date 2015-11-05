@@ -28,6 +28,12 @@ function groupBy(arr, fn) {
     return obj;
 }
 
+function partition(arr, fn) {
+    var results = [[],[]];
+    arr.forEach(v => results[fn(v) ? 0 : 1].push(v))
+    return results;
+}
+
 Date.prototype.addDays = function(days) {
     var dat = new Date(this.valueOf());
     dat.setDate(dat.getDate() + days);
@@ -39,6 +45,39 @@ domready(() => {
     loadData(data);
 })
 
+
+class BurnCanvas {
+    constructor(width, height) {
+        this.burns = [];
+        this.width = width;
+        this.height = height;
+        this.canvas = document.createElement('canvas');
+        this.canvas.className = 'map__burns';
+        this.canvas.width = width;
+        this.canvas.height = height;
+        this.context = this.canvas.getContext('2d');
+        this.context.globalCompositeOperation = 'source-over';
+    }
+
+    drawBurn(burn) {
+        this.context.globalAlpha = 0.1;
+        this.context.beginPath();
+        this.context.arc(burn.coords[0], burn.coords[1] , burn.radius*2, 0, 2*Math.PI);
+        this.context.fillStyle = burn.burnGradient;
+        this.context.fill();
+    }
+    addBurns(burns) {
+        burns.forEach(b => this.drawBurn(b))
+        this.burns = this.burns.concat(burns);
+    }
+    redraw(width, height) {
+        this.width = width || this.width;
+        this.height = height || this.height;
+        this.context.clearRect(0, 0, this.width, this.height);
+        this.burns.forEach(f => this.drawBurn(f))
+    }
+}
+
 function loadData(idn) {
 
     var features = {};
@@ -47,27 +86,28 @@ function loadData(idn) {
     })
     var center = d3.geo.centroid(features.geo);
 
-    var width = 1600, height = 600;
+    var width = 1200, height = 600;
 
     var container = d3.select("#map-container");
 
     var els = {
+        mapContainer: document.querySelector("#map-container"),
         fireDate: document.querySelector('.fire-date'),
         cumulativeFires: document.querySelector('.cumulative-fires'),
         activeFires: document.querySelector('.active-fires'),
         svg: container.append("svg")
-                .attr("width", width)
-                .attr("height", height),
+                .attr({class: 'map', width: width, height: height}),
         canvas: container.append("canvas")
-                .attr("width", width)
-                .attr("height", height)
+                .attr({class: 'map__fires', width: width, height: height}),
+        burnCanvas: new BurnCanvas(width, height)
     }
+    els.mapContainer.appendChild(els.burnCanvas.canvas)
 
     els.context = els.canvas.node().getContext("2d");
 
     var projection = d3.geo.mercator()
-        .center([115, -1])
-        .scale(1850)
+        .center([107, 0])
+        .scale(width*2.3)
         .translate([width / 2, height / 2]);
 
     var path = d3.geo.path().projection(projection);
@@ -107,7 +147,7 @@ function loadData(idn) {
 
         // date bounds
         var dates = displayFeatures.map(f => new Date(f.properties.date));
-        var startDate = new Date(Math.min.apply(null, dates)),
+        var startDate = new Date('2015/07/01'),
             endDate = new Date(Math.max.apply(null, dates));
         var freezeDate = strftime('%Y/%m/%d', endDate.addDays(-7));
 
@@ -124,7 +164,7 @@ function loadData(idn) {
             .range(['yellow', 'red'])
         let fireRadius = d3.scale.pow().exponent(0.5)
             .domain([frp.min, frp.max])
-            .range([0.5, 1.5])
+            .range([/*0.5, 1.5*/(width/1600)*0.5, (width/1600)*2.5])
 
         let fireObjects = displayFeatures
             .map(f => {
@@ -132,7 +172,10 @@ function loadData(idn) {
                     radius = fireRadius(f.properties.frp);
                 let gradient = els.context.createRadialGradient(coords[0],coords[1], 0,coords[0], coords[1], radius/2)
                 gradient.addColorStop(0,"red");
-                gradient.addColorStop(1,"orange");
+                gradient.addColorStop(1,"rgba(255 ,165, 0, 0.5)");
+                let burnGradient = els.context.createRadialGradient(coords[0],coords[1], 0,coords[0], coords[1], radius*1.5)
+                burnGradient.addColorStop(0,"rgba(180, 180, 180, 1)");
+                burnGradient.addColorStop(1,"rgba(180, 180, 180, 0)");
                 return {
                     date: f.properties.date,
                     freeze: new Date(f.properties.date) >= endDate,
@@ -140,6 +183,7 @@ function loadData(idn) {
                     color: d3.rgb(fireColor(f.properties.confidence)),
                     radius: radius,
                     gradient: gradient,
+                    burnGradient: burnGradient
                 }
             });
 
@@ -153,7 +197,8 @@ function loadData(idn) {
 
     var fires = processFires(features.fires.features);
 
-    var activeFires = [];
+    var activeFires = [],
+        burnedFires = [];
     var totalFires = 0;
 
     function fireOpacity(fire, currentTime) {
@@ -165,33 +210,37 @@ function loadData(idn) {
         } else if (aliveTime < 1000) {
             let x = (aliveTime - 200);
             return 1 - (x / 800);
-        } else return 0;
+        } else return 0.2;
     }
 
     var canvasDrawTimeout;
 
     function canvasFrame() {
         els.context.clearRect(0, 0, width, height);
-        els.context.globalCompositeOperation = 'color-burn';
         let now = new Date();
 
+        els.context.globalCompositeOperation = 'color-burn';
         activeFires.forEach(f => {
             els.context.beginPath();
             els.context.globalAlpha = fireOpacity(f, now);
-            els.context.arc(f.coords[0], f.coords[1] , f.radius, 0, 2*Math.PI);
+            els.context.arc(f.coords[0], f.coords[1] , f.radius*1.2, 0, 2*Math.PI);
             els.context.fillStyle = f.gradient;
             els.context.fill();
         })
         canvasDrawTimeout = window.requestAnimationFrame(canvasFrame);
     }
 
-    let tickDuration = 100,
+    let tickDuration = 150,
         date;
 
     function fireTimer() {
         let oldDate = date;
         date = date ? date.addDays(1) : fires.startDate;
         let now = new Date();
+        let isBurning = f => now - f.added < 1000;
+
+        [activeFires, newlyBurnedFires] = partition(activeFires, isBurning)
+        els.burnCanvas.addBurns(newlyBurnedFires);
         if (date <= fires.endDate) {
             window.setTimeout(fireTimer, tickDuration)
             let dateKey = strftime('%Y/%m/%d', date);
@@ -199,13 +248,12 @@ function loadData(idn) {
             let newFires = fires.byDate[dateKey];
             newFires.forEach(f => f.added = now)
             totalFires += newFires.length;
-            activeFires = activeFires
-                .filter(f => now - f.added < 1000)
-                .concat(newFires);
+            activeFires = activeFires.concat(newFires);
         } else {
-            activeFires = activeFires
-                .filter(f => f.freeze || now - f.added < 1000)
-            if (activeFires.filter(f => f.freeze).length === activeFires.length) {
+            // activeFires = activeFires
+            //     .filter(f => f.freeze || now - f.added < 1000)
+            // if (activeFires.filter(f => f.freeze).length === activeFires.length) {
+            if (activeFires.filter(isBurning).length === 0) {
                 console.log('CLEAR');
                 window.cancelAnimationFrame(canvasDrawTimeout);
             } else {
@@ -219,5 +267,4 @@ function loadData(idn) {
 
     fireTimer();
     canvasFrame();
-
 }
