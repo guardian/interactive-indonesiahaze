@@ -168,13 +168,12 @@ svg {
         height: auto;
         display: block;
     }
-}
-.co-emissions__mask {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-image: url(../src/img/emissions-mask.png);
-    background-size: 100% 100%;
+
+    img {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
 }
