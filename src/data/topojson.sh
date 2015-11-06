@@ -40,6 +40,15 @@ ogr2ogr \
   $DATAIN/nasa/firms275521446295496_NRT.shp
 
 
+ogr2ogr \
+  -overwrite \
+  -f GeoJSON \
+  -sql "SELECT Shape_Area from idn_forest_moratorium" \
+  -lco COORDINATE_PRECISION=6 \
+  $DATAOUT/moratorium.json \
+  $DATAIN/moratorium/idn_forest_moratorium.shp
+
+
 topojson \
   -o $DATAOUT/indonesia.topojson \
   --id-property SU_A3 \
