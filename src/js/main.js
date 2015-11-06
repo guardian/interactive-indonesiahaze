@@ -8,6 +8,8 @@ import topojson from 'mbostock/topojson'
 import strftime from 'samsonjs/strftime'
 import data from '../../data/out/indonesia.topojson!json'
 import Emitter from './emitter.js';
+import autoplay from './autoplay.js';
+import CanvasVideoPlayer from './lib/canvas-video-player'
 
 var renderMainTemplate = doT.template(mainTemplate);
 
@@ -294,18 +296,7 @@ function loadData(idn) {
     })
     bigTimelapse.renderAt(new Date('2015/07/01'));
 
-    let autoPlayBigTimelapse = evt => {
-        let {top} = els.mapContainer.getBoundingClientRect();
-        let threshold = window.innerHeight / 3.5;
-        if (top < threshold && top > 0) {
-            bigTimelapse.play(new Date('2015/07/01'), new Date('2015/10/30'), 20000);
-            window.removeEventListener('scroll', autoPlayBigTimelapse);
-        }
-    }
-    window.addEventListener('scroll', autoPlayBigTimelapse)
-
-
-
+    autoplay(els.mapContainer, 3.5, () => bigTimelapse.play(new Date('2015/07/01'), new Date('2015/10/30'), 20000))
 
 
     let {width:sumatraWidth, height:sumatraHeight} = els.sumatraZoomMap.getBoundingClientRect();
@@ -329,19 +320,20 @@ function loadData(idn) {
     })
     sumatraTimelapse.renderAt(new Date('2015/09/01'));
 
-
-    let autoPlaySumatraTimelapse = evt => {
-        let {top} = els.sumatraZoomMap.getBoundingClientRect();
-        let threshold = window.innerHeight / 3.5;
-        if (top < threshold && top > 0) {
-            sumatraTimelapse.play(new Date('2015/09/01'), new Date('2015/10/30'), 12000);
-            window.removeEventListener('scroll', autoPlaySumatraTimelapse);
-        }
-    }
-    window.addEventListener('scroll', autoPlaySumatraTimelapse)
+    autoplay(els.sumatraZoomMap, 3.5, () => sumatraTimelapse.play(new Date('2015/09/01'), new Date('2015/10/30'), 12000))
 }
 
 domready(() => {
     document.body.querySelector('.content-container').innerHTML = renderMainTemplate();
     loadData(data);
+
+    var el = document.body.querySelector('.co-emissions');
+    var canvasVideo = new CanvasVideoPlayer({
+        videoSelector: '.co-emissions__video',
+        canvasSelector: '.co-emissions__canvas',
+        framesPerSecond: 10
+    });
+
+    autoplay(el, 2, () => canvasVideo.play());
+
 })
