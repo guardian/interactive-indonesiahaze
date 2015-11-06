@@ -9,6 +9,7 @@ import queue from 'mbostock/queue'
 import reqwest from 'reqwest'
 import strftime from 'samsonjs/strftime'
 import data from '../../data/out/indonesia.topojson!json'
+import Emitter from './emitter.js';
 
 var renderMainTemplate = doT.template(mainTemplate);
 
@@ -116,68 +117,48 @@ class DayFrame {
         else if (elapsed < fadeIn) return elapsed / fadeIn;
         else return Math.max(0, 1 - ((elapsed - fadeIn) / fadeOut))
     }
+
 }
 
-function loadData(idn) {
+class BigTimelapse extends Emitter {
+    constructor(fires, width, height) {
+        super()
+        this.width = width;
+        this.height = height;
+        this.els = {
+            svg: document.createElement('svg'),
+            canvas: document.createElement('canvas')
+        }
+        this.svg = d3.select(this.els.svg)
+            .attr({class: 'map', width: width, height: height}),
 
-    var features = {};
-    (['geo','palmoil','fiber','logging', 'fires']).forEach(key => {
-        features[key] = topojson.feature(idn, idn.objects[key])
-    })
-    console.log(features);
-    var center = d3.geo.centroid(features.geo);
+        this.canvas = d3.select(this.els.canvas)
+            .attr({class: 'map__fires', width: width, height: height})
 
-    var container = d3.select("#map-container");
+        this.context = this.canvas.node().getContext("2d");
 
-    var els = {
-        mapContainer: document.querySelector("#map-container"),
-        fireDate: document.querySelector('.fire-date'),
-        cumulativeFires: document.querySelector('.cumulative-fires'),
-        activeFires: document.querySelector('.active-fires')
-    };
+        var projection = d3.geo.mercator()
+            .center([107, 0])
+            .scale(width*2.3)
+            .translate([width / 2, height / 2]);
 
-    var {width, height} = els.mapContainer.getBoundingClientRect();
+        var path = d3.geo.path().projection(this.projection);
 
-    els.svg = container.append("svg")
-        .attr({class: 'map', width: width, height: height}),
-    els.canvas = container.append("canvas")
-        .attr({class: 'map__fires', width: width, height: height})
+        this.fires = this.processFires(fires, projection);
 
-    els.context = els.canvas.node().getContext("2d");
+        this.burnCanvas = new BurnCanvas(width, height, this.fires.objects);
+        this.fires.dayFrames = Object.keys(this.fires.byDate).map(d => {
+            return new DayFrame(width, height, this.fires.byDate[d]);
+        })
+    }
 
-    var projection = d3.geo.mercator()
-        .center([107, 0])
-        .scale(width*2.3)
-        .translate([width / 2, height / 2]);
+    addToContainer(container) {
+        container.appendChild(this.els.svg);
+        container.appendChild(this.els.canvas);
+        container.appendChild(this.burnCanvas.canvas);
+    }
 
-    var path = d3.geo.path().projection(projection);
-
-    els.svg.append("path")
-        .datum(features.geo)
-        .attr('class', 'map__country')
-        .attr("d", path);
-
-    // els.svg.append("path")
-    //     .datum(features.palmoil)
-    //     .attr('class', 'map__palm')
-    //     .attr("d", path);
-
-    // els.svg.append("path")
-    //     .datum(features.fiber)
-    //     .attr('class', 'map__fiber')
-    //     .attr("d", path);
-
-    // els.svg.append("path")
-    //     .datum(features.logging)
-    //     .attr('class', 'map__logging')
-    //     .attr("d", path);
-
-    var groups = {
-        fires: els.svg.append('g').attr('class', 'fires')
-    };
-
-
-    function processFires(features) {
+    processFires(features, projection) {
         let minConfidence = 50;
 
         var displayFeatures = features
@@ -204,16 +185,16 @@ function loadData(idn) {
             .range(['yellow', 'red'])
         let fireRadius = d3.scale.pow().exponent(0.5)
             .domain([frp.min, frp.max])
-            .range([/*0.5, 1.5*/(width/1600)*0.5, (width/1600)*2.5])
+            .range([/*0.5, 1.5*/(this.width/900)*0.5, (this.width/900)*2.5])
 
         let fireObjects = displayFeatures
             .map(f => {
                 let coords = projection(f.geometry.coordinates),
                     radius = fireRadius(f.properties.frp);
-                let gradient = els.context.createRadialGradient(coords[0],coords[1], 0,coords[0], coords[1], radius/2)
+                let gradient = this.context.createRadialGradient(coords[0],coords[1], 0,coords[0], coords[1], radius/2)
                 gradient.addColorStop(0,"red");
                 gradient.addColorStop(1,"rgba(255 ,165, 0, 0.5)");
-                let burnGradient = els.context.createRadialGradient(coords[0],coords[1], 0,coords[0], coords[1], radius*1.5)
+                let burnGradient = this.context.createRadialGradient(coords[0],coords[1], 0,coords[0], coords[1], radius*1.5)
                 burnGradient.addColorStop(0,"rgba(180, 180, 180, 1)");
                 burnGradient.addColorStop(1,"rgba(180, 180, 180, 0)");
                 return {
@@ -236,61 +217,67 @@ function loadData(idn) {
         }
     }
 
-    var fires = processFires(features.fires.features);
-
-    els.burnCanvas = new BurnCanvas(width, height, fires.objects);
-    els.mapContainer.appendChild(els.burnCanvas.canvas);
-
-    fires.dayFrames = Object.keys(fires.byDate).map(d => {
-        return new DayFrame(width, height, fires.byDate[d]);
-    })
-
-    var totalFires = 0;
-
-    function fireOpacity(fireTime, currentTime) {
-        let aliveTime = currentTime - fireTime;
-        if (aliveTime < 200) {
-            return aliveTime / 200
-        } else if (fire.freeze) {
-            return 1;
-        } else if (aliveTime < 1000) {
-            let x = (aliveTime - 200);
-            return 1 - (x / 800);
-        } else return 0.2;
+    play() {
+        this.animationStartTime = new Date();
+        let animationDuration = 20000;
+        let animationTimePeriod = this.fires.endDate - this.fires.startDate;
+        this.timeRatio = animationTimePeriod / animationDuration;
+        this.frame();
     }
 
-    var canvasDrawTimeout;
-
-    let animationStartTime = new Date();
-    let animationDuration = 20000;
-    let animationTimePeriod = fires.endDate - fires.startDate;
-    let timeRatio = animationTimePeriod / animationDuration;
-    function canvasFrame() {
+    frame() {
         let now = new Date();
-        let elapsed = timeRatio * (now - animationStartTime);
-        let currentTime = new Date(fires.startDate.getTime() + elapsed);
+        let elapsed = this.timeRatio * (now - this.animationStartTime);
+        let currentTime = new Date(this.fires.startDate.getTime() + elapsed);
 
         let displayDate = strftime('%B %e %Y', currentTime);
-        if (els.fireDate.textContent !== displayDate) els.fireDate.textContent = displayDate;
+        if (this.displayDate !== displayDate) {
+            this.displayDate = displayDate;
+            this.emit('datechange', displayDate);
+        }
 
-        els.context.clearRect(0, 0, width, height);
-        els.context.globalCompositeOperation = 'color-burn';
+        this.context.clearRect(0, 0, this.width, this.height);
+        this.context.globalCompositeOperation = 'color-burn';
 
-        els.burnCanvas.setDate(currentTime);
+        this.burnCanvas.setDate(currentTime);
 
-        fires.dayFrames.forEach(dayFrame => {
+        this.fires.dayFrames.forEach(dayFrame => {
             let opacity = dayFrame.getOpacity(currentTime);
             if (opacity > 0) {
-                els.context.globalAlpha = opacity;
-                els.context.drawImage(dayFrame.canvas, 0, 0);
+                this.context.globalAlpha = opacity;
+                this.context.drawImage(dayFrame.canvas, 0, 0);
             }
         });
-        if (currentTime < fires.endDate) {
-            canvasDrawTimeout = window.requestAnimationFrame(canvasFrame);
+        if (currentTime < this.fires.endDate) {
+            window.requestAnimationFrame(this.frame.bind(this));
         }
     }
+}
 
-    canvasFrame();
+function loadData(idn) {
+    var features = {};
+    (['geo','palmoil','fiber','logging', 'fires']).forEach(key => {
+        features[key] = topojson.feature(idn, idn.objects[key])
+    })
+
+    var center = d3.geo.centroid(features.geo);
+
+    var container = d3.select("#map-container");
+
+    var els = {
+        mapContainer: document.querySelector("#map-container"),
+        fireDate: document.querySelector('.fire-date')
+    };
+
+    var {width, height} = els.mapContainer.getBoundingClientRect();
+
+    let bigTimelapse = new BigTimelapse(features.fires.features, width, height);
+    bigTimelapse.addToContainer(els.mapContainer);
+    bigTimelapse.play();
+    bigTimelapse.on('datechange', dateStr => {
+        els.fireDate.textContent = dateStr;
+    })
+
 }
 
 domready(() => {

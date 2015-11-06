@@ -65,6 +65,7 @@
     position: absolute;
     top: 0;
     left: 0;
+    width: 100%;
 }
 
 .map__fires {
@@ -80,6 +81,10 @@
 
 svg {
     @include fs-textSans(2);
+}
+
+.map__geo {
+    width: 100%;
 }
 
 .axis path,
