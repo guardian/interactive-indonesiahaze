@@ -1,10 +1,6 @@
 import domready from 'ded/domready'
-import bean from 'fat/bean'
-import bonzo from 'ded/bonzo'
 import d3 from 'd3'
 import topojson from 'mbostock/topojson'
-import queue from 'mbostock/queue'
-import reqwest from 'reqwest'
 import strftime from 'samsonjs/strftime'
 import data from '../../data/out/indonesia.topojson!json'
 

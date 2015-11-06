@@ -159,3 +159,22 @@ svg {
 .country {
     fill: #333;
 }
+
+.co-emissions {
+    position: relative;
+    max-width: 720px;
+    video {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+}
+.co-emissions__mask {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: url(../src/img/emissions-mask.png);
+    background-size: 100% 100%;
+}
