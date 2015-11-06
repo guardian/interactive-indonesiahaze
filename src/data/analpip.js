@@ -17,7 +17,7 @@ var fires = require(path.join(__dirname, '../../data/out/fires.json'));
 	let sortedByFiresPerHa = concessions.slice().sort((b,a) => a.fires_per_ha > b.fires_per_ha ? 1 : b.fires_per_ha > a.fires_per_ha ? -1 : 0)
 
 	function prettyPrint(concession) {
-		return `${concession.group} - ${concession.fires} fires (${concession.fires_per_ha.toFixed(5)} per ha)`;
+		return `${concession.id} ${concession.group} - ${concession.fires} fires (${concession.fires_per_ha.toFixed(5)} per ha)`;
 	}
 
 	console.log(`TOP ${key} FIRE COUNTS:`)
