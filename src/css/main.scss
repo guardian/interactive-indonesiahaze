@@ -1,6 +1,24 @@
 @import 'font';
 @import 'mq';
 
+.content-container {
+    max-width: 1300px;
+    background: white;
+    margin: auto;
+    padding-top: 120px;
+}
+
+.content {
+    max-width: 1260px;
+    margin: auto;
+    overflow: visible;
+    &:after {
+        display: block;
+        content: '';
+        clear: both;
+        height: 24px;
+    }
+}
 
 .map__country {
     fill: #efefef;
@@ -18,20 +36,19 @@
     fill: #B5442B;
 }
 
+.map__concessions {
+    fill: #dcdcdc;
+}
+
 .map__heading {
-    text-align: left;
+    text-align: right;
     font-family: "Guardian Egyptian Web";
     font-size: 22px;
-    margin: auto;
     position: absolute;
-    left: 0;
     right: 0;
-    color: #333;
-    .fire-date {
-        display: inline-block;
-        text-align: left;
-        width: 200px;
-    }
+    color: #767676;
+    padding-right: 10px;
+    padding-top: 6px;
 }
 
 .fires circle {
@@ -59,8 +76,35 @@
     height: 600px;
 }
 
+
+.section {
+    margin-top: 48px;
+    padding-left: 240px;
+}
+
+.section__heading {
+    @include fs-bodyHeading(4);
+    color: #333;
+    margin-left: -240px;
+    float: left;
+}
+
+.sumatra-zoom__map {
+    position: relative;
+    width: 320px;
+    height: 400px;
+    float: left;
+    margin-right: 24px;
+}
+
+.sumatra-zoom__copy {
+    @include fs-bodyCopy(2);
+    color: #333;
+}
+
 .map {
 }
+
 .map__fires, .map__burns {
     position: absolute;
     top: 0;

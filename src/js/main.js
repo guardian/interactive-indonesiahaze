@@ -96,7 +96,7 @@ class DayFrame {
         })
     }
     getOpacity(renderDate) {
-        let fadeIn = 1000 * 60 * 60 * 24;
+        let fadeIn = 1000 * 60 * 60 * 24 * 1.5;
         let fadeOut = 1000 * 60 * 60 * 24 * 5;
         let elapsed = renderDate - this.date;
         if (elapsed < 0) return 0;
@@ -106,29 +106,21 @@ class DayFrame {
 
 }
 
-class BigTimelapse extends Emitter {
-    constructor(fires, width, height) {
+class Timelapse extends Emitter {
+    constructor({projection, fires, width, height, geo, radiusMultiplier, concessions}) {
         super()
         this.width = width;
         this.height = height;
+        this.radiusMultiplier = radiusMultiplier || 1;
         this.els = {
-            svg: document.createElement('svg'),
+            // svg: document.createElement('svg'),
             canvas: document.createElement('canvas')
         }
-        this.svg = d3.select(this.els.svg)
-            .attr({class: 'map', width: width, height: height}),
 
         this.canvas = d3.select(this.els.canvas)
             .attr({class: 'map__fires', width: width, height: height})
 
         this.context = this.canvas.node().getContext("2d");
-
-        var projection = d3.geo.mercator()
-            .center([107, 0])
-            .scale(width*2.3)
-            .translate([width / 2, height / 2]);
-
-        var path = d3.geo.path().projection(this.projection);
 
         this.fires = this.processFires(fires, projection);
 
@@ -136,12 +128,35 @@ class BigTimelapse extends Emitter {
         this.fires.dayFrames = Object.keys(this.fires.byDate).map(d => {
             return new DayFrame(width, height, this.fires.byDate[d]);
         })
+
+        this.geo = geo;
+        this.concessions = concessions;
+        this.projection = projection;
     }
 
     addToContainer(container) {
-        container.appendChild(this.els.svg);
+        // container.appendChild(this.els.svg);
         container.appendChild(this.els.canvas);
         container.appendChild(this.burnCanvas.canvas);
+
+        if (this.geo) {
+            this.svg = d3.select(container)
+                .append('svg')
+                .attr({class: 'map', width: this.width, height: this.height});
+            var path = d3.geo.path().projection(this.projection);
+            this.svg.append("path")
+                .datum(this.geo)
+                .attr('class', 'map__country')
+                .attr("d", path);
+
+            if (this.concessions) {
+                this.svg.append("path")
+                    .datum(this.concessions)
+                    .attr('class', 'map__concessions')
+                    .attr("d", path);
+
+            }
+        }
     }
 
     processFires(features, projection) {
@@ -171,7 +186,7 @@ class BigTimelapse extends Emitter {
             .range(['yellow', 'red'])
         let fireRadius = d3.scale.pow().exponent(0.5)
             .domain([frp.min, frp.max])
-            .range([/*0.5, 1.5*/(this.width/900)*0.5, (this.width/900)*2.5])
+            .range([/*0.5, 1.5*/(this.width/900)*0.5*this.radiusMultiplier, (this.width/900)*2.5*this.radiusMultiplier])
 
         let fireObjects = displayFeatures
             .map(f => {
@@ -197,24 +212,23 @@ class BigTimelapse extends Emitter {
 
         return {
             objects: fireObjects,
-            byDate: groupBy(fireObjects, d => d.date),
-            startDate: startDate,
-            endDate: endDate
+            byDate: groupBy(fireObjects, d => d.date)
         }
     }
 
-    play() {
+    play(startDate, endDate, duration) {
         this.animationStartTime = new Date();
-        let animationDuration = 20000;
-        let animationTimePeriod = this.fires.endDate - this.fires.startDate;
-        this.timeRatio = animationTimePeriod / animationDuration;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        let animationTimePeriod = endDate - startDate;
+        this.timeRatio = animationTimePeriod / duration;
         this.frame();
     }
 
     frame() {
         let now = new Date();
         let elapsed = this.timeRatio * (now - this.animationStartTime);
-        let currentTime = new Date(this.fires.startDate.getTime() + elapsed);
+        let currentTime = new Date(this.startDate.getTime() + elapsed);
 
         let displayDate = strftime('%B %e %Y', currentTime);
         if (this.displayDate !== displayDate) {
@@ -234,11 +248,12 @@ class BigTimelapse extends Emitter {
                 this.context.drawImage(dayFrame.canvas, 0, 0);
             }
         });
-        if (currentTime < this.fires.endDate) {
+        if (currentTime < this.endDate) {
             window.requestAnimationFrame(this.frame.bind(this));
         }
     }
 }
+
 
 function loadData(idn) {
     var features = {};
@@ -246,27 +261,57 @@ function loadData(idn) {
         features[key] = topojson.feature(idn, idn.objects[key])
     })
 
-    var center = d3.geo.centroid(features.geo);
-
     var container = d3.select("#map-container");
 
     var els = {
         mapContainer: document.querySelector("#map-container"),
-        fireDate: document.querySelector('.fire-date')
+        fireDate: document.querySelector('.fire-date'),
+        sumatraFireDate: document.querySelector('.fire-date--sumatra'),
+        sumatraZoomMap: document.querySelector('.sumatra-zoom__map')
     };
 
     var {width, height} = els.mapContainer.getBoundingClientRect();
 
-    let bigTimelapse = new BigTimelapse(features.fires.features, width, height);
+
+    var bigTimelapseProjection = d3.geo.mercator()
+        .center([107, 0])
+        .scale(width*2.3)
+        .translate([width / 2, height / 2]);
+
+    let bigTimelapse = new Timelapse({
+        projection: bigTimelapseProjection,
+        fires:features.fires.features,
+        width: width, height: height
+    });
     bigTimelapse.addToContainer(els.mapContainer);
-    bigTimelapse.play();
+    // bigTimelapse.play(new Date('2015/07/01'), new Date('2015/10/30'), 20000);
     bigTimelapse.on('datechange', dateStr => {
         els.fireDate.textContent = dateStr;
     })
 
+    let {width:sumatraWidth, height:sumatraHeight} = els.sumatraZoomMap.getBoundingClientRect();
+    var sumatraTimelapseProjection = d3.geo.mercator()
+        .center([105.6, -3]) //-2.739543, 105.554825
+        .scale(width*13)
+        .translate([sumatraWidth / 2, sumatraHeight / 2]);
+    let sumatraTimelapse = new Timelapse({
+        projection: sumatraTimelapseProjection,
+        fires: features.fires.features,
+        width: sumatraWidth,
+        height: sumatraHeight,
+        geo: features.geo,
+        radiusMultiplier: 5,
+        concessions: features.fiber
+    });
+
+    sumatraTimelapse.addToContainer(els.sumatraZoomMap);
+    sumatraTimelapse.play(new Date('2015/09/01'), new Date('2015/10/30'), 12000);
+    sumatraTimelapse.on('datechange', dateStr => {
+        els.sumatraFireDate.textContent = dateStr;
+    })
 }
 
 domready(() => {
-    document.body.innerHTML = renderMainTemplate();
+    document.body.querySelector('.content-container').innerHTML = renderMainTemplate();
     loadData(data);
 })
