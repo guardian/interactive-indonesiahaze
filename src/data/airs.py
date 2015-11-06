@@ -14,7 +14,7 @@ def lch_to_rgb(l, c, h):
     return convert_color(lch, sRGBColor).get_value_tuple()
 
 def color(val, minval, maxval):
-    p = (val - minval) / (maxval - minval)
+    p = max(0, (val - minval) / (maxval - minval))
     lch = [c1 + p * (c2 - c1) for c1, c2 in zip(start_lch, end_lch)]
     rgb255 = [int(round(255 * v)) for v in lch_to_rgb(*lch)]
     return tuple(rgb255)
@@ -77,12 +77,16 @@ if __name__ == "__main__":
     minval = min(nums)
     maxval = max(nums)
 
+    minthreshold = (maxval - minval) * 0.1 + minval
+
+    print minval, maxval
+
     for i, frame_arrays in enumerate(window(arrays, n=window_size)):
         if i % 2:
             continue
         frame_i = i / 2 + 1
         print 'frame', frame_i
         merged_array = merge_arrays(frame_arrays)
-        img = array_to_image(merged_array, lambda x: color(x, minval, maxval))
+        img = array_to_image(merged_array, lambda x: color(x, minthreshold, maxval))
         outfilename = path.join(outdir, '%d.png' % frame_i)
         img.save(outfilename)
