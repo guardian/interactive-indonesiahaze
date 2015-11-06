@@ -40,13 +40,15 @@ function main() {
 		concessions[key].map((c,i) => {
 			console.log(`${key} - ${i} / ${concessions[key].length}`);
 			let fireCount = fires.filter(f => isPointInside(f, c)).length;
+			let area_ha = c.properties.area_ha || c.properties.AREA_HA;
 			out[key].push({
 				id: c.properties.OBJECTID,
-				group: c.properties.group_comp,
-				name: c.properties.name,
-				area_ha: c.properties.area_ha,
+				group: c.properties.group_comp || c.properties.GROUP_,
+				company: c.properties.company || c.properties.COMPANY,
+				name: c.properties.name || c.properties.NAME,
+				area_ha: area_ha,
 				fires: fireCount,
-				fires_per_ha: fireCount / c.properties.area_ha
+				fires_per_ha: fireCount / area_ha
 			});
 		});
 	})

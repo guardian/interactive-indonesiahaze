@@ -29,6 +29,7 @@ ogr2ogr \
 ogr2ogr \
   -overwrite \
   -f GeoJSON \
+  -where "COUNTRY IN ('INDONESIA')" \
   $DATAOUT/logging.json \
   $DATAIN/logging/GFW_logging_20131023.shp
 
