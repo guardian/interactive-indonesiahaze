@@ -1,16 +1,22 @@
 from os import listdir, path
 import numpy
 import Image
-from colorsys import hsv_to_rgb
+from colormath.color_objects import LCHabColor, sRGBColor
+from colormath.color_conversions import convert_color
 from itertools import islice
 
-def normalize_hsv(hsv):
-    return tuple([v / c for v,c in zip(hsv, (360.0, 100.0, 100.0))])
+def rgb_to_lch(h):
+    rgb = sRGBColor.new_from_rgb_hex(h)
+    return convert_color(rgb, LCHabColor).get_value_tuple()
+
+def lch_to_rgb(l, c, h):
+    lch = LCHabColor(l, c, h)
+    return convert_color(lch, sRGBColor).get_value_tuple()
 
 def color(val, minval, maxval):
-    normalized = (val - minval)/(maxval-minval)
-    hsv = [c1 + normalized*(c2-c1) for c1, c2 in zip(hsv1, hsv2)]
-    rgb255 = [int(round(255 * v)) for v in hsv_to_rgb(*hsv)]
+    p = (val - minval) / (maxval - minval)
+    lch = [c1 + p * (c2 - c1) for c1, c2 in zip(start_lch, end_lch)]
+    rgb255 = [int(round(255 * v)) for v in lch_to_rgb(*lch)]
     return tuple(rgb255)
 
 def not_null(x):
@@ -55,8 +61,8 @@ def window(seq, n=2):
 
 if __name__ == "__main__":
     # output color range
-    hsv1 = normalize_hsv((190, 2, 99))
-    hsv2 = normalize_hsv((301, 100, 30))
+    start_lch = rgb_to_lch('#fdfaf5')
+    end_lch = rgb_to_lch('#ad4300')
     window_size = 6
 
     thisdir = path.dirname(path.realpath(__file__))
