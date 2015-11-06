@@ -1,23 +1,15 @@
 import domready from 'ded/domready'
 import doT from 'olado/doT'
 import mainTemplate from '../templates/main.html!text'
-import bean from 'fat/bean'
-import bonzo from 'ded/bonzo'
+// import bean from 'fat/bean'
+// import bonzo from 'ded/bonzo'
 import d3 from 'd3'
 import topojson from 'mbostock/topojson'
-import queue from 'mbostock/queue'
-import reqwest from 'reqwest'
 import strftime from 'samsonjs/strftime'
 import data from '../../data/out/indonesia.topojson!json'
 import Emitter from './emitter.js';
 
 var renderMainTemplate = doT.template(mainTemplate);
-
-function fetchJson(url, callback) {
-    reqwest({ url: url, type: 'json', contentType: 'application/json' })
-        .then(json => callback(null, json))
-        .catch(err => callback(err))
-}
 
 function groupBy(arr, fn) {
     var obj = {};
@@ -27,12 +19,6 @@ function groupBy(arr, fn) {
         obj[key].push(arr[i])
     }
     return obj;
-}
-
-function partition(arr, fn) {
-    var results = [[],[]];
-    arr.forEach(v => results[fn(v) ? 0 : 1].push(v))
-    return results;
 }
 
 Date.prototype.addDays = function(days) {
