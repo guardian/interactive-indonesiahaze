@@ -43,8 +43,9 @@
 .map__heading {
     text-align: right;
     font-family: "Guardian Egyptian Web";
-    font-size: 22px;
+    font-size: 38px;
     position: absolute;
+    z-index: 2;
     right: 0;
     color: #767676;
     padding-right: 10px;
@@ -73,13 +74,20 @@
     position: relative;
     width: 100%;
     max-width: 1260px;
-    height: 600px;
+    margin-bottom: 48px;
+    padding-bottom: 47.6190476%;
 }
 
 
 .section {
-    margin-top: 48px;
     padding-left: 240px;
+    clear: both;
+    &:after {
+        display: block;
+        content: '';
+        clear: both;
+        height: 48px;
+    }
 }
 
 .section__heading {
@@ -91,8 +99,8 @@
 
 .sumatra-zoom__map {
     position: relative;
-    width: 320px;
-    height: 400px;
+    width: 50%;
+    padding-bottom: 75%;
     float: left;
     margin-right: 24px;
 }
@@ -103,6 +111,9 @@
 }
 
 .map {
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .map__fires, .map__burns {
@@ -129,6 +140,8 @@ svg {
 
 .map__geo {
     width: 100%;
+    position: absolute;
+    top: 0;
 }
 
 .axis path,
@@ -160,6 +173,7 @@ svg {
     fill: #333;
 }
 
+<<<<<<< HEAD
 .co-emissions {
     max-width: 720px;
 }
@@ -178,4 +192,63 @@ svg {
         width: 100%;
         height: 100%;
     }
+}
+
+.play-button--container {
+    position: absolute;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    border: 0;
+    outline: none;
+    cursor: pointer;
+    background: transparent;
+    display: none;
+
+    .play-button {
+        cursor: pointer;
+        width: 92px;
+        height: 92px;
+        position: absolute;
+        z-index: 2;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        border: 0;
+        padding: 0;
+        font-size: 16px;
+        &:before {
+            content: '';
+            background: #f7f7f7;
+            content: '';
+            display: block;
+            border-radius: 1000px;
+            width: 100%;
+            height: 100%;
+        }
+        &:after {
+            content: '';
+            border-style: solid;
+            border-color: transparent transparent transparent #dcdcdc;
+            content: '';
+            position: absolute;
+            left: 2em;
+            top: 2em;
+            border-style: solid;
+            border-width: 1em 0 1em 2.4em;
+            border-radius: .2em;
+        }
+    }
+}
+
+.haze__img1 {
+    width: 100%;
+}
+
+.haze__img2, .haze__img3 {
+    width: 50%;
 }

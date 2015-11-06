@@ -125,7 +125,7 @@ class Timelapse extends Emitter {
         this.fires = this.processFires(fires, projection);
 
         this.burnCanvas = new BurnCanvas(width, height, this.fires.objects);
-        this.fires.dayFrames = Object.keys(this.fires.byDate).map(d => {
+        this.fires.dayFrames = Object.keys(this.fires.byDate).sort().map(d => {
             return new DayFrame(width, height, this.fires.byDate[d]);
         })
 
@@ -135,7 +135,6 @@ class Timelapse extends Emitter {
     }
 
     addToContainer(container) {
-        // container.appendChild(this.els.svg);
         container.appendChild(this.els.canvas);
         container.appendChild(this.burnCanvas.canvas);
 
@@ -225,11 +224,7 @@ class Timelapse extends Emitter {
         this.frame();
     }
 
-    frame() {
-        let now = new Date();
-        let elapsed = this.timeRatio * (now - this.animationStartTime);
-        let currentTime = new Date(this.startDate.getTime() + elapsed);
-
+    renderAt(currentTime) {
         let displayDate = strftime('%B %e %Y', currentTime);
         if (this.displayDate !== displayDate) {
             this.displayDate = displayDate;
@@ -248,6 +243,15 @@ class Timelapse extends Emitter {
                 this.context.drawImage(dayFrame.canvas, 0, 0);
             }
         });
+    }
+
+    frame() {
+        let now = new Date();
+        let elapsed = this.timeRatio * (now - this.animationStartTime);
+        let currentTime = new Date(this.startDate.getTime() + elapsed);
+
+        this.renderAt(currentTime);
+
         if (currentTime < this.endDate) {
             window.requestAnimationFrame(this.frame.bind(this));
         }
@@ -288,11 +292,26 @@ function loadData(idn) {
     bigTimelapse.on('datechange', dateStr => {
         els.fireDate.textContent = dateStr;
     })
+    bigTimelapse.renderAt(new Date('2015/07/01'));
+
+    let autoPlayBigTimelapse = evt => {
+        let {top} = els.mapContainer.getBoundingClientRect();
+        let threshold = window.innerHeight / 3.5;
+        if (top < threshold && top > 0) {
+            bigTimelapse.play(new Date('2015/07/01'), new Date('2015/10/30'), 20000);
+            window.removeEventListener('scroll', autoPlayBigTimelapse);
+        }
+    }
+    window.addEventListener('scroll', autoPlayBigTimelapse)
+
+
+
+
 
     let {width:sumatraWidth, height:sumatraHeight} = els.sumatraZoomMap.getBoundingClientRect();
     var sumatraTimelapseProjection = d3.geo.mercator()
-        .center([105.6, -3]) //-2.739543, 105.554825
-        .scale(width*13)
+        .center([105.55, -3]) //-2.739543, 105.554825
+        .scale(width*15)
         .translate([sumatraWidth / 2, sumatraHeight / 2]);
     let sumatraTimelapse = new Timelapse({
         projection: sumatraTimelapseProjection,
@@ -300,15 +319,26 @@ function loadData(idn) {
         width: sumatraWidth,
         height: sumatraHeight,
         geo: features.geo,
-        radiusMultiplier: 5,
+        radiusMultiplier: 4.5,
         concessions: features.fiber
     });
 
     sumatraTimelapse.addToContainer(els.sumatraZoomMap);
-    sumatraTimelapse.play(new Date('2015/09/01'), new Date('2015/10/30'), 12000);
     sumatraTimelapse.on('datechange', dateStr => {
         els.sumatraFireDate.textContent = dateStr;
     })
+    sumatraTimelapse.renderAt(new Date('2015/09/01'));
+
+
+    let autoPlaySumatraTimelapse = evt => {
+        let {top} = els.sumatraZoomMap.getBoundingClientRect();
+        let threshold = window.innerHeight / 3.5;
+        if (top < threshold && top > 0) {
+            sumatraTimelapse.play(new Date('2015/09/01'), new Date('2015/10/30'), 12000);
+            window.removeEventListener('scroll', autoPlaySumatraTimelapse);
+        }
+    }
+    window.addEventListener('scroll', autoPlaySumatraTimelapse)
 }
 
 domready(() => {
