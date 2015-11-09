@@ -4,7 +4,7 @@ import lodash from 'lodash';
 var pip = require(path.join(__dirname, '../../data/out/pip.json'));
 var fires = require(path.join(__dirname, '../../data/out/fires.json'));
 
-(['fiber', 'palm', 'logging']).forEach(key => {
+(['fiber', 'palm', 'logging', 'moratorium']).forEach(key => {
 	let numFires = fires.features.length;
 	let concessionFires = pip[key].map(c => c.fires).reduce((a,b) => a+b);
 	let perc = (concessionFires / numFires * 100).toFixed(2);
