@@ -21,14 +21,19 @@ function throttle(fn, threshhold, scope) {
   };
 }
 
-export default function(el, x, fn) {
+export default function({el, n, on, off}) {
+    var isOn = false;
     let onscroll = evt => {
         let {top} = el.getBoundingClientRect();
-        let threshold = window.innerHeight / x;
-        if (top < threshold && top > 0) {
-            fn();
-            window.removeEventListener('scroll', throttledonscroll);
+        let threshold = window.innerHeight / n;
+        let shouldBeOn = top < threshold && top > 0;
+        if (on && !isOn && shouldBeOn) {
+            on();
+            // window.removeEventListener('scroll', throttledonscroll);
+        } else if (off && isOn && !shouldBeOn) {
+          off();
         }
+        isOn = shouldBeOn;
     }
     var throttledonscroll = throttle(onscroll, 100);
 

@@ -100,7 +100,7 @@
 .sumatra-zoom__map {
     position: relative;
     width: 50%;
-    padding-bottom: 75%;
+    padding-bottom: 66.6%;
     float: left;
     margin-right: 24px;
 }
@@ -171,6 +171,10 @@ svg {
 
 .country {
     fill: #333;
+    text-anchor: end;
+    stroke-width: 4;
+    stroke: #fff;
+    paint-order: stroke;
 }
 
 .co-emissions {

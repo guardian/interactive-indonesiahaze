@@ -34,11 +34,7 @@ function groupBy(arr, fn) {
     return obj;
 }
 
-domready(() => {
-    loadData(data)
-});
-
-function loadData(idn) {
+function load(el, idn) {
     var fireFeatures = topojson.feature(idn, idn.objects.fires).features
         .filter(f => f.properties.confidence > minConfidence);
 
@@ -66,7 +62,7 @@ function loadData(idn) {
 
     var line = d3.svg.line().x(d => x(d.date)).y(d => y(d.emissions));
 
-    var svg = d3.select("body").append("svg")
+    var svg = d3.select(el).append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
       .append("g")
@@ -102,3 +98,9 @@ function loadData(idn) {
         .attr('class', 'line')
         .attr('d', line);
 }
+
+// domready(() => {
+//     load(document.body, data)
+// });
+
+export default load;

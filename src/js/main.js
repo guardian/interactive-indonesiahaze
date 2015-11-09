@@ -6,10 +6,11 @@ import mainTemplate from '../templates/main.html!text'
 import d3 from 'd3'
 import topojson from 'mbostock/topojson'
 import strftime from 'samsonjs/strftime'
-import data from '../../data/out/indonesia.topojson!json'
 import Emitter from './emitter.js';
 import autoplay from './autoplay.js';
 import CanvasVideoPlayer from './lib/canvas-video-player'
+import data from '../../data/out/indonesia.topojson!json'
+import graph from './graph.js';
 
 var renderMainTemplate = doT.template(mainTemplate);
 
@@ -109,7 +110,7 @@ class DayFrame {
 }
 
 class Timelapse extends Emitter {
-    constructor({projection, fires, width, height, geo, radiusMultiplier, concessions}) {
+    constructor({projection, fires, width, height, geo, radiusMultiplier, concessions, startDate, endDate, duration}) {
         super()
         this.width = width;
         this.height = height;
@@ -134,6 +135,12 @@ class Timelapse extends Emitter {
         this.geo = geo;
         this.concessions = concessions;
         this.projection = projection;
+
+        this.startDate = startDate;
+        this.endDate = endDate;
+        let animationTimePeriod = endDate - startDate;
+        this.timeRatio = animationTimePeriod / duration;
+
     }
 
     addToContainer(container) {
@@ -153,6 +160,7 @@ class Timelapse extends Emitter {
             if (this.concessions) {
                 this.svg.append("path")
                     .datum(this.concessions)
+                    // .data(this.concessions)
                     .attr('class', 'map__concessions')
                     .attr("d", path);
 
@@ -217,13 +225,23 @@ class Timelapse extends Emitter {
         }
     }
 
-    play(startDate, endDate, duration) {
-        this.animationStartTime = new Date();
-        this.startDate = startDate;
-        this.endDate = endDate;
-        let animationTimePeriod = endDate - startDate;
-        this.timeRatio = animationTimePeriod / duration;
-        this.frame();
+    play(fromStart) {
+        if (fromStart || !this.finished) {
+            this.animationStartTime = new Date();
+            this.animateFrom = fromStart ? this.startDate : this.pauseDate || this.startDate;
+            this.frame();
+        }
+    }
+
+    pause() {
+        window.cancelAnimationFrame(this.animationFrame);
+        this.pauseDate = this.getCurrentTime();
+    }
+
+    getCurrentTime() {
+        let now = new Date();
+        let elapsed = this.timeRatio * (now - this.animationStartTime);
+        return new Date(this.animateFrom.getTime() + elapsed);
     }
 
     renderAt(currentTime) {
@@ -248,14 +266,14 @@ class Timelapse extends Emitter {
     }
 
     frame() {
-        let now = new Date();
-        let elapsed = this.timeRatio * (now - this.animationStartTime);
-        let currentTime = new Date(this.startDate.getTime() + elapsed);
-
-        this.renderAt(currentTime);
+        let currentTime = this.getCurrentTime()
 
         if (currentTime < this.endDate) {
-            window.requestAnimationFrame(this.frame.bind(this));
+            this.renderAt(currentTime);
+            this.animationFrame = window.requestAnimationFrame(this.frame.bind(this));
+        } else {
+            this.finished = true;
+            this.renderAt(this.endDate);
         }
     }
 }
@@ -267,13 +285,20 @@ function loadData(idn) {
         features[key] = topojson.feature(idn, idn.objects[key])
     })
 
+    var days = features.fires.features
+        .map(f => new Date(f.properties.date))
+        .map(d=> strftime('%u', d))
+    var counts = groupBy(days, d => d)
+
     var container = d3.select("#map-container");
 
     var els = {
         mapContainer: document.querySelector("#map-container"),
         fireDate: document.querySelector('.fire-date'),
         sumatraFireDate: document.querySelector('.fire-date--sumatra'),
-        sumatraZoomMap: document.querySelector('.sumatra-zoom__map')
+        sumatraZoomMap: document.querySelector('.sumatra-zoom__map'),
+        jambiZoomMap: document.querySelector('.jambi-zoom__map'),
+        jambiFireDate: document.querySelector('.fire-date--jambi')
     };
 
     var {width, height} = els.mapContainer.getBoundingClientRect();
@@ -287,17 +312,22 @@ function loadData(idn) {
     let bigTimelapse = new Timelapse({
         projection: bigTimelapseProjection,
         fires:features.fires.features,
-        width: width, height: height
+        width: width, height: height,
+        startDate: new Date('2015/07/01'), endDate: new Date('2015/10/30'),
+        duration: 20000
     });
     bigTimelapse.addToContainer(els.mapContainer);
-    // bigTimelapse.play(new Date('2015/07/01'), new Date('2015/10/30'), 20000);
     bigTimelapse.on('datechange', dateStr => {
         els.fireDate.textContent = dateStr;
     })
     bigTimelapse.renderAt(new Date('2015/07/01'));
 
-    autoplay(els.mapContainer, 3.5, () => bigTimelapse.play(new Date('2015/07/01'), new Date('2015/10/30'), 20000))
-
+    autoplay({
+        el: els.mapContainer,
+        n: 3.5,
+        on: () => bigTimelapse.play(),
+        off: () => { bigTimelapse.pause() }
+    })
 
     let {width:sumatraWidth, height:sumatraHeight} = els.sumatraZoomMap.getBoundingClientRect();
     var sumatraTimelapseProjection = d3.geo.mercator()
@@ -311,7 +341,9 @@ function loadData(idn) {
         height: sumatraHeight,
         geo: features.geo,
         radiusMultiplier: 4.5,
-        concessions: features.fiber
+        concessions: features.fiber,
+        startDate: new Date('2015/09/01'), endDate: new Date('2015/10/30'),
+        duration: 12000
     });
 
     sumatraTimelapse.addToContainer(els.sumatraZoomMap);
@@ -320,12 +352,19 @@ function loadData(idn) {
     })
     sumatraTimelapse.renderAt(new Date('2015/09/01'));
 
-    autoplay(els.sumatraZoomMap, 3.5, () => sumatraTimelapse.play(new Date('2015/09/01'), new Date('2015/10/30'), 12000))
+    autoplay({
+        el: els.sumatraZoomMap,
+        n: 3.5,
+        on: () => sumatraTimelapse.play(),
+        off: () => sumatraTimelapse.pause()
+    })
 }
 
 domready(() => {
     document.body.querySelector('.content-container').innerHTML = renderMainTemplate();
     loadData(data);
+
+    graph(document.body.querySelector('.co2e-graph'), data);
 
     var el = document.body.querySelector('.co-emissions');
     var canvasVideo = new CanvasVideoPlayer({
@@ -334,6 +373,6 @@ domready(() => {
         framesPerSecond: 10
     });
 
-    autoplay(el, 2, () => canvasVideo.play());
+    autoplay({el: el, n: 2, on: () => canvasVideo.play()});
 
 })
