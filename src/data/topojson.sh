@@ -48,15 +48,16 @@ ogr2ogr \
   $DATAOUT/moratorium.json \
   $DATAIN/moratorium/idn_forest_moratorium.shp
 
+$ROOTDIR/node_modules/.bin/babel-node --harmony $ROOTDIR/src/data/fires.js
 
 topojson \
   -o $DATAOUT/indonesia.topojson \
   --id-property SU_A3 \
-  -s 0.000000005 -q 1e6 \
+  -q 1e4 \
   -p name=NAME -p date=ACQ_DATE -p confidence=CONFIDENCE -p frp=FRP \
-  -- \
-  $DATAOUT/geo.json \
-  $DATAOUT/palmoil.json \
-  $DATAOUT/logging.json \
-  $DATAOUT/fires.json \
-  $DATAOUT/fiber.json
+  -- $DATAOUT/filteredfires.json
+  # -s 0.000000005 -q 1e6 \
+  # $DATAOUT/geo.json \
+  # $DATAOUT/palmoil.json \
+  # $DATAOUT/logging.json \
+  # $DATAOUT/fiber.json \
