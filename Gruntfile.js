@@ -56,10 +56,12 @@ module.exports = function(grunt) {
                         expand: true,
                         cwd: '.',
                         src: [
-                            // shared
-                            'prod.html', 'build/main.js', 'build/main.js.map', 'build/main.css', 'build/main.css.map'
+                            'prod.html', 'build/main.js', 'build/main.js.map', 'build/main.css', 'build/main.css.map',
+                            'src/img/**/*', 'src/video/**/*',
+                            // data
+                            'data/out/indonesia.topojson',
                         ],
-                        dest: 'embed/test/',
+                        dest: 'embed/indonesia/',
                         params: { CacheControl: 'max-age=60' }
                     }
                 ]

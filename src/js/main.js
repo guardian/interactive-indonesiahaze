@@ -7,10 +7,10 @@ import d3 from 'd3'
 import topojson from 'mbostock/topojson'
 import strftime from 'samsonjs/strftime'
 import Emitter from './emitter.js';
-import autoplay from './autoplay.js';
 import CanvasVideoPlayer from './lib/canvas-video-player'
-import data from '../../data/out/indonesia.topojson!json'
 import graph from './graph.js';
+import reqwest from 'reqwest';
+import iframeMessenger from 'guardian/iframe-messenger';
 
 var renderMainTemplate = doT.template(mainTemplate);
 
@@ -37,7 +37,7 @@ class BurnCanvas {
         this.width = width;
         this.height = height;
         this.canvas = document.createElement('canvas');
-        this.canvas.className = 'map__burns';
+        this.canvas.className = 'idn-map__burns';
         this.canvas.width = width;
         this.canvas.height = height;
         this.context = this.canvas.getContext('2d');
@@ -81,7 +81,7 @@ class DayFrame {
         this.fires = fires;
         this.date = fires[0].dateObj;
         this.canvas = document.createElement('canvas');
-        this.canvas.className = 'map__burns';
+        this.canvas.className = 'idn-map__burns';
         this.canvas.width = width;
         this.canvas.height = height;
         this.context = this.canvas.getContext('2d');
@@ -99,8 +99,8 @@ class DayFrame {
         })
     }
     getOpacity(renderDate) {
-        let fadeIn = 1000 * 60 * 60 * 24 * 1.5;
-        let fadeOut = 1000 * 60 * 60 * 24 * 5;
+        let fadeIn = 1000 * 60 * 60 * 24 * 1;
+        let fadeOut = 1000 * 60 * 60 * 24 * 4;
         let elapsed = renderDate - this.date;
         if (elapsed < 0) return 0;
         else if (elapsed < fadeIn) return elapsed / fadeIn;
@@ -121,7 +121,7 @@ class Timelapse extends Emitter {
         }
 
         this.canvas = d3.select(this.els.canvas)
-            .attr({class: 'map__fires', width: width, height: height})
+            .attr({class: 'idn-map__fires', width: width, height: height})
 
         this.context = this.canvas.node().getContext("2d");
 
@@ -150,18 +150,18 @@ class Timelapse extends Emitter {
         if (this.geo) {
             this.svg = d3.select(container)
                 .append('svg')
-                .attr({class: 'map', width: this.width, height: this.height});
+                .attr({class: 'idn-map', width: this.width, height: this.height});
             var path = d3.geo.path().projection(this.projection);
             this.svg.append("path")
                 .datum(this.geo)
-                .attr('class', 'map__country')
+                .attr('class', 'idn-map__country')
                 .attr("d", path);
 
             if (this.concessions) {
                 this.svg.append("path")
                     .datum(this.concessions)
                     // .data(this.concessions)
-                    .attr('class', 'map__concessions')
+                    .attr('class', 'idn-map__concessions')
                     .attr("d", path);
 
             }
@@ -226,7 +226,7 @@ class Timelapse extends Emitter {
     }
 
     play(fromStart) {
-        if (fromStart || !this.finished) {
+        if (!this.playing && (fromStart || !this.finished)) {
             this.animationStartTime = new Date();
             this.animateFrom = fromStart ? this.startDate : this.pauseDate || this.startDate;
             this.frame();
@@ -234,8 +234,11 @@ class Timelapse extends Emitter {
     }
 
     pause() {
-        window.cancelAnimationFrame(this.animationFrame);
-        this.pauseDate = this.getCurrentTime();
+        if (this.playing) {
+            window.cancelAnimationFrame(this.animationFrame);
+            this.pauseDate = this.getCurrentTime();
+            this.playing = false;
+        }
     }
 
     getCurrentTime() {
@@ -262,30 +265,28 @@ class Timelapse extends Emitter {
                 this.context.globalAlpha = opacity;
                 this.context.drawImage(dayFrame.canvas, 0, 0);
             }
-        });
+            });
     }
 
     frame() {
         let currentTime = this.getCurrentTime()
+        this.playing = true;
 
         if (currentTime < this.endDate) {
             this.renderAt(currentTime);
             this.animationFrame = window.requestAnimationFrame(this.frame.bind(this));
         } else {
             this.finished = true;
+            this.playing = false;
             this.renderAt(this.endDate);
         }
     }
 }
 
 
-function loadData(idn) {
-    var features = {};
-    (['geo','palmoil','fiber','logging', 'fires']).forEach(key => {
-        features[key] = topojson.feature(idn, idn.objects[key])
-    })
+function loadData(features) {
 
-    var days = features.fires.features
+    var days = features.filteredfires.features
         .map(f => new Date(f.properties.date))
         .map(d=> strftime('%u', d))
     var counts = groupBy(days, d => d)
@@ -293,25 +294,27 @@ function loadData(idn) {
     var container = d3.select("#map-container");
 
     var els = {
-        mapContainer: document.querySelector("#map-container"),
-        fireDate: document.querySelector('.fire-date'),
-        sumatraFireDate: document.querySelector('.fire-date--sumatra'),
-        sumatraZoomMap: document.querySelector('.sumatra-zoom__map'),
-        jambiZoomMap: document.querySelector('.jambi-zoom__map'),
-        jambiFireDate: document.querySelector('.fire-date--jambi')
+        mapContainer: document.querySelector(".idn-map-container"),
+        fireDate: document.querySelector('.idn-fire-date'),
+        sumatraFireDate: document.querySelector('.idn-fire-date--sumatra'),
+        sumatraZoomMap: document.querySelector('.idn-sumatra-zoom__map'),
+        emissionsContainer: document.body.querySelector('.idn-co-emissions')
     };
 
     var {width, height} = els.mapContainer.getBoundingClientRect();
-
 
     var bigTimelapseProjection = d3.geo.mercator()
         .center([107, 0])
         .scale(width*2.3)
         .translate([width / 2, height / 2]);
 
+    // [[0, 0], [0, height], [width, 0], [width, height]].forEach(coords => {
+    //     console.log(bigTimelapseProjection.invert(coords))
+    // });
+
     let bigTimelapse = new Timelapse({
         projection: bigTimelapseProjection,
-        fires:features.fires.features,
+        fires:features.filteredfires.features,
         width: width, height: height,
         startDate: new Date('2015/07/01'), endDate: new Date('2015/10/30'),
         duration: 20000
@@ -322,26 +325,23 @@ function loadData(idn) {
     })
     bigTimelapse.renderAt(new Date('2015/07/01'));
 
-    autoplay({
-        el: els.mapContainer,
-        n: 3.5,
-        on: () => bigTimelapse.play(),
-        off: () => { bigTimelapse.pause() }
-    })
 
     let {width:sumatraWidth, height:sumatraHeight} = els.sumatraZoomMap.getBoundingClientRect();
     var sumatraTimelapseProjection = d3.geo.mercator()
         .center([105.55, -3]) //-2.739543, 105.554825
-        .scale(width*15)
+        .scale(sumatraWidth*40)
         .translate([sumatraWidth / 2, sumatraHeight / 2]);
     let sumatraTimelapse = new Timelapse({
         projection: sumatraTimelapseProjection,
-        fires: features.fires.features,
+        fires: features.filteredfires.features,
         width: sumatraWidth,
         height: sumatraHeight,
-        geo: features.geo,
+        // geo: features.geo,
+        // concessions: {
+        //     type: "FeatureCollection",
+        //     features: [].concat(features.fiber.features)
+        // },
         radiusMultiplier: 4.5,
-        concessions: features.fiber,
         startDate: new Date('2015/09/01'), endDate: new Date('2015/10/30'),
         duration: 12000
     });
@@ -352,27 +352,54 @@ function loadData(idn) {
     })
     sumatraTimelapse.renderAt(new Date('2015/09/01'));
 
-    autoplay({
-        el: els.sumatraZoomMap,
-        n: 3.5,
-        on: () => sumatraTimelapse.play(),
-        off: () => sumatraTimelapse.pause()
-    })
-}
-
-domready(() => {
-    document.body.querySelector('.content-container').innerHTML = renderMainTemplate();
-    loadData(data);
-
-    graph(document.body.querySelector('.co2e-graph'), data);
-
-    var el = document.body.querySelector('.co-emissions');
+    var graphContainer = document.body.querySelector('.idn-co-emissions');
     var canvasVideo = new CanvasVideoPlayer({
-        videoSelector: '.co-emissions__video',
-        canvasSelector: '.co-emissions__canvas',
+        videoSelector: '.idn-co-emissions__video',
+        canvasSelector: '.idn-co-emissions__canvas',
         framesPerSecond: 10
     });
 
-    autoplay({el: el, n: 2, on: () => canvasVideo.play()});
+    function autoPlay() {
+        iframeMessenger.getPositionInformation((msg) => {
+            let threshold = msg.innerHeight / 3.5;
 
+            let mapContainerTop = msg.iframeTop + els.mapContainer.getBoundingClientRect().top
+            let autoplayMap = mapContainerTop > 0 && mapContainerTop < threshold;
+
+            let sumatraTop = msg.iframeTop + els.sumatraZoomMap.getBoundingClientRect().top
+            let autoplaySumatra = sumatraTop > 0 && sumatraTop < threshold;
+
+            let emissionTop = msg.iframeTop + els.emissionsContainer.getBoundingClientRect().top
+            let autoplayEmissions = emissionTop > 0 && emissionTop < threshold;
+
+            bigTimelapse[autoplayMap ? 'play' : 'pause']();
+            sumatraTimelapse[autoplaySumatra ? 'play' : 'pause']();
+            canvasVideo[autoplayEmissions ? 'play' : 'pause']();
+
+            window.setTimeout(autoPlay, 200);
+        })
+    }
+
+    autoPlay();
+}
+
+domready(() => {
+    reqwest({url: 'data/out/indonesia.topojson', type: 'json', contentType: 'application/json'})
+        .then(data => {
+            var features = {};
+            ([/*'geo','palmoil','fiber','logging', */'filteredfires']).forEach(key => {
+                features[key] = topojson.feature(data, data.objects[key])
+            })
+            window.setTimeout(() => {
+                loadData(features);
+                graph(document.body.querySelector('.idn-co2e-graph'), features.filteredfires.features);
+                document.querySelector('.idn-content--loading').className = 'idn-content';
+            }, 10);
+
+
+            iframeMessenger.enableAutoResize();
+
+        })
+
+    document.body.innerHTML = renderMainTemplate();
 })

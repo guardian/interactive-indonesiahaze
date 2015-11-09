@@ -1,27 +1,29 @@
-<div class="content">
-	<h2></h2>
-	<div class="cumulative-fires"></div>
-	<div class="active-fires"></div>
+<div class="idn-content-container">
 
-	<div id="map-container">
-		<button class="play-button--container"><div class="play-button"></div></button>
-		<div class="map__heading">
-			<span class="fire-date"></span>
+<div class="idn-content idn-content--loading">
+	<h2></h2>
+	<div class="idn-cumulative-fires"></div>
+	<div class="idn-active-fires"></div>
+
+	<div class="idn-map-container">
+		<button class="idn-play-button--container"><div class="idn-play-button"></div></button>
+		<div class="idn-map__heading">
+			<span class="idn-fire-date"></span>
 		</div>
-		<img class="map__geo" src="src/img/indonesia.png" >
+		<img class="idn-map__geo" src="src/img/indonesia.png" >
 	</div>
 
-	<div class="section">
-		<div class="section__heading">Land concessions</div>
+	<div class="idn-section">
+		<div class="idn-section__heading">Land concessions</div>
 
-		<div class="sumatra-zoom__map">
-			<div class="map__heading">
-				<span class="fire-date--sumatra"></span>
+		<div class="idn-sumatra-zoom__map">
+			<div class="idn-map__heading">
+				<span class="idn-fire-date--sumatra"></span>
 			</div>
-			<button class="play-button--container"><div class="play-button"></div></button>
+			<button class="idn-play-button--container"><div class="idn-play-button"></div></button>
 		</div>
 
-		<div class="sumatra-zoom__copy">
+		<div class="idn-sumatra-zoom__copy">
 			<p>Curabitur a nisi neque. Morbi mattis consequat orci, quis sagittis risus tincidunt id. Ut vitae enim sit amet lacus vehicula rutrum. Donec ultrices dolor ornare, maximus nulla sagittis, lobortis elit. Fusce ultricies metus vitae ipsum pellentesque accumsan vel in enim. Vivamus venenatis sed augue id interdum. Proin dapibus, dui vel venenatis ultrices, neque enim mollis erat, vel auctor magna arcu ut quam. Etiam interdum tempor hendrerit. Sed facilisis mauris eu lacinia efficitur. Ut vehicula posuere aliquam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
 
 			<div style="width: 260px; height: 180px; margin-top: 6px; float:right; background-color: rgba(196, 153, 70, 0.69); color: white; text-align: center; line-height: 180px; ">Land breakdown chart</div>
@@ -30,36 +32,30 @@
 
 		</div>
 
-
-		<div class="jambi-zoom__map">
-			<div class="map__heading">
-				<span class="fire-date--jambi"></span>
-			</div>
-			<button class="play-button--container"><div class="play-button"></div></button>
-		</div>
-
 	</div>
 
-	<div class="section">
-		<div class="section__heading">Haze</div>
-		<img class="haze__img1" src="src/img/gp1.jpg">
+	<div class="idn-section">
+		<div class="idn-section__heading">Haze</div>
+		<img class="idn-haze__img1" src="src/img/gp1.jpg">
 
-        <div class="co-emissions">
-            <div class="co-emissions__inner">
-                <video class="co-emissions__video">
+        <div class="idn-co-emissions">
+            <div class="idn-co-emissions__inner">
+                <video class="idn-co-emissions__video">
                     <source src="src/video/airs.mp4" type="video/mp4" />
                 </video>
-                <canvas class="co-emissions__canvas"></canvas>
+                <canvas class="idn-co-emissions__canvas"></canvas>
                 <img src="src/img/emissions-mask.png" />
             </div>
         </div>
 
-		<img class="haze__img2" src="src/img/gp2.jpg">
-		<img class="haze__img3" src="src/img/gp3.jpg">
+		<img class="idn-haze__img2" src="src/img/gp2.jpg">
+		<img class="idn-haze__img3" src="src/img/gp3.jpg">
 	</div>
 
-	<div class="section">
-		<div class="section__heading">Carbon emissions</div>
-		<div class="co2e-graph"></div>
+	<div class="idn-section">
+		<div class="idn-section__heading">Carbon emissions</div>
+		<div class="idn-co2e-graph"></div>
 	</div>
+</div>
+
 </div>

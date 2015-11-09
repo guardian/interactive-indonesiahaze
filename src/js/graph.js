@@ -2,7 +2,6 @@ import domready from 'ded/domready'
 import d3 from 'd3'
 import topojson from 'mbostock/topojson'
 import strftime from 'samsonjs/strftime'
-import data from '../../data/out/indonesia.topojson!json'
 
 const minConfidence = 50;
 const co2PerFire = 14015.70;
@@ -34,10 +33,7 @@ function groupBy(arr, fn) {
     return obj;
 }
 
-function load(el, idn) {
-    var fireFeatures = topojson.feature(idn, idn.objects.fires).features
-        .filter(f => f.properties.confidence > minConfidence);
-
+function load(el, fireFeatures) {
 
     var dates = fireFeatures.map(f => new Date(f.properties.date));
     var startDate = new Date(Math.min.apply(null, dates)),
@@ -49,7 +45,7 @@ function load(el, idn) {
     var cumulativeCO2e = 0;
     for (let date = startDate; date <= endDate; date = date.addDays(1)) {
         let dateKey = strftime('%Y/%m/%d', date);
-        cumulativeCO2e += fires[dateKey].length * co2PerFire;
+        cumulativeCO2e += fires[dateKey] ? fires[dateKey].length * co2PerFire : 0;
         dateCO2e.push({date, 'emissions': cumulativeCO2e});
     }
 
@@ -72,30 +68,30 @@ function load(el, idn) {
     y.domain([0, d3.max(dateCO2e, d => d.emissions)]);
 
     svg.append('g')
-        .attr('class', 'x axis')
+        .attr('class', 'idn-x idn-axis')
         .attr('transform', 'translate(0,' + height + ')')
         .call(xAxis);
 
     svg.append('g')
-        .attr('class', 'y axis')
+        .attr('class', 'idn-y idn-axis')
         .call(yAxis);
 
     countries.forEach(country => {
         var countryY = y(country.emissions);
         svg.append('line').attr({
-            'class': 'preset',
+            'class': 'idn-preset',
             'x1': 0,      'y1': countryY,
             'x2': width,  'y2': countryY
         });
         svg.append('text').attr({
-            'class': 'country',
+            'class': 'idn-country',
             'x': width, 'y': countryY, 'dy': '0.3em', 'dx': '0.2em'
         }).text(country.name);
     });
 
     var path = svg.append('path')
         .datum(dateCO2e)
-        .attr('class', 'line')
+        .attr('class', 'idn-line')
         .attr('d', line);
 }
 
