@@ -4,7 +4,7 @@ import topojson from 'mbostock/topojson'
 import strftime from 'samsonjs/strftime'
 
 const minConfidence = 50;
-const co2PerFire = 14015.70;
+const co2PerFire = 14015.70; // based on http://www.globalfiredata.org/updates.html
 
 const margin = {top: 20, right: 100, bottom: 30, left: 60},
     width = 960 - margin.left - margin.right,
@@ -13,7 +13,15 @@ const margin = {top: 20, right: 100, bottom: 30, left: 60},
 const countries = [
     {
         'name': 'United Kingdom',
-        'emissions': 100000000
+        'emissions': 475118.67 * 1000
+    },
+    {
+        'name': 'United States',
+        'emissions': 5297581.20 * 1000
+    },
+    {
+        'name': 'Germany',
+        'emissions': 844980.81 * 1000
     }
 ];
 
@@ -34,7 +42,6 @@ function groupBy(arr, fn) {
 }
 
 function load(el, fireFeatures) {
-
     var dates = fireFeatures.map(f => new Date(f.properties.date));
     var startDate = new Date(Math.min.apply(null, dates)),
         endDate = new Date(Math.max.apply(null, dates));
@@ -53,7 +60,7 @@ function load(el, fireFeatures) {
 
     var x = d3.time.scale().range([0, width]);
     var y = d3.scale.linear().range([height, 0]);
-    var xAxis = d3.svg.axis().scale(x).orient('bottom');
+    var xAxis = d3.svg.axis().scale(x).orient('bottom').ticks(4);
     var yAxis = d3.svg.axis().scale(y).orient('left').tickFormat(d3.format('s'));
 
     var line = d3.svg.line().x(d => x(d.date)).y(d => y(d.emissions));
@@ -64,7 +71,7 @@ function load(el, fireFeatures) {
       .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    x.domain(d3.extent(dateCO2e, d => d.date));
+    x.domain(d3.extent(dateCO2e, d => d.date)).nice();
     y.domain([0, d3.max(dateCO2e, d => d.emissions)]);
 
     svg.append('g')
@@ -76,23 +83,42 @@ function load(el, fireFeatures) {
         .attr('class', 'idn-y idn-axis')
         .call(yAxis);
 
-    countries.forEach(country => {
-        var countryY = y(country.emissions);
-        svg.append('line').attr({
-            'class': 'idn-preset',
-            'x1': 0,      'y1': countryY,
-            'x2': width,  'y2': countryY
+    var countryLines = countries
+        .sort((a, b) => a.emissions - b.emissions)
+        .map(country => {
+            var countryY = y(country.emissions);
+            var g = svg.append('g');
+            g.append('line').attr({
+                'class': 'idn-preset__line',
+                'x1': 0,      'y1': countryY,
+                'x2': width,  'y2': countryY
+            });
+            g.append('text').attr({
+                'class': 'idn-preset__country',
+                'x': width, 'y': countryY, 'dy': '0.3em', 'dx': '0.2em'
+            }).text(country.name);
+            return {country, g};
         });
-        svg.append('text').attr({
-            'class': 'idn-country',
-            'x': width, 'y': countryY, 'dy': '0.3em', 'dx': '0.2em'
-        }).text(country.name);
-    });
 
     var path = svg.append('path')
-        .datum(dateCO2e)
+        .datum([])
         .attr('class', 'idn-line')
         .attr('d', line);
+
+    var visibleDateCO2e = [];
+    function updatePath(date) {
+        var co2e = dateCO2e[date];
+        if (countryLines.length > 0 && co2e.emissions > countryLines[0].country.emissions) {
+            countryLines[0].g.classed('idn-preset--above', true);
+            countryLines.shift();
+        }
+        visibleDateCO2e.push(co2e);
+        path.datum(visibleDateCO2e).attr('d', line);
+        if (date < dateCO2e.length - 1) {
+            window.requestAnimationFrame(updatePath.bind(null, date + 1));
+        }
+    }
+    setTimeout(updatePath.bind(null, 0), 1000);
 }
 
 // domready(() => {

@@ -127,7 +127,10 @@ svg {
     top: 0;
 }
 
-.idn-axis path,
+.idn-axis path {
+    fill: none;
+}
+
 .idn-axis line {
   fill: none;
   stroke: #333;
@@ -147,17 +150,34 @@ svg {
   animation: test 2s linear forwards;
 }
 
-.idn-preset {
-    stroke: #bdbdbd;
+.idn-preset__line {
+    stroke: #eaeaea;
     stroke-dasharray: 2;
+
+    transition: stroke 0.1s ease-out;
+    .idn-preset--above & {
+        stroke: #bdbdbd;
+    }
 }
 
-.idn-country {
-    fill: #333;
+@keyframes pop {
+    0% { font-size: inherit; }
+    50% { font-size: 16px; }
+    100% { font-size: inherit; }
+}
+
+.idn-preset__country {
+    fill: #eaeaea;
     text-anchor: end;
-    stroke-width: 4;
+    stroke-width: 10px;
     stroke: #fff;
     paint-order: stroke;
+
+    transition: fill 0.3s ease-out;
+    .idn-preset--above & {
+        //animation: pop 0.3s ease-in-out;
+        fill: #333;
+    }
 }
 
 .idn-co-emissions {
