@@ -5,33 +5,44 @@
 	<div class="idn-cumulative-fires"></div>
 	<div class="idn-active-fires"></div>
 
-	<div class="idn-map-container">
+	<div class="idn-fires">
 		<button class="idn-play-button--container"><div class="idn-play-button"></div></button>
 		<div class="idn-map__heading">
-			<span class="idn-fire-date"></span>
+			<span class="idn-fires__date"></span>
 		</div>
-		<img class="idn-map__geo" src="src/img/indonesia.png" >
+
+        <div class="idn-fires__inner">
+            <video class="idn-fires__video">
+                <source src="src/video/fires.mp4" type="video/mp4" />
+            </video>
+            <!-- <canvas class="idn-fires__canvas"></canvas> -->
+        </div>
 	</div>
 
 	<div class="idn-section">
 		<div class="idn-section__heading">Land concessions</div>
 
-		<div class="idn-sumatra-zoom__map">
-			<div class="idn-map__heading">
-				<span class="idn-fire-date--sumatra"></span>
+		<div class="idn-sumatra">
+
+			<div class="idn-sumatra__map">
+				<div class="idn-map__heading">
+					<span class="idn-sumatra__date"></span>
+				</div>
+	            <video class="idn-sumatra__video" poster="src/video/sumatra.png">
+	                <source src="src/video/sumatra.mp4" type="video/mp4" />
+	            </video>
+				<button class="idn-play-button--container"><div class="idn-play-button"></div></button>
 			</div>
-			<button class="idn-play-button--container"><div class="idn-play-button"></div></button>
+
+			<div class="idn-sumatra__copy">
+				<p>Curabitur a nisi neque. Morbi mattis consequat orci, quis sagittis risus tincidunt id. Ut vitae enim sit amet lacus vehicula rutrum. Donec ultrices dolor ornare, maximus nulla sagittis, lobortis elit. Fusce ultricies metus vitae ipsum pellentesque accumsan vel in enim. Vivamus venenatis sed augue id interdum. Proin dapibus, dui vel venenatis ultrices, neque enim mollis erat, vel auctor magna arcu ut quam. Etiam interdum tempor hendrerit. Sed facilisis mauris eu lacinia efficitur. Ut vehicula posuere aliquam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+
+				<div style="width: 260px; height: 180px; margin-top: 6px; float:right; background-color: rgba(196, 153, 70, 0.69); color: white; text-align: center; line-height: 180px; ">Land breakdown chart</div>
+
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec feugiat, velit in gravida finibus, ex nisi hendrerit mauris, eu feugiat dolor velit ac lectus. Vestibulum id ipsum libero. Sed sit amet gravida lectus. Maecenas bibendum felis nec tempor laoreet. Donec posuere sapien malesuada ante efficitur, vel elementum nulla congue. Pellentesque eu odio mi. Nam fermentum euismod libero a tristique. Proin gravida ligula eu mi cursus gravida. Suspendisse potenti. Vestibulum semper maximus turpis, sit amet hendrerit ante fermentum a. Ut ut ullamcorper nisi.</p>
+
+			</div>
 		</div>
-
-		<div class="idn-sumatra-zoom__copy">
-			<p>Curabitur a nisi neque. Morbi mattis consequat orci, quis sagittis risus tincidunt id. Ut vitae enim sit amet lacus vehicula rutrum. Donec ultrices dolor ornare, maximus nulla sagittis, lobortis elit. Fusce ultricies metus vitae ipsum pellentesque accumsan vel in enim. Vivamus venenatis sed augue id interdum. Proin dapibus, dui vel venenatis ultrices, neque enim mollis erat, vel auctor magna arcu ut quam. Etiam interdum tempor hendrerit. Sed facilisis mauris eu lacinia efficitur. Ut vehicula posuere aliquam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
-
-			<div style="width: 260px; height: 180px; margin-top: 6px; float:right; background-color: rgba(196, 153, 70, 0.69); color: white; text-align: center; line-height: 180px; ">Land breakdown chart</div>
-
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec feugiat, velit in gravida finibus, ex nisi hendrerit mauris, eu feugiat dolor velit ac lectus. Vestibulum id ipsum libero. Sed sit amet gravida lectus. Maecenas bibendum felis nec tempor laoreet. Donec posuere sapien malesuada ante efficitur, vel elementum nulla congue. Pellentesque eu odio mi. Nam fermentum euismod libero a tristique. Proin gravida ligula eu mi cursus gravida. Suspendisse potenti. Vestibulum semper maximus turpis, sit amet hendrerit ante fermentum a. Ut ut ullamcorper nisi.</p>
-
-		</div>
-
 	</div>
 
 	<div class="idn-section">
