@@ -96,7 +96,7 @@ function load(features) {
                 let progress = els.sumatraVideo.currentTime / els.sumatraVideo.duration;
                 newDate = new Date((progress * timespan) + startDate.getTime());
             }
-            let newDateStr = strftime('%B %e %Y', newDate);
+            let newDateStr = strftime('%b %e %Y', newDate);
             if (newDateStr !== lastDateStr) {
                 els.sumatraDate.textContent = newDateStr;
                 lastDateStr = newDateStr;
