@@ -3,6 +3,7 @@ import doT from 'olado/doT'
 import mainTemplate from '../templates/main.html!text'
 import bean from 'fat/bean'
 // import bonzo from 'ded/bonzo'
+import debounce from './lib/debounce'
 import d3 from 'd3'
 import topojson from 'mbostock/topojson'
 import strftime from 'samsonjs/strftime'
@@ -56,7 +57,6 @@ function load(features) {
 
     els.firesPlayBtn.addEventListener('click', function(evt) {
         let selector = this.getAttribute('video');
-        console.log(selector, this);
         document.querySelector(selector).play();
         this.setAttribute('playing', '');
     })
@@ -130,7 +130,6 @@ function load(features) {
 
     els.sumatraPlayBtn.addEventListener('click', function(evt) {
         let selector = this.getAttribute('video');
-        console.log(selector, this);
         document.querySelector(selector).play();
         this.setAttribute('playing', '');
     })
@@ -147,7 +146,7 @@ function load(features) {
     // canvasVideo.play()
 
 
-    let animateGraphFn = graph(document.body.querySelector('.idn-co2e-graph'));
+    let graphFns = graph(document.body.querySelector('.idn-co2e-graph'));
     let graphAnimated = false;
 
     function autoPlay() {
@@ -170,9 +169,8 @@ function load(features) {
             if (!graphAnimated) {
                 let graphTop = msg.iframeTop + els.co2eGraphContainer.getBoundingClientRect().top
                 let playGraph = graphTop > 0 && graphTop < (msg.innerHeight * 0.8) ;
-                console.log(playGraph);
                 if (playGraph) {
-                    animateGraphFn();
+                    graphFns.animate();
                     graphAnimated = true;
                 }
             }
@@ -182,6 +180,8 @@ function load(features) {
     }
 
     autoPlay();
+
+    window.addEventListener('resize', debounce(evt => graphFns.resize(), 250))
 
 }
 

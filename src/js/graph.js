@@ -39,10 +39,7 @@ Date.prototype.addDays = function(days) {
 
 function load(el) {
 
-    let rect = el.getBoundingClientRect();
-    const margin = {top: 0, right: 20, bottom: 30, left: 60},
-        width = rect.width - margin.left - margin.right,
-        height = rect.height - margin.top - margin.bottom;
+    const margin = {top: 0, right: 20, bottom: 30, left: 60}
 
 
     var cumulativeCO2e = 0;
@@ -55,58 +52,86 @@ function load(el) {
 
     let cumulativeData = allCumulativeData.filter(d => d.date >= new Date('2015/05/01'));
 
-    console.log(cumulativeData);
+    var svg = d3.select(el).append("svg")
+      .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    var x = d3.time.scale().range([0, width]);
-    var y = d3.scale.linear().range([height, 0]);
+    var x = d3.time.scale()
+    var y = d3.scale.linear()
     var xAxis = d3.svg.axis().scale(x).orient('bottom').ticks(4);
     var yAxis = d3.svg.axis().scale(y).orient('left').tickFormat(d3.format('s'));
 
     var line = d3.svg.line().x(d => x(d.date)).y(d => y(d.emissions));
 
-    var svg = d3.select(el).append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
     x.domain(d3.extent(cumulativeData, d => d.date)).nice();
     y.domain([0, d3.max(cumulativeData, d => d.emissions) * 1.35]);
 
-    svg.append('g')
-        .attr('class', 'idn-x idn-axis')
-        .attr('transform', 'translate(0,' + height + ')')
-        .call(xAxis);
+    let xaxis = svg.append('g')
+        .attr('class', 'idn-x idn-axis');
 
-    svg.append('g')
-        .attr('class', 'idn-y idn-axis')
-        .call(yAxis);
+    let yaxis = svg.append('g')
+        .attr('class', 'idn-y idn-axis');
 
-    var countryLines = countries
-        .sort((a, b) => a.emissions - b.emissions)
-        .map(country => {
-            var countryY = y(country.emissions);
-            var g = svg.append('g');
-            g.append('line').attr({
-                'class': 'idn-preset__line',
-                'x1': 0,      'y1': countryY,
-                'x2': width,  'y2': countryY
-            });
-            g.append('text').attr({
-                'class': 'idn-preset__country',
-                'x': width, 'y': countryY, 'dy': '0.3em', 'dx': '0.2em'
-            }).text(country.name);
-            return {country, g};
-        });
+    var countryLines,
+        visibleDateCO2e = [];
 
-    svg.append("text")
+    let ylabel = svg.append("text")
         .attr("class", "idn-y idn-label")
         .attr("text-anchor", "end")
         .attr("y", 0)
-        .attr("dx", -height/2.5)
         .attr("dy", "1.2em")
         .attr("transform", "rotate(-90)")
         .text("CO2e emissions (metric tons)");
+
+    let animated, raf;
+
+    let groups = {
+        countries: svg.append('g').attr('class', 'idn-countries')
+    }
+
+
+    let countriesLines = groups.countries
+        .selectAll('line')
+        .data(countries)
+    countriesLines.enter()
+        .append('line')
+        .attr({'class': 'idn-preset__line'})
+
+    let countriesText = groups.countries
+        .selectAll('text')
+        .data(countries)
+    countriesText.enter()
+        .append('text')
+        .attr({'class': 'idn-preset__country', 'dy': '0.3em', 'dx': '0.2em'})
+        .text(d => d.name)
+
+    let resize = () => {
+        let rect = el.getBoundingClientRect(),
+        width = rect.width - margin.left - margin.right,
+        height = rect.height - margin.top - margin.bottom;
+
+        x.range([0, width]);
+        y.range([height, 0]);
+
+        xaxis.call(xAxis);
+        yaxis.call(yAxis);
+
+        svg
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+        xaxis.attr('transform', 'translate(0,' + height + ')')
+        ylabel.attr("dx", -height/2.5)
+
+        countriesText.attr({x: width, y: d => y(d.emissions)});
+
+        countriesLines
+            .attr({
+                x1: 0, y1: d => y(d.emissions),
+                x2: width, y2: d => y(d.emissions)
+            })
+
+        if (animated) animate();
+    }
 
     var path = svg.append('path')
         .datum([])
@@ -114,20 +139,30 @@ function load(el) {
         .attr('class', 'idn-line')
         .attr('d', line);
 
-    var visibleDateCO2e = [];
-    function updatePath(date) {
+    function animationFrame(date, instant) {
         var co2e = cumulativeData[date];
-        if (countryLines.length > 0 && co2e.emissions > countryLines[0].country.emissions) {
-            countryLines[0].g.classed('idn-preset--above', true);
-            countryLines.shift();
-        }
+        countriesText.classed('idn-preset__country--on', d => d.emissions < co2e.emissions)
+        countriesLines.classed('idn-preset__line--on', d => d.emissions < co2e.emissions)
         visibleDateCO2e.push(co2e);
         path.datum(visibleDateCO2e).attr('d', line);
         if (date < cumulativeData.length - 1) {
-            window.requestAnimationFrame(updatePath.bind(null, date + 1));
+            let nextFrame = animationFrame.bind(null, date + 1, instant);
+            if (instant) nextFrame();
+            else raf = window.requestAnimationFrame(nextFrame);
         }
     }
-    return () => setTimeout(updatePath.bind(null, 0), 1000);
+
+    function animate() {
+        visibleDateCO2e = [];
+        window.cancelAnimationFrame(raf);
+        animationFrame(0, animated);
+        animated = true;
+    }
+    resize();
+    return {
+        animate: animate,
+        resize: resize
+    }
 }
 
 // domready(() => {

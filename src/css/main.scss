@@ -138,7 +138,7 @@ svg {
     stroke: #eaeaea;
     stroke-dasharray: 2;
     transition: stroke 0.1s ease-out;
-    .idn-preset--above & {
+    &.idn-preset__line--on {
         stroke: #bdbdbd;
     }
     shape-rendering: crispEdges;
@@ -151,16 +151,15 @@ svg {
 }
 
 .idn-preset__country {
-    fill: #767676;
+    fill: #bdbdbd;
     text-anchor: end;
     stroke-width: 10px;
     stroke: #fff;
     paint-order: stroke;
 
     transition: fill 0.3s ease-out;
-    .idn-preset--above & {
-        //animation: pop 0.3s ease-in-out;
-        fill: #333;
+    &.idn-preset__country--on {
+        fill: #767676;
     }
 }
 
