@@ -301,7 +301,7 @@ svg {
 .idn-fires__inner {
     position: relative;
     width: 100%;
-    padding-bottom: 50.55%;
+    padding-bottom: 47.6190476%;
 
     video,
     canvas,
@@ -312,6 +312,19 @@ svg {
         width: 100%;
         height: 100%;
     }
+}
+
+.idn-fires__copy {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(255,255,255,0.5);
+    @include fs-bodyCopy(2);
+    color: #333;
+    width: 640px;
+    height: auto;
+    z-index: 2;
+    padding: 12px 10px;
 }
 
 .idn-sumatra__map {
