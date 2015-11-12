@@ -1,12 +1,12 @@
 @import 'font';
 @import 'mq';
-@import 'frames';
 
 .idn-content-container {
     max-width: 1300px;
     background: white;
     margin: auto;
     padding-top: 120px;
+    color: #333;
 }
 
 .idn-content {
@@ -50,7 +50,10 @@
     right: 0;
     color: #767676;
     padding-right: 10px;
-    padding-top: 6px;
+    padding-top: 12px;
+    .idn-co-emissions & {
+        margin-right: 21%;
+    }
 }
 
 .idn-section {
