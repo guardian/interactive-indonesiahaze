@@ -70,14 +70,18 @@ function load(features) {
         let startDate = new Date('2015/07/01'), endDate = new Date('2015/10/30'),
             timespan = endDate - startDate;
         let updateDate = () => {
-            let progress = els.firesVideo.currentTime / els.firesVideo.duration;
-            let newDate = new Date((progress * timespan) + startDate.getTime());
+            let newDate = startDate;
+            if (!(isNaN(els.firesVideo.currentTime) || isNaN(els.firesVideo.duration))) {
+                let progress = els.firesVideo.currentTime / els.firesVideo.duration;
+                newDate = new Date((progress * timespan) + startDate.getTime());
+            }
             let newDateStr = strftime('%B %e %Y', newDate);
             if (newDateStr !== lastDateStr) {
                 els.firesDate.textContent = newDateStr;
                 lastDateStr = newDateStr;
             }
         }
+        updateDate();
         els.firesVideo.addEventListener('timeupdate', updateDate);
         els.firesVideo.addEventListener('play', updateDate);
     })();
@@ -87,14 +91,18 @@ function load(features) {
         let startDate = new Date('2015/09/01'), endDate = new Date('2015/10/30'),
             timespan = endDate - startDate;
         let updateDate = () => {
-            let progress = els.sumatraVideo.currentTime / els.sumatraVideo.duration;
-            let newDate = new Date((progress * timespan) + startDate.getTime());
+            let newDate = startDate;
+            if (!(isNaN(els.sumatraVideo.currentTime) || isNaN(els.sumatraVideo.duration))) {
+                let progress = els.sumatraVideo.currentTime / els.sumatraVideo.duration;
+                newDate = new Date((progress * timespan) + startDate.getTime());
+            }
             let newDateStr = strftime('%B %e %Y', newDate);
             if (newDateStr !== lastDateStr) {
                 els.sumatraDate.textContent = newDateStr;
                 lastDateStr = newDateStr;
             }
         }
+        updateDate();
         els.sumatraVideo.addEventListener('timeupdate', updateDate);
         els.sumatraVideo.addEventListener('play', updateDate);
     })();
@@ -104,14 +112,18 @@ function load(features) {
         let startDate = new Date('2015/08/01'), endDate = new Date('2015/10/30'),
             timespan = endDate - startDate;
         let updateDate = () => {
-            let progress = els.emissionsVideo.currentTime / els.emissionsVideo.duration;
-            let newDate = new Date((progress * timespan) + startDate.getTime());
+            let newDate = startDate;
+            if (!(isNaN(els.emissionsVideo.currentTime) || isNaN(els.emissionsVideo.duration))) {
+                let progress = els.emissionsVideo.currentTime / els.emissionsVideo.duration;
+                newDate = new Date((progress * timespan) + startDate.getTime());
+            }
             let newDateStr = strftime('%B %e %Y', newDate);
             if (newDateStr !== lastDateStr) {
                 els.emissionsDate.textContent = newDateStr;
                 lastDateStr = newDateStr;
             }
         }
+        updateDate();
         els.emissionsVideo.addEventListener('timeupdate', updateDate);
         els.emissionsVideo.addEventListener('play', updateDate);
 
