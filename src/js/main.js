@@ -173,7 +173,7 @@ function load(features) {
 domready(() => {
     window.setTimeout(() => {
         load();
-        // graph(document.body.querySelector('.idn-co2e-graph'), features.filteredfires.features);
+        graph(document.body.querySelector('.idn-co2e-graph'));
         document.querySelector('.idn-content--loading').className = 'idn-content';
     }, 10);
     iframeMessenger.enableAutoResize();

@@ -2,27 +2,33 @@ import domready from 'ded/domready'
 import d3 from 'd3'
 import topojson from 'mbostock/topojson'
 import strftime from 'samsonjs/strftime'
-
-const minConfidence = 50;
-const co2PerFire = 14015.70; // based on http://www.globalfiredata.org/updates.html
-
-const margin = {top: 20, right: 100, bottom: 30, left: 60},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+import emissionsData from '../../data/out/emissions.json!json';
 
 const countries = [
-    {
-        'name': 'United Kingdom',
-        'emissions': 475118.67 * 1000
-    },
-    {
-        'name': 'United States',
-        'emissions': 5297581.20 * 1000
-    },
-    {
-        'name': 'Germany',
-        'emissions': 844980.81 * 1000
-    }
+   {
+       'name': 'United Kingdom',
+       'emissions': 553.43 * 1000000
+   },
+   {
+       'name': 'Canada',
+       'emissions': 714.12 * 1000000
+   },
+   {
+       'name': 'Russia',
+       'emissions': 2322.22 * 1000000
+   },
+   {
+       'name': 'Germany',
+       'emissions': 887.22 * 1000000
+   },
+   {
+       'name': 'Japan',
+       'emissions': 1344.58 * 1000000
+   },
+   {
+       'name': 'Brazil',
+       'emissions': 1012.55 * 1000000
+   }
 ];
 
 Date.prototype.addDays = function(days) {
@@ -31,32 +37,25 @@ Date.prototype.addDays = function(days) {
     return dat;
 }
 
-function groupBy(arr, fn) {
-    var obj = {};
-    for (var i = 0; i < arr.length; i++) {
-        let key = fn(arr[i]);
-        obj[key] = obj[key] || [];
-        obj[key].push(arr[i])
-    }
-    return obj;
-}
+function load(el) {
 
-function load(el, fireFeatures) {
-    var dates = fireFeatures.map(f => new Date(f.properties.date));
-    var startDate = new Date(Math.min.apply(null, dates)),
-        endDate = new Date(Math.max.apply(null, dates));
+    let rect = el.getBoundingClientRect();
+    const margin = {top: 0, right: 20, bottom: 30, left: 60},
+        width = rect.width - margin.left - margin.right,
+        height = rect.height - margin.top - margin.bottom;
 
-    var fires = groupBy(fireFeatures, f => f.properties.date);
 
-    var dateCO2e = [];
     var cumulativeCO2e = 0;
-    for (let date = startDate; date <= endDate; date = date.addDays(1)) {
-        let dateKey = strftime('%Y/%m/%d', date);
-        cumulativeCO2e += fires[dateKey] ? fires[dateKey].length * co2PerFire : 0;
-        dateCO2e.push({date, 'emissions': cumulativeCO2e});
-    }
+    let allCumulativeData = emissionsData.map(d => {
+        return {
+            date: new Date(d.date),
+            emissions: cumulativeCO2e = d.emissions + cumulativeCO2e
+        };
+    })
 
-    var totalCO2e = dateCO2e.reduce((total, co2e) => total + co2e.emissions, 0);
+    let cumulativeData = allCumulativeData.filter(d => d.date >= new Date('2015/05/01'));
+
+    console.log(cumulativeData);
 
     var x = d3.time.scale().range([0, width]);
     var y = d3.scale.linear().range([height, 0]);
@@ -71,8 +70,8 @@ function load(el, fireFeatures) {
       .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    x.domain(d3.extent(dateCO2e, d => d.date)).nice();
-    y.domain([0, d3.max(dateCO2e, d => d.emissions)]);
+    x.domain(d3.extent(cumulativeData, d => d.date)).nice();
+    y.domain([0, d3.max(cumulativeData, d => d.emissions) * 1.35]);
 
     svg.append('g')
         .attr('class', 'idn-x idn-axis')
@@ -100,21 +99,31 @@ function load(el, fireFeatures) {
             return {country, g};
         });
 
+    svg.append("text")
+        .attr("class", "idn-y idn-label")
+        .attr("text-anchor", "end")
+        .attr("y", 0)
+        .attr("dx", -height/3)
+        .attr("dy", "1.4em")
+        .attr("transform", "rotate(-90)")
+        .text("CO2e emissions (metric tons)");
+
     var path = svg.append('path')
         .datum([])
+        // .datum(cumulativeData)
         .attr('class', 'idn-line')
         .attr('d', line);
 
     var visibleDateCO2e = [];
     function updatePath(date) {
-        var co2e = dateCO2e[date];
+        var co2e = cumulativeData[date];
         if (countryLines.length > 0 && co2e.emissions > countryLines[0].country.emissions) {
             countryLines[0].g.classed('idn-preset--above', true);
             countryLines.shift();
         }
         visibleDateCO2e.push(co2e);
         path.datum(visibleDateCO2e).attr('d', line);
-        if (date < dateCO2e.length - 1) {
+        if (date < cumulativeData.length - 1) {
             window.requestAnimationFrame(updatePath.bind(null, date + 1));
         }
     }

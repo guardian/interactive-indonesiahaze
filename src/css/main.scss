@@ -344,8 +344,67 @@ svg {
     }
 }
 
+.idn-sumatra__copy{
+    overflow: hidden;
+}
+
 .idn-sumatra-zoom__copy {
     @include fs-bodyCopy(2);
     color: #333;
 }
 
+.idn-co2e-graph {
+    margin-left: -60px;
+    width: calc(100% - 20px);
+    // max-width: 720px;
+    padding-bottom: 50%;
+    position: relative;
+    margin-bottom: 48px;
+    // float: left;
+    svg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        overflow: visible;
+    }
+}
+
+.idn-co2e-graph__copy {
+    background: white;
+    max-width: 420px;
+    position: absolute;
+    top: 0;
+    left: 80px;
+    font-size: 16px;
+    background: rgba(255,255,255,0.8);
+    z-index: 3;
+    h2 {
+        font-size: 16px;
+        margin: 6px 0;
+    }
+    p {
+        @include fs-bodyCopy(1);
+        margin-top: 12px;
+    }
+}
+
+.idn-co2e-graph__credits {
+    @include fs-textSans(1);
+    color: #999;
+    position: absolute;
+    bottom: 36px;
+    right: 20px;
+    z-index: 3;
+    a, a:visited {
+        color: #767676;
+        &:hover {
+            color: #333;
+        }
+    }
+}
+
+.idn-y.idn-label {
+    stroke-width: 4;
+    stroke: #fff;
+    paint-order: stroke;
+}
