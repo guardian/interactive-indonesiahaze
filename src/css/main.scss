@@ -214,7 +214,7 @@ svg {
         font-size: 16px;
         &:before {
             content: '';
-            background: #f7f7f7;
+            background: rgba(0,0,0,0.5);
             content: '';
             display: block;
             border-radius: 1000px;
@@ -224,7 +224,7 @@ svg {
         &:after {
             content: '';
             border-style: solid;
-            border-color: transparent transparent transparent #dcdcdc;
+            border-color: transparent transparent transparent #fff;
             content: '';
             position: absolute;
             left: 2em;
