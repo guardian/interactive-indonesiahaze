@@ -6,7 +6,6 @@
     background: white;
     margin: auto;
     padding-top: 120px;
-    color: #333;
 }
 
 .idn-content {
@@ -50,10 +49,7 @@
     right: 0;
     color: #767676;
     padding-right: 10px;
-    padding-top: 12px;
-    .idn-co-emissions & {
-        margin-right: 21%;
-    }
+    padding-top: 6px;
 }
 
 .idn-section {
@@ -155,7 +151,7 @@ svg {
 }
 
 .idn-preset__country {
-    fill: #eaeaea;
+    fill: #767676;
     text-anchor: end;
     stroke-width: 10px;
     stroke: #fff;
@@ -170,7 +166,6 @@ svg {
 
 .idn-co-emissions {
     max-width: 720px;
-    clear: both;
 }
 
 .idn-co-emissions__inner {
@@ -237,6 +232,7 @@ svg {
             border-radius: .2em;
         }
     }
+
     &[playing] {
         display: none;
     }
@@ -244,10 +240,7 @@ svg {
 }
 
 .idn-haze__img1 {
-    width: 580px;
-    float: right;
-    margin-left: 20px;
-    margin-bottom: 12px;
+    width: 100%;
 }
 
 .idn-haze__img2, .idn-haze__img3 {
@@ -317,14 +310,22 @@ svg {
 .idn-fires__copy {
     position: absolute;
     top: 0;
-    left: 0;
+    left: 10px;
     background: rgba(255,255,255,0.5);
-    @include fs-bodyCopy(2);
-    color: #333;
     width: 640px;
-    height: auto;
     z-index: 2;
-    padding: 12px 10px;
+}
+.idn-fires__copy,
+.idn-co-emissions__copy {
+    h2 {
+        margin: 12px 0;
+        font-size: 16px;
+    }
+    p {
+        @include fs-bodyCopy(1);
+        color: #333;
+        margin: 12px 0;
+    }
 }
 
 .idn-sumatra__map {
@@ -348,11 +349,6 @@ svg {
     overflow: hidden;
 }
 
-.idn-sumatra-zoom__copy {
-    @include fs-bodyCopy(2);
-    color: #333;
-}
-
 .idn-co2e-graph {
     margin-left: -60px;
     width: calc(100% - 20px);
@@ -373,8 +369,8 @@ svg {
     background: white;
     max-width: 420px;
     position: absolute;
-    top: 0;
-    left: 80px;
+    top: 18px;
+    left: 90px;
     font-size: 16px;
     background: rgba(255,255,255,0.8);
     z-index: 3;
@@ -388,13 +384,12 @@ svg {
     }
 }
 
-.idn-co2e-graph__credits {
+.idn-co2e-graph__credits,
+.idn-fires__credits,
+.idn-co-emissions__credits,
+.idn-sumatra__credits {
     @include fs-textSans(1);
     color: #999;
-    position: absolute;
-    bottom: 36px;
-    right: 20px;
-    z-index: 3;
     a, a:visited {
         color: #767676;
         &:hover {
@@ -403,8 +398,55 @@ svg {
     }
 }
 
+.idn-co2e-graph__credits {
+    z-index: 3;
+    position: absolute;
+    bottom: 36px;
+    right: 20px;
+}
+
+
+.idn-fires__credits {
+    z-index: 3;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.idn-sumatra__credits {
+    z-index: 3;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding-left: 5px;
+    background: rgba(255,255,255,0.5);
+}
+
+.idn-co-emissions__credits {
+    z-index: 3;
+    position: absolute;
+    top: 100%;
+    text-align: left;
+    margin: auto;
+    width: 54%;
+    left: 0;
+    right: 0;
+    background: rgba(255,255,255,0.7);
+    padding-left: 5px;
+    box-sizing: border-box;
+}
+
 .idn-y.idn-label {
-    stroke-width: 4;
+    stroke-width: 10;
     stroke: #fff;
     paint-order: stroke;
+}
+
+.idn-x.idn-axis {
+    .tick:first-child text {
+        text-anchor: start !important;
+    }
+    .tick:nth-last-child(2) text {
+        text-anchor: end !important;
+    }
 }

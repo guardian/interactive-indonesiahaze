@@ -50,6 +50,8 @@ function load(features) {
         emissionsVideo: document.body.querySelector('.idn-co-emissions__video'),
         emissionsDate: document.body.querySelector('.idn-co-emissions__date'),
         emissionsPlayBtn: document.body.querySelector('.idn-co-emissions .idn-play-button--container'),
+
+        co2eGraphContainer: document.body.querySelector('.idn-co2e-graph'),
     };
 
     els.firesPlayBtn.addEventListener('click', function(evt) {
@@ -145,35 +147,47 @@ function load(features) {
     // canvasVideo.play()
 
 
+    let animateGraphFn = graph(document.body.querySelector('.idn-co2e-graph'));
+    let graphAnimated = false;
 
-    // function autoPlay() {
-    //     iframeMessenger.getPositionInformation((msg) => {
-    //         let threshold = msg.innerHeight / 3.5;
+    function autoPlay() {
+        iframeMessenger.getPositionInformation((msg) => {
+            let threshold = msg.innerHeight / 3.5;
 
-    //         let mapContainerTop = msg.iframeTop + els.mapContainer.getBoundingClientRect().top
-    //         let autoplayMap = mapContainerTop > 0 && mapContainerTop < threshold;
+            // let mapContainerTop = msg.iframeTop + els.mapContainer.getBoundingClientRect().top
+            // let autoplayMap = mapContainerTop > 0 && mapContainerTop < threshold;
 
-    //         let sumatraTop = msg.iframeTop + els.sumatraZoomMap.getBoundingClientRect().top
-    //         let autoplaySumatra = sumatraTop > 0 && sumatraTop < threshold;
+            // let sumatraTop = msg.iframeTop + els.sumatraZoomMap.getBoundingClientRect().top
+            // let autoplaySumatra = sumatraTop > 0 && sumatraTop < threshold;
 
-    //         let emissionTop = msg.iframeTop + els.emissionsContainer.getBoundingClientRect().top
-    //         let autoplayEmissions = emissionTop > 0 && emissionTop < threshold;
+            // let emissionTop = msg.iframeTop + els.emissionsContainer.getBoundingClientRect().top
+            // let autoplayEmissions = emissionTop > 0 && emissionTop < threshold;
 
-    //         bigTimelapse[autoplayMap ? 'play' : 'pause']();
-    //         sumatraTimelapse[autoplaySumatra ? 'play' : 'pause']();
-    //         canvasVideo[autoplayEmissions ? 'play' : 'pause']();
+            // bigTimelapse[autoplayMap ? 'play' : 'pause']();
+            // sumatraTimelapse[autoplaySumatra ? 'play' : 'pause']();
+            // canvasVideo[autoplayEmissions ? 'play' : 'pause']();
 
-    //         window.setTimeout(autoPlay, 200);
-    //     })
-    // }
+            if (!graphAnimated) {
+                let graphTop = msg.iframeTop + els.co2eGraphContainer.getBoundingClientRect().top
+                let playGraph = graphTop > 0 && graphTop < (msg.innerHeight * 0.8) ;
+                console.log(playGraph);
+                if (playGraph) {
+                    animateGraphFn();
+                    graphAnimated = true;
+                }
+            }
 
-    // autoPlay();
+            window.setTimeout(autoPlay, 200);
+        })
+    }
+
+    autoPlay();
+
 }
 
 domready(() => {
     window.setTimeout(() => {
         load();
-        graph(document.body.querySelector('.idn-co2e-graph'));
         document.querySelector('.idn-content--loading').className = 'idn-content';
     }, 10);
     iframeMessenger.enableAutoResize();

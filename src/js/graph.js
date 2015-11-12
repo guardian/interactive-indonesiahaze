@@ -103,8 +103,8 @@ function load(el) {
         .attr("class", "idn-y idn-label")
         .attr("text-anchor", "end")
         .attr("y", 0)
-        .attr("dx", -height/3)
-        .attr("dy", "1.4em")
+        .attr("dx", -height/2.5)
+        .attr("dy", "1.2em")
         .attr("transform", "rotate(-90)")
         .text("CO2e emissions (metric tons)");
 
@@ -127,7 +127,7 @@ function load(el) {
             window.requestAnimationFrame(updatePath.bind(null, date + 1));
         }
     }
-    setTimeout(updatePath.bind(null, 0), 1000);
+    return () => setTimeout(updatePath.bind(null, 0), 1000);
 }
 
 // domready(() => {
