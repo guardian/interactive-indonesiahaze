@@ -167,6 +167,7 @@ svg {
 
 .idn-co-emissions {
     max-width: 720px;
+    clear: both;
 }
 
 .idn-co-emissions__inner {
@@ -196,7 +197,6 @@ svg {
     outline: none;
     cursor: pointer;
     background: transparent;
-    display: none;
 
     .idn-play-button {
         cursor: pointer;

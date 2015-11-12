@@ -36,11 +36,106 @@ function load(features) {
 
     var els = {
         firesContainer: document.querySelector(".idn-fires"),
-        fireDate: document.querySelector('.idn-fires__date'),
+        firesDate: document.querySelector('.idn-fires__date'),
+        firesPlayBtn: document.querySelector('.idn-fires .idn-play-button--container'),
+        firesVideo: document.querySelector('.idn-fires__video'),
+
+        sumatraVideo: document.querySelector('.idn-sumatra__video'),
+        sumatraDate: document.querySelector('.idn-sumatra__date'),
         sumatraFireDate: document.querySelector('.idn-fire-date--sumatra'),
         sumatraZoomMap: document.querySelector('.idn-sumatra-zoom__map'),
-        emissionsContainer: document.body.querySelector('.idn-co-emissions')
+        sumatraPlayBtn: document.querySelector('.idn-sumatra .idn-play-button--container'),
+
+        emissionsContainer: document.body.querySelector('.idn-co-emissions'),
+        emissionsVideo: document.body.querySelector('.idn-co-emissions__video'),
+        emissionsDate: document.body.querySelector('.idn-co-emissions__date'),
+        emissionsPlayBtn: document.body.querySelector('.idn-co-emissions .idn-play-button--container'),
     };
+
+    els.firesPlayBtn.addEventListener('click', function(evt) {
+        let selector = this.getAttribute('video');
+        console.log(selector, this);
+        document.querySelector(selector).play();
+        this.setAttribute('playing', '');
+    })
+
+    document.querySelector('.idn-fires__video').addEventListener('ended', evt => {
+        els.firesPlayBtn.removeAttribute('playing');
+    });
+
+    (function () { // MAIN TIMELAPSE
+        let lastDateStr;
+        let startDate = new Date('2015/07/01'), endDate = new Date('2015/10/30'),
+            timespan = endDate - startDate;
+        let updateDate = () => {
+            let progress = els.firesVideo.currentTime / els.firesVideo.duration;
+            let newDate = new Date((progress * timespan) + startDate.getTime());
+            let newDateStr = strftime('%B %e %Y', newDate);
+            if (newDateStr !== lastDateStr) {
+                els.firesDate.textContent = newDateStr;
+                lastDateStr = newDateStr;
+            }
+        }
+        els.firesVideo.addEventListener('timeupdate', updateDate);
+        els.firesVideo.addEventListener('play', updateDate);
+    })();
+
+    (function () { // SUMATRA TIMELAPSE
+        let lastDateStr;
+        let startDate = new Date('2015/09/01'), endDate = new Date('2015/10/30'),
+            timespan = endDate - startDate;
+        let updateDate = () => {
+            let progress = els.sumatraVideo.currentTime / els.sumatraVideo.duration;
+            let newDate = new Date((progress * timespan) + startDate.getTime());
+            let newDateStr = strftime('%B %e %Y', newDate);
+            if (newDateStr !== lastDateStr) {
+                els.sumatraDate.textContent = newDateStr;
+                lastDateStr = newDateStr;
+            }
+        }
+        els.sumatraVideo.addEventListener('timeupdate', updateDate);
+        els.sumatraVideo.addEventListener('play', updateDate);
+    })();
+
+    (function () { // EMISSIONS VIDEO
+        let lastDateStr;
+        let startDate = new Date('2015/08/01'), endDate = new Date('2015/10/30'),
+            timespan = endDate - startDate;
+        let updateDate = () => {
+            let progress = els.emissionsVideo.currentTime / els.emissionsVideo.duration;
+            let newDate = new Date((progress * timespan) + startDate.getTime());
+            let newDateStr = strftime('%B %e %Y', newDate);
+            if (newDateStr !== lastDateStr) {
+                els.emissionsDate.textContent = newDateStr;
+                lastDateStr = newDateStr;
+            }
+        }
+        els.emissionsVideo.addEventListener('timeupdate', updateDate);
+        els.emissionsVideo.addEventListener('play', updateDate);
+
+
+        els.emissionsPlayBtn.addEventListener('click', function(evt) {
+            let selector = this.getAttribute('video');
+            document.querySelector(selector).play();
+            this.setAttribute('playing', '');
+        })
+
+        els.emissionsVideo.addEventListener('ended', evt => {
+            els.emissionsPlayBtn.removeAttribute('playing');
+        })
+    })();
+
+
+    els.sumatraPlayBtn.addEventListener('click', function(evt) {
+        let selector = this.getAttribute('video');
+        console.log(selector, this);
+        document.querySelector(selector).play();
+        this.setAttribute('playing', '');
+    })
+
+    document.querySelector('.idn-sumatra__video').addEventListener('ended', evt => {
+        els.sumatraPlayBtn.removeAttribute('playing');
+    })
 
     // var canvasVideo = new CanvasVideoPlayer({
     //     videoSelector: '.idn-fires__video',
@@ -50,47 +145,6 @@ function load(features) {
     // canvasVideo.play()
 
 
-    // var {width, height} = els.mapContainer.getBoundingClientRect();
-
-    // bigTimelapse.on('datechange', dateStr => {
-    //     els.fireDate.textContent = dateStr;
-    // })
-
-
-    // let {width:sumatraWidth, height:sumatraHeight} = els.sumatraZoomMap.getBoundingClientRect();
-    // var sumatraTimelapseProjection = d3.geo.mercator()
-    //     .center([105.55, -3]) //-2.739543, 105.554825
-    //     .scale(sumatraWidth*40)
-    //     .translate([sumatraWidth / 2, sumatraHeight / 2]);
-    // let sumatraTimelapse = new Timelapse({
-    //     projection: sumatraTimelapseProjection,
-    //     fires: features.filteredfires.features,
-    //     width: sumatraWidth,
-    //     height: sumatraHeight,
-    //     // geo: features.geo,
-    //     // concessions: {
-    //     //     type: "FeatureCollection",
-    //     //     features: [].concat(features.fiber.features)
-    //     // },
-    //     radiusMultiplier: 4.5,
-    //     startDate: new Date('2015/09/01'), endDate: new Date('2015/10/30'),
-    //     duration: 12000
-    // });
-
-    // sumatraTimelapse.addToContainer(els.sumatraZoomMap);
-    // sumatraTimelapse.on('datechange', dateStr => {
-    //     els.sumatraFireDate.textContent = dateStr;
-    // })
-    // sumatraTimelapse.renderAt(new Date('2015/09/01'));
-
-
-
-    // var graphContainer = document.body.querySelector('.idn-co-emissions');
-    // var canvasVideo = new CanvasVideoPlayer({
-    //     videoSelector: '.idn-co-emissions__video',
-    //     canvasSelector: '.idn-co-emissions__canvas',
-    //     framesPerSecond: 10
-    // });
 
     // function autoPlay() {
     //     iframeMessenger.getPositionInformation((msg) => {
