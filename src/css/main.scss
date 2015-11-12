@@ -517,9 +517,14 @@ svg {
                 color: darken(#49C4DC, 30%);
             }
         }
-        &:nth-child(4) {
+        &:nth-child(3) {
             > div {
-                padding-top: 72px;
+                padding-top: 60px;
+            }
+        }
+        &:nth-child(5) {
+            > div {
+                padding-top: 84px;
             }
         }
         > div {
