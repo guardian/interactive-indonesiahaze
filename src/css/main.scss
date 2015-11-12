@@ -237,10 +237,17 @@ svg {
             border-radius: .2em;
         }
     }
+    &[playing] {
+        display: none;
+    }
+
 }
 
 .idn-haze__img1 {
-    width: 100%;
+    width: 580px;
+    float: right;
+    margin-left: 20px;
+    margin-bottom: 12px;
 }
 
 .idn-haze__img2, .idn-haze__img3 {
