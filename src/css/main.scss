@@ -138,11 +138,11 @@ svg {
 .idn-preset__line {
     stroke: #eaeaea;
     stroke-dasharray: 2;
-
     transition: stroke 0.1s ease-out;
     .idn-preset--above & {
         stroke: #bdbdbd;
     }
+    shape-rendering: crispEdges;
 }
 
 @keyframes pop {
