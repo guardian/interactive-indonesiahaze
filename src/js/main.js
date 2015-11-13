@@ -304,36 +304,43 @@ function loadData(idn) {
     var {width, height} = els.mapContainer.getBoundingClientRect();
 
 
-    var bigTimelapseProjection = d3.geo.mercator()
-        .center([107, 0])
-        .scale(width*2.3)
-        .translate([width / 2, height / 2]);
+    // var bigTimelapseProjection = d3.geo.mercator()
+    //     .center([107, 0])
+    //     .scale(width*2.3)
+    //     .translate([width / 2, height / 2]);
 
-    let bigTimelapse = new Timelapse({
-        projection: bigTimelapseProjection,
-        fires:features.fires.features,
-        width: width, height: height,
-        startDate: new Date('2015/07/01'), endDate: new Date('2015/10/30'),
-        duration: 20000
-    });
-    bigTimelapse.addToContainer(els.mapContainer);
-    bigTimelapse.on('datechange', dateStr => {
-        els.fireDate.textContent = dateStr;
-    })
-    bigTimelapse.renderAt(new Date('2015/07/01'));
+    // let bigTimelapse = new Timelapse({
+    //     projection: bigTimelapseProjection,
+    //     fires:features.fires.features,
+    //     width: width, height: height,
+    //     startDate: new Date('2015/07/01'), endDate: new Date('2015/10/30'),
+    //     duration: 20000
+    // });
+    // bigTimelapse.addToContainer(els.mapContainer);
+    // bigTimelapse.on('datechange', dateStr => {
+    //     els.fireDate.textContent = dateStr;
+    // })
+    // bigTimelapse.renderAt(new Date('2015/07/01'));
 
-    autoplay({
-        el: els.mapContainer,
-        n: 3.5,
-        on: () => bigTimelapse.play(),
-        off: () => { bigTimelapse.pause() }
-    })
+    // autoplay({
+    //     el: els.mapContainer,
+    //     n: 3.5,
+    //     on: () => bigTimelapse.play(),
+    //     off: () => { bigTimelapse.pause() }
+    // })
 
     let {width:sumatraWidth, height:sumatraHeight} = els.sumatraZoomMap.getBoundingClientRect();
+
+    // var sumatraTimelapseProjection = d3.geo.mercator()
+    //     .center([104.65, -2.7]) //-2.739543, 105.554825
+    //     .scale(sumatraWidth*19)
+    //     .translate([sumatraWidth / 2, sumatraHeight / 2]);
+
     var sumatraTimelapseProjection = d3.geo.mercator()
-        .center([105.55, -3]) //-2.739543, 105.554825
-        .scale(width*15)
+        .center([105.2, -3.1]) //-2.739543, 105.554825
+        .scale(sumatraWidth*28)
         .translate([sumatraWidth / 2, sumatraHeight / 2]);
+
     let sumatraTimelapse = new Timelapse({
         projection: sumatraTimelapseProjection,
         fires: features.fires.features,
@@ -341,7 +348,9 @@ function loadData(idn) {
         height: sumatraHeight,
         geo: features.geo,
         radiusMultiplier: 4.5,
-        concessions: features.fiber,
+        concessions: {
+            type: 'FeatureCollection', features: [].concat(features.fiber.features, features.palmoil.features, features.logging.features)
+        },
         startDate: new Date('2015/09/01'), endDate: new Date('2015/10/30'),
         duration: 12000
     });
