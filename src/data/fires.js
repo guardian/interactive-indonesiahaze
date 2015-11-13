@@ -16,9 +16,9 @@ function main() {
 
 	let totalFires = fires.features.length;
 
-	let firstDate = '2015/07/01';
+	// let firstDate = '2015/06/01';
 	fires.features = fires.features.filter(f => {
-		return /*f.properties.CONFIDENCE > 50 && */pip(f.geometry.coordinates, viewport) && f.properties.ACQ_DATE >= firstDate;
+		return /*f.properties.CONFIDENCE > 50 && */pip(f.geometry.coordinates, viewport)/* && f.properties.ACQ_DATE >= firstDate*/;
 	})
 	let perc = ((fires.features.length / totalFires) * 100).toFixed(2);
 	console.log(`${fires.features.length} / ${totalFires} (${perc}%) kept`);
