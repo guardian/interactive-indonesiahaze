@@ -298,7 +298,7 @@ function main() {
             fires:features.filteredfires.features,
             width: width, height: height,
             startDate: new Date('2015/07/01'), endDate: new Date('2015/10/30'),
-            duration: 20000, fps: 20, bgUrl: __dirname + '/../img/indonesia.png'
+            duration: 20000, fps: 20, bgUrl: __dirname + '/../img/indonesia-bg.png'
         });
 
         bigTimelapse.go();
@@ -327,7 +327,8 @@ function main() {
         sumatraTimelapse.go();
     }
 
-    sumatraTimelapse();
+    mainTimelapse();
+    // sumatraTimelapse();
 }
 
 

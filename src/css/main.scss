@@ -578,7 +578,7 @@ svg {
     text-indent: 8px;
     width: 6px;
     height: 6px;
-    @include fs-bodyHeading(3);
+    @include fs-bodyHeading(2);
     color: #767676;
 }
 
@@ -602,6 +602,13 @@ svg {
     white-space: nowrap;
 }
 
+.idn-fires__city--pekanbaru {
+    left: 27.7%;
+    top: 45.8%;
+    text-indent: -70px;
+    white-space: nowrap;
+}
+
 
 .idn-fires__regionlabel {
     @include fs-bodyHeading(3);
@@ -611,12 +618,17 @@ svg {
 }
 
 .idn-fires__regionlabel--sumatra {
-    left: 23.5%;
-    top: 52.5%;
+    left: 26.5%;
+    top: 72.5%;
 }
 
 
 .idn-fires__regionlabel--malaysia {
     left: 27.5%;
-    top: 15.5%;
+    top: 13.5%;
+}
+
+.idn-fires__regionlabel--borneo {
+    left: 76.5%;
+    top: 46.5%;
 }
