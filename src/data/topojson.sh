@@ -53,7 +53,7 @@ topojson \
   -o $DATAOUT/indonesia.topojson \
   --id-property SU_A3 \
   -s 0.000000005 -q 1e6 \
-  -p name=NAME -p date=ACQ_DATE -p confidence=CONFIDENCE -p frp=FRP \
+  -p name=NAME -p date=ACQ_DATE -p confidence=CONFIDENCE -p frp=FRP -p iso3=ADM0_A3 \
   -- \
   $DATAOUT/geo.json \
   $DATAOUT/palmoil.json \

@@ -110,7 +110,7 @@ class DayFrame {
 }
 
 class Timelapse extends Emitter {
-    constructor({projection, fires, width, height, geo, radiusMultiplier, concessions, startDate, endDate, duration}) {
+    constructor({projection, fires, width, height, geo, borders, radiusMultiplier, concessions, startDate, endDate, duration}) {
         super()
         this.width = width;
         this.height = height;
@@ -133,6 +133,7 @@ class Timelapse extends Emitter {
         })
 
         this.geo = geo;
+        this.borders = borders;
         this.concessions = concessions;
         this.projection = projection;
 
@@ -164,6 +165,13 @@ class Timelapse extends Emitter {
                     .attr('class', 'map__concessions')
                     .attr("d", path);
 
+            }
+            if (this.borders) {
+                console.log(this.borders);
+                this.svg.append("path")
+                    .datum(this.borders)
+                    .attr('class', 'map__borders')
+                    .attr("d", path);
             }
         }
     }
@@ -284,6 +292,7 @@ function loadData(idn) {
     (['geo','palmoil','fiber','logging', 'fires']).forEach(key => {
         features[key] = topojson.feature(idn, idn.objects[key])
     })
+    features.borders = topojson.mesh(idn, idn.objects.geo, (a,b) => a.properties.iso3 !== b.properties.iso3)
 
     var days = features.fires.features
         .map(f => new Date(f.properties.date))
@@ -304,19 +313,21 @@ function loadData(idn) {
     var {width, height} = els.mapContainer.getBoundingClientRect();
 
 
-    // var bigTimelapseProjection = d3.geo.mercator()
-    //     .center([107, 0])
-    //     .scale(width*2.3)
-    //     .translate([width / 2, height / 2]);
+    var bigTimelapseProjection = d3.geo.mercator()
+        .center([107, 0])
+        .scale(width*2.3)
+        .translate([width / 2, height / 2]);
 
-    // let bigTimelapse = new Timelapse({
-    //     projection: bigTimelapseProjection,
-    //     fires:features.fires.features,
-    //     width: width, height: height,
-    //     startDate: new Date('2015/07/01'), endDate: new Date('2015/10/30'),
-    //     duration: 20000
-    // });
-    // bigTimelapse.addToContainer(els.mapContainer);
+    let bigTimelapse = new Timelapse({
+        projection: bigTimelapseProjection,
+        fires:features.fires.features,
+        geo: features.geo,
+        borders: features.borders,
+        width: width, height: height,
+        startDate: new Date('2015/07/01'), endDate: new Date('2015/10/30'),
+        duration: 20000
+    });
+    bigTimelapse.addToContainer(els.mapContainer);
     // bigTimelapse.on('datechange', dateStr => {
     //     els.fireDate.textContent = dateStr;
     // })
