@@ -148,7 +148,7 @@ class Timelapse {
             let bg = fs.readFileSync(bgUrl)
             let img = new Image;
             img.src = bg;
-            this.contexts.bg.drawImage(img, 0, 0);
+            this.contexts.bg.drawImage(img, 0, 0, img.width, img.height, 0, 0, this.els.bgCanvas.width, this.els.bgCanvas.height);
         }
 
         let animationTimePeriod = endDate - startDate;
@@ -320,7 +320,7 @@ function main() {
             //     features: [].concat(features.fiber.features)
             // },
             radiusMultiplier: 4.5,
-            bgUrl: __dirname  + '/../img/sumatrazoom.png',
+            bgUrl: __dirname  + '/../img/sumatra-satellite.jpg',
             startDate: new Date('2015/09/01'), endDate: new Date('2015/10/30'),
             duration: 10000, fps: 20
         });
