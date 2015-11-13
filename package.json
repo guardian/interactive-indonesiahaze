@@ -32,6 +32,7 @@
     "pip": "node_modules/.bin/babel-node --harmony ./src/data/pip.js",
     "emissions": "node_modules/.bin/babel-node --harmony ./src/data/emissions.js",
     "analpip": "node_modules/.bin/babel-node --harmony ./src/data/analpip.js",
+    "anal": "node_modules/.bin/babel-node --harmony ./src/data/anal.js",
     "dev": "node_modules/.bin/grunt",
     "deploy": "node_modules/.bin/grunt deploy",
     "frames": "node_modules/.bin/babel-node --harmony ./src/data/frames.js",
