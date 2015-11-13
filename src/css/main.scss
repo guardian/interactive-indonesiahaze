@@ -546,3 +546,77 @@ svg {
         }
     }
 }
+
+
+.idn-fires__city {
+    width: 5px;
+    height: 5px;
+    background: #999;
+    position: absolute;
+    z-index: 3;
+    @include fs-textSans(3);
+    line-height: 6px;
+    color: #999;
+}
+
+.idn-fires__city--palembang {
+    left: 41%;
+    top: 75%;
+    line-height: 22px;
+    text-indent: -72px;
+}
+
+.idn-fires__city--jambi {
+    left: 36.25%;
+    top: 63.5%;
+    text-indent: -40px;
+}
+
+.idn-fires__city--singapore {
+    left: 37%;
+    top: 38.2%;
+    text-indent: 8px;
+    width: 6px;
+    height: 6px;
+    @include fs-bodyHeading(3);
+    color: #767676;
+}
+
+.idn-fires__city--banjarmasin {
+    left: 80.3%;
+    top: 78%;
+    line-height: 22px;
+    text-indent: -76px;
+}
+
+.idn-fires__city--pontianak {
+    left: 59.3%;
+    top: 50.3%;
+    text-indent: -66px;
+}
+
+.idn-fires__city--kualalumpur {
+    left: 28.6%;
+    top: 23.7%;
+    text-indent: 8px;
+    white-space: nowrap;
+}
+
+
+.idn-fires__regionlabel {
+    @include fs-bodyHeading(3);
+    color: #767676;
+    position: absolute;
+    z-index: 4;
+}
+
+.idn-fires__regionlabel--sumatra {
+    left: 23.5%;
+    top: 52.5%;
+}
+
+
+.idn-fires__regionlabel--malaysia {
+    left: 27.5%;
+    top: 15.5%;
+}
