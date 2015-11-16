@@ -109,8 +109,9 @@ class DayFrame {
 }
 
 class Timelapse {
-    constructor({projection, fires, width, height, geo, bgUrl, radiusMultiplier, concessions, startDate, endDate, duration, fps}) {
+    constructor({prefix='', projection, fires, width, height, geo, bgUrl, radiusMultiplier, concessions, startDate, endDate, duration, fps}) {
         console.log(`Timelapse: ${width}x${height}`)
+        this.prefix = prefix;
         this.width = width;
         this.height = height;
         this.radiusMultiplier = radiusMultiplier || 1;
@@ -162,7 +163,7 @@ class Timelapse {
             let elapsed = this.frameTime * i;
             let renderDate = new Date(this.startDate.getTime() + elapsed);
             this.renderAt(renderDate);
-            this.saveFrame(path.join(framesDir, `timelapse-frame-${i}.png`));
+            this.saveFrame(path.join(framesDir, `${this.prefix}timelapse-frame-${i}.png`));
         }
     }
 
@@ -202,8 +203,13 @@ class Timelapse {
                 gradient.addColorStop(0,"red");
                 gradient.addColorStop(1,"rgba(255 ,165, 0, 0.5)");
                 let burnGradient = this.contexts.fire.createRadialGradient(coords[0],coords[1], 0,coords[0], coords[1], radius*1.5)
-                burnGradient.addColorStop(0,"rgba(20, 20, 20, 0.05)");
-                burnGradient.addColorStop(1,"rgba(20, 20, 20, 0)");
+                if (this.prefix === 'sumatra-') {
+                    burnGradient.addColorStop(0,"rgba(20, 20, 20, 0.10)");
+                    burnGradient.addColorStop(1,"rgba(20, 20, 20, 0)");
+                } else {
+                    burnGradient.addColorStop(0,"rgba(180, 180, 180, 0.15)");
+                    burnGradient.addColorStop(1,"rgba(180, 180, 180, 0)");
+                }
                 return {
                     date: f.properties.date,
                     dateObj: new Date(f.properties.date),
@@ -277,7 +283,7 @@ class Timelapse {
 
 
 function main() {
-    let data = JSON.parse( fs.readFileSync(path.join(__dirname, '../../data/out/indonesia.topojson')) );
+    let data = JSON.parse( fs.readFileSync(path.join(__dirname, '../../data/out/indonesia.topojson')));
 
     var features = {};
     (['filteredfires'/*, 'palmoil','fiber','logging'*/]).forEach(key => {
@@ -294,11 +300,12 @@ function main() {
             .translate([width / 2, height / 2]);
 
         let bigTimelapse = new Timelapse({
+            prefix: 'main-',
             projection: bigTimelapseProjection,
             fires:features.filteredfires.features,
             width: width, height: height,
-            startDate: new Date('2015/07/01'), endDate: new Date('2015/10/30'),
-            duration: 20000, fps: 20, bgUrl: __dirname + '/../img/indonesia-bg.png'
+            startDate: new Date('2015/07/01'), endDate: new Date('2015/11/13'),
+            duration: 15000, fps: 20, bgUrl: __dirname + '/../img/indonesia-bg.png'
         });
 
         bigTimelapse.go();
@@ -311,6 +318,7 @@ function main() {
             .scale(sumatraWidth*28)
             .translate([sumatraWidth / 2, sumatraHeight / 2]);
         let sumatraTimelapse = new Timelapse({
+            prefix: 'sumatra-',
             projection: sumatraTimelapseProjection,
             fires: features.filteredfires.features,
             width: sumatraWidth, height: sumatraHeight,
@@ -321,13 +329,13 @@ function main() {
             // },
             radiusMultiplier: 4.5,
             bgUrl: __dirname  + '/../img/sumatra-satellite.png',
-            startDate: new Date('2015/09/01'), endDate: new Date('2015/10/30'),
+            startDate: new Date('2015/09/01'), endDate: new Date('2015/11/13'),
             duration: 10000, fps: 20
         });
         sumatraTimelapse.go();
     }
 
-    // mainTimelapse();
+    mainTimelapse();
     sumatraTimelapse();
 }
 

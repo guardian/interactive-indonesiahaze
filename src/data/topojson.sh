@@ -33,10 +33,11 @@ DATAOUT="$ROOTDIR/data/out"
 #   $DATAOUT/logging.json \
 #   $DATAIN/logging/GFW_logging_20131023.shp
 
-# ogr2ogr \
-#   -overwrite \
-#   -f GeoJSON \
-#   $DATAOUT/fires.json \
+ogr2ogr \
+  -overwrite \
+  -f GeoJSON \
+  $DATAOUT/fires.json \
+  $DATAIN/nasa2/firms281271447607437_NRT.shp
 #   $DATAIN/nasa/firms275521446295496_NRT.shp
 
 

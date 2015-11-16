@@ -23,7 +23,7 @@ function main() {
 
 	let fires = require(path.join(dataDir, 'fires.json'));
 
-	console.log('Filtering to IDN fires only'); fires = filterFires(fires);
+	// console.log('Filtering to IDN fires only'); fires = filterFires(fires);
 
 	let totalFires = fires.features.length;
 
