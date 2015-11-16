@@ -10,6 +10,7 @@
 
 .idn-content {
     max-width: 1260px;
+    min-width: 280px;
     margin: auto;
     overflow: visible;
     position: relative;
@@ -44,13 +45,16 @@
 .idn-map__heading {
     text-align: right;
     font-family: "Guardian Egyptian Web";
-    font-size: 38px;
     position: absolute;
     z-index: 2;
     right: 0;
     color: #767676;
     padding-right: 10px;
     padding-top: 6px;
+    font-size: 24px;
+    @include mq(mobileLandscape) { font-size: 28px; }
+    @include mq(tablet) { font-size: 32px; }
+    @include mq(desktop) { font-size: 38px; }
     .idn-sumatra & {
         color: white;
         text-shadow: 0 0 50px rgba(0,0,0,0.9);
@@ -224,8 +228,6 @@ svg {
 
     .idn-play-button {
         cursor: pointer;
-        width: 92px;
-        height: 92px;
         position: absolute;
         z-index: 2;
         top: 0;
@@ -235,7 +237,19 @@ svg {
         margin: auto;
         border: 0;
         padding: 0;
-        font-size: 16px;
+        font-size: 9px;
+        width: 52px;
+        height: 52px;
+        @include mq(mobileLandscape) {
+            font-size: 13px;
+            width: 75px;
+            height: 75px;
+        }
+        @include mq(desktop) {
+            font-size: 16px;
+            width: 92px;
+            height: 92px;
+        }
         &:before {
             content: '';
             background: rgba(0,0,0,0.5);
@@ -275,6 +289,10 @@ svg {
     }
     .idn-play-button--container[firstplay] & {
         display: block;
+    }
+
+    .idn-sumatra & {
+        color: #f1f1f1;
     }
 }
 .idn-haze__img1 {
@@ -425,6 +443,7 @@ svg {
         top: 0;
         left: 0;
         overflow: visible;
+        max-width: 100%;
     }
 }
 
@@ -645,8 +664,8 @@ svg {
 }
 
 .idn-fires__regionlabel--indonesia {
-    left: calc(54% - 45px);
-    top: 66%;
+    left: calc(57% - 45px);
+    top: 75%;
     width: 90px;
     text-align: center;
 }

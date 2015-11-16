@@ -124,7 +124,7 @@ function load(features) {
 
     (function () { // EMISSIONS VIDEO
         let lastDateStr;
-        let startDate = new Date('2015/08/01'), endDate = new Date('2015/10/30'),
+        let startDate = new Date('2015/09/01'), endDate = new Date('2015/11/14'),
             timespan = endDate - startDate;
         let updateDate = () => {
             let newDate = startDate;
