@@ -4,8 +4,13 @@
     <h2></h2>
     <div class="idn-cumulative-fires"></div>
     <div class="idn-active-fires"></div>
+    <div class="idn-section__heading">
+        <h2>NASA satellites have detected more than 117,000 fires in Indonesia this year</h2>
+        <p>An ongoing El Niño event exacerbated the normal dry season leaving forests and land highly flammable over the summer</p>
+    </div>
 
     <div class="idn-fires">
+
         <div class="idn-map__heading">
             <span class="idn-fires__date"></span>
         </div>
@@ -21,10 +26,15 @@
 
             <div class="idn-fires__regionlabel idn-fires__regionlabel--sumatra">Sumatra</div>
             <div class="idn-fires__regionlabel idn-fires__regionlabel--malaysia">Malaysia</div>
+            <div class="idn-fires__regionlabel idn-fires__regionlabel--indonesia">Indonesia</div>
             <div class="idn-fires__regionlabel idn-fires__regionlabel--kalimantan">Kalimantan</div>
         </div>
 
-        <button class="idn-play-button--container" video=".idn-fires__video"><div class="idn-play-button"></div></button>
+        <button class="idn-play-button--container" video=".idn-fires__video">
+            <div class="idn-play-button">
+                <span class="idn-play-button__restart">Restart</span>
+            </div>
+        </button>
 
         <!-- <div>
             <svg class="gv-video-play" x="0px" y="0px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
@@ -35,20 +45,15 @@
             </svg>
         </div> -->
 
-        <div class="idn-section__heading">
-            <h2>NASA satellites have detected more than 117,000 fires in Indonesia this year</h2>
-            <p>An ongoing El Niño event exacerbated the normal dry season leaving forests and land highly flammable over the summer</p>
-        </div>
-
         <div class="idn-fires__inner">
             <video class="idn-fires__video" poster="src/video/fires.png">
                 <source src="src/video/fires.mp4" type="video/mp4" />
             </video>
             <!-- <canvas class="idn-fires__canvas"></canvas> -->
         </div>
-
-        <div class="idn-fires__credits">Source: Daily active fires data taken from <a href="https://earthdata.nasa.gov/earth-observation-data/near-real-time/firms/active-fire-data" target="_blank">NASA MODIS</a></div>
     </div>
+
+    <div class="idn-fires__credits">Source: Daily active fires data taken from <a href="https://earthdata.nasa.gov/earth-observation-data/near-real-time/firms/active-fire-data" target="_blank">NASA MODIS</a></div>
 
     <div class="idn-section">
         <div class="idn-section__heading">
@@ -68,40 +73,46 @@
                 <video class="idn-sumatra__video" poster="src/video/sumatra.png">
                     <source src="src/video/sumatra.mp4" type="video/mp4" />
                 </video>
-                <button class="idn-play-button--container" video=".idn-sumatra__video"><div class="idn-play-button"></div></button>
+                <button class="idn-play-button--container" video=".idn-sumatra__video">
+                    <div class="idn-play-button">
+                        <span class="idn-play-button__restart">Restart</span>
+                    </div>
+                </button>
                 <div class="idn-sumatra__credits">Source: Concession land data from <a href="http://www.wri.org/" target="_blank">WRI</a></div>
             </div>
 
             <div class="idn-sumatra__text">
-                <p>So-called ‘slash and burn’ is the fastest and cheapest way of clearing land for commercial use. Satellite data shows that some of the highest concentrations of fires occurred on land earmarked as corporate concessions where fast-growing trees will be planted to produce pulpwood for paper products and palm oil, of which Indonesia is the world's largest producer.  </p>
+                <!-- <p>So-called ‘slash and burn’ is the fastest and cheapest way of clearing land for commercial use. Satellite data shows that some of the highest concentrations of fires occurred on land earmarked as corporate concessions where fast-growing trees will be planted to produce pulpwood for paper products and palm oil, of which Indonesia is the world's largest producer.  </p>
 
-                <p>In south-eastern Sumatra there were ---- [details] ----- on land belonging to the Sinar Mas conglomerate which operates in both the pulp and palm oil sectors. Sinar Mas is itself a subsidiary of GAR (Golden Agri-Resources) which, in 2014, was one of five major producers that signed the Indonesian Palm Oil Pledge (IPOP) committing themselves to sustainable practices and zero-deforestation. However, with up to 40% of oil palm sourced from smallholder farmers, corporate oversight of practices lower down the supply chain is fragmentary.</p>
+                <p>In south-eastern Sumatra there were ---- [details] ----- on land belonging to the Sinar Mas conglomerate which operates in both the pulp and palm oil sectors. Sinar Mas is itself a subsidiary of GAR (Golden Agri-Resources) which, in 2014, was one of five major producers that signed the Indonesian Palm Oil Pledge (IPOP) committing themselves to sustainable practices and zero-deforestation. However, with up to 40% of oil palm sourced from smallholder farmers, corporate oversight of practices lower down the supply chain is fragmentary.</p> -->
             </div>
+        </div>
 
-            <div class="idn-breakdown">
-                <ul>
-                    <li>Palm oil</li>
-                    <li>Pulpwood</li>
-                    <li>Logging</li>
-                    <li>Moratorium</li>
-                    <li>Other</li>
-                </ul>
-                <svg viewBox="0 0 101 390">
-                    <g>
-                        <rect x="51" y="281" fill="#DFDFDF" width="50" height="100"/>
-                        <rect x="0" y="273" fill="#DFDFDF" width="50" height="114"/>
-                        <rect x="51" y="170" fill="#DFDFDF" width="50" height="91"/>
-                        <rect x="0" y="164" fill="#DFDFDF" width="50" height="101"/>
-                        <rect x="51" y="126" fill="#EBC1CB" width="50" height="16"/>
-                        <rect x="0" y="111" fill="#EBC1CB" width="50" height="46"/>
-                        <rect x="51" y="46" fill="#C97D8A" width="50" height="57"/>
-                        <rect x="0" y="65" fill="#C97D8A" width="50" height="18"/>
-                        <rect x="51" fill="#964F5D" width="50" height="38"/>
-                        <rect x="0" y="6" fill="#964F5D" width="50" height="25"/>
-                    </g>
-                </svg>
-            </div>
 
+        <div class="idn-breakdown">
+            <h2>% of land</h2>
+            <h2>% of fires</h2>
+            <ul>
+                <li>Palm oil</li>
+                <li>Pulpwood</li>
+                <li>Logging</li>
+                <li>Moratorium</li>
+                <li>Other</li>
+            </ul>
+            <svg viewBox="0 0 101 390">
+                <g>
+                    <rect x="51" y="281" fill="#DFDFDF" width="50" height="100"/>
+                    <rect x="0" y="273" fill="#DFDFDF" width="50" height="114"/>
+                    <rect x="51" y="170" fill="#DFDFDF" width="50" height="91"/>
+                    <rect x="0" y="164" fill="#DFDFDF" width="50" height="101"/>
+                    <rect x="51" y="126" fill="#EBC1CB" width="50" height="16"/>
+                    <rect x="0" y="111" fill="#EBC1CB" width="50" height="46"/>
+                    <rect x="51" y="46" fill="#C97D8A" width="50" height="57"/>
+                    <rect x="0" y="65" fill="#C97D8A" width="50" height="18"/>
+                    <rect x="51" fill="#964F5D" width="50" height="38"/>
+                    <rect x="0" y="6" fill="#964F5D" width="50" height="25"/>
+                </g>
+            </svg>
         </div>
     </div>
 
@@ -113,9 +124,9 @@
         <img class="idn-haze__img1" src="src/img/gp1.jpg">
         <!-- <img class="idn-haze__img2" src="src/img/gp2.jpg">
         <img class="idn-haze__img3" src="src/img/gp3.jpg"> -->
-        <p>As the fires spread, a toxic, sepia-coloured smog enveloped not just Borneo and Kalimantan but neighbouring countries including Malaysia, Singapore, Thailand and the Philippines as well. In some areas the haze limited visibility to less than 50 metres.</p>
+        <!-- <p>As the fires spread, a toxic, sepia-coloured smog enveloped not just Borneo and Kalimantan but neighbouring countries including Malaysia, Singapore, Thailand and the Philippines as well. In some areas the haze limited visibility to less than 50 metres.</p>
         <p>The haze contained several pollutants that are highly hazardous to health. Air quality data for ————— shows that on ———— the air in —— was full of ——. In terms of carbon monoxide alone ——</p>
-        <p>More than 40 million people were exposed to the smog and more than 500,000 Indonesians sought medical assistance for respiratory illnesses.</p>
+        <p>More than 40 million people were exposed to the smog and more than 500,000 Indonesians sought medical assistance for respiratory illnesses.</p> -->
     </div>
 
     <div class="idn-section">
@@ -133,7 +144,11 @@
                 </video>
                 <canvas class="idn-co-emissions__canvas"></canvas>
                 <img src="src/img/emissions-mask.png" />
-                <button class="idn-play-button--container" video=".idn-co-emissions__video"><div class="idn-play-button"></div></button>
+                <button class="idn-play-button--container" video=".idn-co-emissions__video">
+                    <div class="idn-play-button">
+                        <span class="idn-play-button__restart">Restart</span>
+                    </div>
+                </button>
 
                 <div class="idn-co-emissions__credits">Source: Based on a 3 day moving average of data from <a href="ftp://acdisc.sci.gsfc.nasa.gov/ftp/data/s4pa/Aqua_AIRS_Level3/AIRX3STD.006/2015/" target="_blank">NASA AIRS</a></div>
             </div>
@@ -148,8 +163,8 @@
         <div class="idn-co2e-graph">
             <div class="idn-co2e-graph__credits">Source: Cumulative emissions are based on <a href="http://www.globalfiredata.org/updates.html" target="_blank">GFED</a> estimates and country emissions are from <a href="http://cait.wri.org/historical" target="_blank">CAIT</a>.</div>
         </div>
-        <p>Many of the fires burned on dried-out carbon-rich peatland which meant Indonesia was responsible for massive carbon dioxide emissions at the height of the fires. Typically, according to figures from the World Resources Institute, Indonesia emits 2.1 megatons of carbon dioxide a day (the US emits almost 16 megatons, and China 29.3). Bloomberg calculated that Indonesia's average daily carbon dioxide emissions in October were 23 megatons (the US emits almost 16 megatons, and China 29.3). On 14 October, emissions from the fires alone soared to 61 megatons, almost 97% of the country’s total emissions. Total emissions from the fires also overtook the annual emissions of the German and Japanese economies.</p>
-        <p>Indonesia's peatland areas are naturally fire-resistant but years of bad management practices have drained the peat leaving them vulnerable to ignition during dry spells. Once alight, dry peatland fires are particularly difficult to extinguish as they can smoulder underground for months and then resurface in a different place.</p>
+        <!-- <p>Many of the fires burned on dried-out carbon-rich peatland which meant Indonesia was responsible for massive carbon dioxide emissions at the height of the fires. Typically, according to figures from the World Resources Institute, Indonesia emits 2.1 megatons of carbon dioxide a day (the US emits almost 16 megatons, and China 29.3). Bloomberg calculated that Indonesia's average daily carbon dioxide emissions in October were 23 megatons (the US emits almost 16 megatons, and China 29.3). On 14 October, emissions from the fires alone soared to 61 megatons, almost 97% of the country’s total emissions. Total emissions from the fires also overtook the annual emissions of the German and Japanese economies.</p>
+        <p>Indonesia's peatland areas are naturally fire-resistant but years of bad management practices have drained the peat leaving them vulnerable to ignition during dry spells. Once alight, dry peatland fires are particularly difficult to extinguish as they can smoulder underground for months and then resurface in a different place.</p> -->
     </div>
 </div>
 

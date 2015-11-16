@@ -55,11 +55,26 @@ function load(features) {
         co2eGraphContainer: document.body.querySelector('.idn-co2e-graph'),
     };
 
-    els.firesPlayBtn.addEventListener('click', function(evt) {
-        let selector = this.getAttribute('video');
-        document.querySelector(selector).play();
-        this.setAttribute('playing', '');
-    })
+
+    function playBtnEvtHandler(evt) {
+    }
+
+    ([els.sumatraPlayBtn, els.firesPlayBtn, els.emissionsPlayBtn]).forEach(el => {
+        let vid = document.querySelector(el.getAttribute('video'));
+        el.addEventListener('click', evt => {
+            el.setAttribute('firstplay', '');
+            if (vid.paused) el.setAttribute('playing', '');
+            else el.removeAttribute('playing');
+            vid[vid.paused ? 'play' : 'pause']();
+        });
+        bean.on(el, 'click', '.idn-play-button__restart', evt => {
+            console.log('adsf');
+            vid.currentTime = 0;
+            vid.play();
+            evt.stopPropagation();
+            evt.preventDefault();
+        })
+    });
 
     document.querySelector('.idn-fires__video').addEventListener('ended', evt => {
         els.firesPlayBtn.removeAttribute('playing');
@@ -67,7 +82,7 @@ function load(features) {
 
     (function () { // MAIN TIMELAPSE
         let lastDateStr;
-        let startDate = new Date('2015/07/01'), endDate = new Date('2015/10/30'),
+        let startDate = new Date('2015/07/01'), endDate = new Date('2015/11/13'),
             timespan = endDate - startDate;
         let updateDate = () => {
             let newDate = startDate;
@@ -88,7 +103,7 @@ function load(features) {
 
     (function () { // SUMATRA TIMELAPSE
         let lastDateStr;
-        let startDate = new Date('2015/09/01'), endDate = new Date('2015/10/30'),
+        let startDate = new Date('2015/09/01'), endDate = new Date('2015/11/13'),
             timespan = endDate - startDate;
         let updateDate = () => {
             let newDate = startDate;
@@ -127,24 +142,10 @@ function load(features) {
         els.emissionsVideo.addEventListener('timeupdate', updateDate);
         els.emissionsVideo.addEventListener('play', updateDate);
 
-
-        els.emissionsPlayBtn.addEventListener('click', function(evt) {
-            let selector = this.getAttribute('video');
-            document.querySelector(selector).play();
-            this.setAttribute('playing', '');
-        })
-
         els.emissionsVideo.addEventListener('ended', evt => {
             els.emissionsPlayBtn.removeAttribute('playing');
         })
     })();
-
-
-    els.sumatraPlayBtn.addEventListener('click', function(evt) {
-        let selector = this.getAttribute('video');
-        document.querySelector(selector).play();
-        this.setAttribute('playing', '');
-    })
 
     document.querySelector('.idn-sumatra__video').addEventListener('ended', evt => {
         els.sumatraPlayBtn.removeAttribute('playing');
@@ -202,7 +203,10 @@ domready(() => {
         load();
         document.querySelector('.idn-content--loading').className = 'idn-content';
     }, 10);
-    iframeMessenger.enableAutoResize();
+    let resize = debounce(iframeMessenger.resize.bind(iframeMessenger), 200);
+    window.addEventListener('resize', evt => resize());
+    if (document.readyState !== 'complete') window.addEventListener('load', evt => resize());
+    else resize();
 
     document.body.innerHTML = renderMainTemplate();
 

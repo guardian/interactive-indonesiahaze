@@ -52,7 +52,7 @@ function load(el) {
 
     let cumulativeData = allCumulativeData.filter(d => d.date >= new Date('2015/05/01'));
 
-    var svg = d3.select(el).append("svg")
+    var svg = d3.select(el).insert("svg", ':first-child')
       .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
