@@ -51,6 +51,10 @@
     color: #767676;
     padding-right: 10px;
     padding-top: 6px;
+    .idn-sumatra & {
+        color: white;
+        text-shadow: 0 0 50px rgba(0,0,0,0.9);
+    }
 }
 
 .idn-section {
@@ -367,10 +371,9 @@ svg {
 .idn-sumatra__map {
     position: relative;
     width: 50%;
-    padding-bottom: 66.6%;
+    padding-bottom: 40%;
     float: left;
     margin-right: 24px;
-    background-image: url('../src/img/sumatrazoom.png');
 
     video {
         position: absolute;
@@ -484,69 +487,26 @@ svg {
 }
 
 .idn-breakdown {
-    width: 600px;
-    height: 850px;
-    clear: both;
-    > h2:first-child {
+    margin-top: 24px;
+    ul {
         margin: 0;
-        margin-top: 12px;
-        padding: 12px 0;
-        font-size: 16px;
-        color: #767676;
+        padding: 0;
+        margin-right:20px;
+        list-style-type: none;
+        float: left;
+        @include fs-bodyHeading(2);
     }
-}
-.idn-breakdown__bars {
-    margin: 0;
-    list-style-type: none;
-    padding: 0;
-    height: 800px;
     li {
-        position: relative;
-        width: 50px;
-        background: #49C4DC;
-        margin-bottom: 2px;
-        color: white;
-        @include fs-textSans(1);
-        padding-top: 6px;
-        box-sizing: border-box;
-        text-align: center;
-
-        &:hover {
-            background: darken(#49C4DC, 10%);
-            h2 {
-                color: darken(#49C4DC, 30%);
-            }
-        }
-        &:nth-child(3) {
-            > div {
-                padding-top: 60px;
-            }
-        }
-        &:nth-child(5) {
-            > div {
-                padding-top: 84px;
-            }
-        }
-        > div {
-            position: absolute;
-            top: 0;
-            left: 50px;
-            padding-left: 10px;
-            text-align: left;
-            width: 520px;
-            h2 {
-                color: #333;
-                margin: 0;
-                @include fs-bodyHeading(1);
-            }
-            p {
-                margin: 0;
-                @include fs-bodyCopy(1);
-            }
-        }
+        &:nth-child(1) { line-height: 40px; }
+        &:nth-child(2) { line-height: 70px; }
+        &:nth-child(3) { line-height: 44px; }
+        &:nth-child(4) { line-height: 115px; }
+        &:nth-child(5) { line-height: 115px; }
+    }
+    svg {
+        width: 101px;
     }
 }
-
 
 .idn-fires__city {
     width: 5px;
@@ -618,8 +578,8 @@ svg {
 }
 
 .idn-fires__regionlabel--sumatra {
-    left: 26.5%;
-    top: 72.5%;
+    left: 22.5%;
+    top: 52.5%;
 }
 
 
@@ -628,7 +588,40 @@ svg {
     top: 13.5%;
 }
 
-.idn-fires__regionlabel--borneo {
-    left: 76.5%;
-    top: 46.5%;
+.idn-fires__regionlabel--kalimantan {
+    left: 67.5%;
+    top: 52.5%;
+}
+
+
+.idn-fires__regionlabel--kalimantan,
+.idn-fires__regionlabel--sumatra {
+    @include fs-textSans(4);
+    font-size: 18px;
+    font-weight: normal;
+    letter-spacing: 12px;
+    font-style: italic;
+    color: rgba(0,0,0,0.3);
+}
+
+.idn-sumatra__label {
+    @include fs-textSans(4);
+    font-size: 16px;
+    font-weight: bold;
+    position: absolute;
+    z-index: 3;
+}
+
+.idn-sumatra__label--concession {
+    color: rgba(221,225,94,0.8);
+    top: 64%;
+    left: 49%;
+    width: 100px;
+}
+
+.idn-sumatra__label--palembang {
+    color: white;
+    top: 44%;
+    left: 20%;
+    text-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
 }

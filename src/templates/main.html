@@ -21,7 +21,7 @@
 
             <div class="idn-fires__regionlabel idn-fires__regionlabel--sumatra">Sumatra</div>
             <div class="idn-fires__regionlabel idn-fires__regionlabel--malaysia">Malaysia</div>
-            <div class="idn-fires__regionlabel idn-fires__regionlabel--borneo">Borneo</div>
+            <div class="idn-fires__regionlabel idn-fires__regionlabel--kalimantan">Kalimantan</div>
         </div>
 
         <button class="idn-play-button--container" video=".idn-fires__video"><div class="idn-play-button"></div></button>
@@ -62,15 +62,15 @@
                 <div class="idn-map__heading">
                     <span class="idn-sumatra__date"></span>
                 </div>
-                <video class="idn-sumatra__video" poster="src/img/sumatra-satellite.jpg">
+                <div class="idn-sumatra__label idn-sumatra__label--concession">Concession area</div>
+                <div class="idn-sumatra__label idn-sumatra__label--palembang">Palembang</div>
+
+                <video class="idn-sumatra__video" poster="src/video/sumatra.png">
                     <source src="src/video/sumatra.mp4" type="video/mp4" />
                 </video>
                 <button class="idn-play-button--container" video=".idn-sumatra__video"><div class="idn-play-button"></div></button>
                 <div class="idn-sumatra__credits">Source: Concession land data from <a href="http://www.wri.org/" target="_blank">WRI</a></div>
-
-                <!-- <div class="idn-sumatra__copy"> <h2>Pulpwood plantation</h2> <p>asdfadsf</p> </div> -->
             </div>
-
 
             <div class="idn-sumatra__text">
                 <p>So-called ‘slash and burn’ is the fastest and cheapest way of clearing land for commercial use. Satellite data shows that some of the highest concentrations of fires occurred on land earmarked as corporate concessions where fast-growing trees will be planted to produce pulpwood for paper products and palm oil, of which Indonesia is the world's largest producer.  </p>
@@ -79,41 +79,28 @@
             </div>
 
             <div class="idn-breakdown">
-                <h2>Fires by land-use</h2>
-                <ul class="idn-breakdown__bars">
-                    <li style="height: 16.75%">21.1k (16.8%)
-                        <div>
-                            <h2>Pulpwood</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi egestas augue sed tortor convallis dictum. Curabitur consectetur, justo eget interdum commodo, elit ex tempus ex, ac consequat ligula diam nec quam. Duis ut ultricies tellus.</p>
-                        </div>
-                    </li>
-                    <li style="height: 11.30%">14.3k (11.3%)
-                        <div>
-                            <h2>Palm</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi egestas augue sed tortor convallis dictum. Curabitur consectetur, justo eget interdum commodo, elit ex tempus ex, ac consequat ligula diam nec quam. Duis ut ultricies tellus.</p>
-                        </div>
-                    <li style="height: 26.83%">33.9k (26.8%)
-                        <div>
-                            <h2>Moratorium</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi egestas augue sed tortor convallis dictum. Curabitur consectetur, justo eget interdum commodo, elit ex tempus ex, ac consequat ligula diam nec quam. Duis ut ultricies tellus.</p>
-                        </div>
-                    </li>
-                    </li>
-                    <li style="height: 4.96%">6.3k (5.0%)
-                        <div>
-                            <h2>Logging</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi egestas augue sed tortor convallis dictum. Curabitur consectetur, justo eget interdum commodo, elit ex tempus ex, ac consequat ligula diam nec quam. Duis ut ultricies tellus.</p>
-                        </div>
-                    </li>
-                    <li style="height: 40.16%">50.7k (40.2%)
-                        <div>
-                            <h2>Other</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi egestas augue sed tortor convallis dictum. Curabitur consectetur, justo eget interdum commodo, elit ex tempus ex, ac consequat ligula diam nec quam. Duis ut ultricies tellus.</p>
-                        </div>
-                    </li>
+                <ul>
+                    <li>Palm oil</li>
+                    <li>Pulpwood</li>
+                    <li>Logging</li>
+                    <li>Moratorium</li>
+                    <li>Other</li>
                 </ul>
+                <svg viewBox="0 0 101 390">
+                    <g>
+                        <rect x="51" y="281" fill="#DFDFDF" width="50" height="100"/>
+                        <rect x="0" y="273" fill="#DFDFDF" width="50" height="114"/>
+                        <rect x="51" y="170" fill="#DFDFDF" width="50" height="91"/>
+                        <rect x="0" y="164" fill="#DFDFDF" width="50" height="101"/>
+                        <rect x="51" y="126" fill="#EBC1CB" width="50" height="16"/>
+                        <rect x="0" y="111" fill="#EBC1CB" width="50" height="46"/>
+                        <rect x="51" y="46" fill="#C97D8A" width="50" height="57"/>
+                        <rect x="0" y="65" fill="#C97D8A" width="50" height="18"/>
+                        <rect x="51" fill="#964F5D" width="50" height="38"/>
+                        <rect x="0" y="6" fill="#964F5D" width="50" height="25"/>
+                    </g>
+                </svg>
             </div>
-
 
         </div>
     </div>
