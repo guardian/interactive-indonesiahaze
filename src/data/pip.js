@@ -1,4 +1,4 @@
-import pip from 'point-in-polygon';
+import {isPointInsideFeature} from './ispip.js';
 import path from 'path';
 import fs from 'fs';
 // import proecss
@@ -14,46 +14,12 @@ var moratoriumgeo = require(outpath('moratorium.json'));
 
 var outfilepath = outpath('pip.json');
 
-function isPointInsidePolygon(pointCoords, polygonCoords) {
-	if (polygonCoords.length === 1) {
-		return pip(pointCoords, polygonCoords[0])
-	} else if (polygonCoords.length === 2) {
-		let isInInnerRing = pip(pointCoords, polygonCoords[1])
-		return isInInnerRing ? false : pip(pointCoords, polygonCoords[0]);
-	} else if (polygonCoords.length > 2) {
-		let isInOuterRing = pip(pointCoords, polygonCoords[0])
-		if (!isInOuterRing) return false;
-		for (var i = 1; i < polygonCoords.length; i++) {
-			let isInInnerRing = pip(pointCoords, polygonCoords[i]);
-			if (isInInnerRing) return false;
-		}
-		return true;
-
-	} else {
-		console.log(`Polygons with length ${polygonCoords.length} not supported`);
-		process.exit(1);
-	}
-
-}
-function isPointInside(point, concession) {
-	if (concession.type !== 'Feature') {
-		console.log(`Not a GeoJSON feature: ${concession.type}`)
-		process.exit(1);
-	}
-
-	if (concession.geometry.type === 'Polygon') {
-		return isPointInsidePolygon(point.geometry.coordinates, concession.geometry.coordinates);
-	}
-	else if (concession.geometry.type === 'MultiPolygon') {
-		let polygons = concession.geometry.coordinates;
-		for (var i = 0; i < polygons.length; i++) {
-			if (isPointInsidePolygon(point.geometry.coordinates, polygons[i])) return true;
-		}
-	} else {
-		console.log(`Unsupported type ${concession.type}`);
-		process.exit(1);
-	}
-	return false
+function filterFires(fires) {
+	var geo = require(outpath('geo.json'));
+	let idn = geo.features.filter(d => d.properties.SOV_A3 === 'IDN')[0]
+	fires.features = fires.features
+		.filter(f => isPointInsideFeature(f, idn))
+	return fires;
 }
 
 function main() {
@@ -62,8 +28,10 @@ function main() {
 
 	let fires = firesgeo.features;
 
+	console.log('Filtering to IDN fires only'); fires = filterFires(firesgeo).features;
+
 	let concessions = {
-		moratorium: moratoriumgeo.features,
+		// moratorium: moratoriumgeo.features,
 		fiber: fibergeo.features,
 		palm: palmgeo.features,
 		logging: logginggeo.features,
@@ -78,7 +46,7 @@ function main() {
 		out[key] = [];
 		concessions[key].map((c,i) => {
 			console.log(`${key} - ${i} / ${concessions[key].length}`);
-			let fireCount = fires.filter(f => isPointInside(f, c)).length;
+			let fireCount = fires.filter(f => isPointInsideFeature(f, c)).length;
 			let area_ha = c.properties.area_ha || c.properties.AREA_HA || c.properties.Shape_Area;
 			out[key].push({
 				id: c.properties.OBJECTID,

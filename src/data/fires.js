@@ -1,8 +1,17 @@
+import {isPointInsideFeature} from './ispip.js';
 import pip from 'point-in-polygon';
 import path from 'path';
 import fs from 'fs';
 
 let dataDir = path.resolve(__dirname, '../../data/out');
+
+function filterFires(fires) {
+	var geo = require(path.join(dataDir, 'geo.json'));
+	let idn = geo.features.filter(d => d.properties.SOV_A3 === 'IDN')[0]
+	fires.features = fires.features
+		.filter(f => isPointInsideFeature(f, idn))
+	return fires;
+}
 
 function main() {
 	let viewport = [
@@ -13,6 +22,8 @@ function main() {
 	]
 
 	let fires = require(path.join(dataDir, 'fires.json'));
+
+	console.log('Filtering to IDN fires only'); fires = filterFires(fires);
 
 	let totalFires = fires.features.length;
 

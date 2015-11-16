@@ -1,7 +1,6 @@
 import path from 'path';
 import lodash from 'lodash';
 
-
 let total_area_k2 = 1.919 * 1000000;
 let total_area_ha = total_area_k2 * 100;
 

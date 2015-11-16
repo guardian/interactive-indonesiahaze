@@ -2,7 +2,7 @@ import path from 'path';
 import lodash from 'lodash';
 
 var pip = require(path.join(__dirname, '../../data/out/pip.json'));
-var fires = require(path.join(__dirname, '../../data/out/fires.json'));
+var fires = require(path.join(__dirname, '../../data/out/indofires.json'));
 
 (['fiber', 'palm', 'logging', 'moratorium']).forEach(key => {
 	let numFires = fires.features.length;

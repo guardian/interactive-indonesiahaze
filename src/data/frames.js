@@ -202,8 +202,8 @@ class Timelapse {
                 gradient.addColorStop(0,"red");
                 gradient.addColorStop(1,"rgba(255 ,165, 0, 0.5)");
                 let burnGradient = this.contexts.fire.createRadialGradient(coords[0],coords[1], 0,coords[0], coords[1], radius*1.5)
-                burnGradient.addColorStop(0,"rgba(180, 180, 180, 0.15)");
-                burnGradient.addColorStop(1,"rgba(180, 180, 180, 0)");
+                burnGradient.addColorStop(0,"rgba(20, 20, 20, 0.05)");
+                burnGradient.addColorStop(1,"rgba(20, 20, 20, 0)");
                 return {
                     date: f.properties.date,
                     dateObj: new Date(f.properties.date),
@@ -305,10 +305,10 @@ function main() {
     }
 
     function sumatraTimelapse() {
-        let sumatraWidth = 510, sumatraHeight = 680;
+        let sumatraWidth = 620, sumatraHeight = 500;
         var sumatraTimelapseProjection = d3.geo.mercator()
-            .center([105.55, -3]) //-2.739543, 105.554825
-            .scale(sumatraWidth*40)
+            .center([105.2, -3.1]) //-2.739543, 105.554825
+            .scale(sumatraWidth*28)
             .translate([sumatraWidth / 2, sumatraHeight / 2]);
         let sumatraTimelapse = new Timelapse({
             projection: sumatraTimelapseProjection,
@@ -320,15 +320,15 @@ function main() {
             //     features: [].concat(features.fiber.features)
             // },
             radiusMultiplier: 4.5,
-            bgUrl: __dirname  + '/../img/sumatra-satellite.jpg',
+            bgUrl: __dirname  + '/../img/sumatra-satellite.png',
             startDate: new Date('2015/09/01'), endDate: new Date('2015/10/30'),
             duration: 10000, fps: 20
         });
         sumatraTimelapse.go();
     }
 
-    mainTimelapse();
-    // sumatraTimelapse();
+    // mainTimelapse();
+    sumatraTimelapse();
 }
 
 
