@@ -584,6 +584,7 @@ svg {
 .idn-breakdown {
     width: 266px;
     position: relative;
+    padding-left: 120px;
     @include mq($until: wide) {
         padding-top: 24px;
         clear: both;
@@ -598,30 +599,28 @@ svg {
         padding: 0;
         float: left;
         box-sizing: border-box;
-        &:first-child {
-            // padding-right: 5px;
-            text-align: right;
-            width: 70%;
-        }
-        &:nth-child(2) {
-            padding-left: 5px;
-            width: 30%;
-        }
+        width: 75px;
     }
     ul {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
         margin: 0;
         padding: 0;
+        width: 120px;
         margin-right:20px;
         list-style-type: none;
         float: left;
         @include fs-bodyHeading(2);
     }
     li {
-        &:nth-child(1) { line-height: 40px; }
-        &:nth-child(2) { line-height: 70px; }
-        &:nth-child(3) { line-height: 44px; }
-        &:nth-child(4) { line-height: 115px; }
-        &:nth-child(5) { line-height: 115px; }
+        position: absolute;
+        &:nth-child(1) { top: 10%; }
+        &:nth-child(2) { top: 23%; }
+        &:nth-child(3) { top: 37%; }
+        &:nth-child(4) { top: 56%; }
+        &:nth-child(5) { top: 83%; }
     }
     svg {
         width: 150px;
