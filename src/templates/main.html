@@ -28,6 +28,12 @@
             <div class="idn-fires__regionlabel idn-fires__regionlabel--malaysia">Malaysia</div>
             <div class="idn-fires__regionlabel idn-fires__regionlabel--indonesia">Indonesia</div>
             <div class="idn-fires__regionlabel idn-fires__regionlabel--kalimantan">Kalimantan</div>
+
+            <div class="idn-sumatra__zoombox">
+                <div class="idn-sumatra__zoombox__label">Enlarged below</div>
+            </div>
+
+
         </div>
 
         <button class="idn-play-button--container" video=".idn-fires__video">
@@ -57,7 +63,7 @@
 
     <div class="idn-section">
         <div class="idn-section__heading">
-            <h2>They frequently occurred on land sold for palm oil and pulpwood production</h2>
+            <h2>Some of the worst fires occurred on agricultural concessions</h2>
             <p>Many big concession-owning companies say they favour sustainable practices and blame smallholders for using slash-and-burn farming to clear the land quickly and cheaply</p>
         </div>
 
@@ -67,7 +73,8 @@
                 <div class="idn-map__heading">
                     <span class="idn-sumatra__date"></span>
                 </div>
-                <div class="idn-sumatra__label idn-sumatra__label--concession">Concession area</div>
+                <div class="idn-sumatra__label idn-sumatra__label--concession">Concession areas</div>
+                <div class="idn-sumatra__label idn-sumatra__label--sinar">Sinar Mas Forestry</div>
                 <div class="idn-sumatra__label idn-sumatra__label--palembang">Palembang</div>
 
                 <video class="idn-sumatra__video" poster="src/video/sumatra.png">
@@ -87,8 +94,16 @@
                 <p>In south-eastern Sumatra there were ---- [details] ----- on land belonging to the Sinar Mas conglomerate which operates in both the pulp and palm oil sectors. Sinar Mas is itself a subsidiary of GAR (Golden Agri-Resources) which, in 2014, was one of five major producers that signed the Indonesian Palm Oil Pledge (IPOP) committing themselves to sustainable practices and zero-deforestation. However, with up to 40% of oil palm sourced from smallholder farmers, corporate oversight of practices lower down the supply chain is fragmentary.</p> -->
             </div>
         </div>
+    </div>
 
 
+
+
+    <div class="idn-section">
+        <div class="idn-section__heading">
+            <h2>A disproportionate number of fires were detected on land sold for agriculture</h2>
+            <p>Pulpwood and palm oil plantations showed the biggest discrepancy between land coverage and fire count</p>
+        </div>
         <div class="idn-breakdown">
             <h2>% of land</h2>
             <h2>% of fires</h2>
@@ -116,12 +131,33 @@
         </div>
     </div>
 
+
+
     <div class="idn-section">
         <div class="idn-section__heading">
             <h2>As fires spread, a choking haze enveloped Indonesia and neighbouring countries</h2>
             <p>This grounded flights, closed schools and reduced visibility to less than 50 metres in some areas while also taking a terrible toll on public health</p>
         </div>
-        <img class="idn-haze__img1" src="src/img/gp1.jpg">
+        <div class="idn-haze-pictures">
+            <picture class="idn-haze-picture idn-haze-picture--1">
+                <source srcset="https://media.guim.co.uk/54f63bfe6b0324598db921a4e81a18f850862c12/0_0_3000_1801/2000.jpg" media="(min-width: 1500px)">
+                <source srcset="https://media.guim.co.uk/54f63bfe6b0324598db921a4e81a18f850862c12/0_0_3000_1801/1000.jpg" media="(min-width: 600px)">
+                <source srcset="https://media.guim.co.uk/54f63bfe6b0324598db921a4e81a18f850862c12/0_0_3000_1801/500.jpg" media="(min-width: 300px)">
+                <img src="https://media.guim.co.uk/54f63bfe6b0324598db921a4e81a18f850862c12/0_0_3000_1801/1000.jpg" alt="haze">
+            </picture>
+            <picture class="idn-haze-picture idn-haze-picture--2">
+                <source srcset="https://media.guim.co.uk/68dade559ee396fefc43225e6bfa40e80d8355e2/0_199_3000_1800/2000.jpg" media="(min-width: 1500px)">
+                <source srcset="https://media.guim.co.uk/68dade559ee396fefc43225e6bfa40e80d8355e2/0_199_3000_1800/1000.jpg" media="(min-width: 600px)">
+                <source srcset="https://media.guim.co.uk/68dade559ee396fefc43225e6bfa40e80d8355e2/0_199_3000_1800/500.jpg" media="(min-width: 300px)">
+                <img src="https://media.guim.co.uk/68dade559ee396fefc43225e6bfa40e80d8355e2/0_199_3000_1800/500.jpg" alt="haze">
+            </picture>
+            <picture class="idn-haze-picture idn-haze-picture--3">
+                <source srcset="https://media.guim.co.uk/db952c84ce35a7199ccefd2bb760dfb72fcc7e84/0_289_4608_2765/2000.jpg" media="(min-width: 1500px)">
+                <source srcset="https://media.guim.co.uk/db952c84ce35a7199ccefd2bb760dfb72fcc7e84/0_289_4608_2765/1000.jpg" media="(min-width: 600px)">
+                <source srcset="https://media.guim.co.uk/db952c84ce35a7199ccefd2bb760dfb72fcc7e84/0_289_4608_2765/500.jpg" media="(min-width: 300px)">
+                <img src="https://media.guim.co.uk/db952c84ce35a7199ccefd2bb760dfb72fcc7e84/0_289_4608_2765/500.jpg" alt="haze">
+            </picture>
+        </div>
         <!-- <img class="idn-haze__img2" src="src/img/gp2.jpg">
         <img class="idn-haze__img3" src="src/img/gp3.jpg"> -->
         <!-- <p>As the fires spread, a toxic, sepia-coloured smog enveloped not just Borneo and Kalimantan but neighbouring countries including Malaysia, Singapore, Thailand and the Philippines as well. In some areas the haze limited visibility to less than 50 metres.</p>
