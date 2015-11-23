@@ -3,6 +3,7 @@ import doT from 'olado/doT'
 import mainTemplate from '../templates/main.html!text'
 import bean from 'fat/bean'
 // import bonzo from 'ded/bonzo'
+// import reqwest from 'reqwest';
 import debounce from './lib/debounce'
 import d3 from 'd3'
 import topojson from 'mbostock/topojson'
@@ -10,7 +11,6 @@ import strftime from 'samsonjs/strftime'
 import Emitter from './emitter.js';
 import CanvasVideoPlayer from './lib/canvas-video-player'
 import graph from './graph.js';
-import reqwest from 'reqwest';
 import iframeMessenger from 'guardian/iframe-messenger';
 
 var renderMainTemplate = doT.template(mainTemplate);
