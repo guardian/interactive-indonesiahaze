@@ -103,7 +103,7 @@
     }
 
     .idn-section--co2 & {
-        background: white;
+        // background: white;
     }
 }
 
@@ -472,15 +472,15 @@ svg {
 }
 
 .idn-co2e-graph {
-    width: calc(100% - 20px);
+    width: calc(100% - 10px);
     height: 0;
     padding-bottom: 50%;
     position: relative;
-    margin-bottom: 48px;
+    // margin-bottom: 48px;
     // float: left;
 
     @include mq(desktop) {
-        margin-left: -60px;
+        margin-left: -50px;
     }
 
     svg {
@@ -526,13 +526,19 @@ svg {
 }
 
 .idn-co2e-graph__credits {
-    z-index: 3;
+    // z-index: 3;
+    // position: absolute;
+    // right: 20px;
+    // bottom: -20px;
+    // @include mq(desktop) {
+    //     bottom: 36px;
+    // }
+    text-align: right;
+    width: calc(100% - 10px);
     position: absolute;
-    right: 20px;
-    bottom: -20px;
-    @include mq(desktop) {
-        bottom: 36px;
-    }
+    top: 100%;
+    text-align: right;
+    right: 10px;
 }
 
 
@@ -564,20 +570,28 @@ svg {
     padding-left: 5px;
     box-sizing: border-box;
 }
-
+.idn-y, .idn-x {
+    text {
+        fill: #767676;
+    }
+    .tick line {
+        stroke: #767676;
+    }
+}
 .idn-y.idn-label {
     stroke-width: 10;
     stroke: #fff;
     paint-order: stroke;
+    fill: #767676;
 }
 
 .idn-x.idn-axis {
-    .tick:first-child text {
-        text-anchor: start !important;
-    }
-    .tick:nth-last-child(2) text {
-        text-anchor: end !important;
-    }
+    // .tick:first-child text {
+    //     text-anchor: start !important;
+    // }
+    // .tick:nth-last-child(2) text {
+    //     text-anchor: end !important;
+    // }
 }
 
 .idn-breakdown {
@@ -768,7 +782,7 @@ svg {
     color: rgba(221, 225, 94, 0.8);
     top: 41%;
     left: 64%;
-    width: 100px;
+    width: 80px;
 }
 
 .idn-sumatra__label--palembang {

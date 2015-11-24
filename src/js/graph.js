@@ -11,12 +11,13 @@ const countries = [
    },
    {
        'name': 'Canada',
-       'emissions': 714.12 * 1000000
-   },
+       'emissions': 714.12 * 1000000,
+       'hideAtSmallSize': true
+   },/*
    {
        'name': 'Russia',
        'emissions': 2322.22 * 1000000
-   },
+   },*/
    {
        'name': 'Germany',
        'emissions': 887.22 * 1000000
@@ -27,7 +28,8 @@ const countries = [
    },
    {
        'name': 'Brazil',
-       'emissions': 1012.55 * 1000000
+       'emissions': 1012.55 * 1000000,
+       'hideAtSmallSize': true
    }
 ];
 
@@ -39,7 +41,7 @@ Date.prototype.addDays = function(days) {
 
 function load(el) {
 
-    const margin = {top: 0, right: 20, bottom: 30, left: 60}
+    const margin = {top: 0, right: 10, bottom: 30, left: 50}
 
 
     var cumulativeCO2e = 0;
@@ -58,13 +60,13 @@ function load(el) {
 
     var x = d3.time.scale()
     var y = d3.scale.linear()
-    var xAxis = d3.svg.axis().scale(x).orient('bottom').ticks(4);
+    var xAxis = d3.svg.axis().scale(x).orient('bottom');
     var yAxis = d3.svg.axis().scale(y).orient('left').tickFormat(d3.format('s'));
 
     var line = d3.svg.line().x(d => x(d.date)).y(d => y(d.emissions));
 
     x.domain(d3.extent(cumulativeData, d => d.date)).nice();
-    y.domain([0, d3.max(cumulativeData, d => d.emissions) * 1.35]);
+    y.domain([0, d3.max(cumulativeData, d => d.emissions) * 1.05]);
 
     let xaxis = svg.append('g')
         .attr('class', 'idn-x idn-axis');
@@ -75,13 +77,6 @@ function load(el) {
     var countryLines,
         visibleDateCO2e = [];
 
-    let ylabel = svg.append("text")
-        .attr("class", "idn-y idn-label")
-        .attr("text-anchor", "end")
-        .attr("y", 0)
-        .attr("dy", "1.2em")
-        .attr("transform", "rotate(-90)")
-        .text("CO2e emissions (metric tons)");
 
     let animated, raf;
 
@@ -102,8 +97,24 @@ function load(el) {
         .data(countries)
     countriesText.enter()
         .append('text')
-        .attr({'class': 'idn-preset__country', 'dy': '0.3em', 'dx': '0.2em'})
+        .attr({'class': 'idn-preset__country', 'dy': '0.3em', 'dx': -20})
         .text(d => d.name)
+
+    let ylabel = svg.append("text")
+        .attr("class", "idn-y idn-label")
+        .attr("text-anchor", "middle")
+        .attr("y", 0)
+        .attr("dy", "12px")
+        .attr("transform", "rotate(-90)")
+
+    let ylabel2 = svg.append("text")
+        .attr({
+            "class": "idn-y idn-label",
+            "fill": "#767676",
+            "text-anchor": "middle",
+            "y": 0, "dy": "10px",
+            "transform": "rotate(-90)"
+        })
 
     let resize = () => {
         let rect = el.getBoundingClientRect(),
@@ -120,14 +131,26 @@ function load(el) {
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
         xaxis.attr('transform', 'translate(0,' + height + ')')
-        ylabel.attr("dx", -height/2.5)
 
-        countriesText.attr({x: width, y: d => y(d.emissions)});
+        xAxis.ticks(width < 300 ? 3 : 4)
+            .tickFormat(d3.time.format(width < 450 ? '%b' : '%B'))
+
+        ylabel
+            .attr("dx", height/-1.7)
+            .text(height < 250 ? 'CO2e (Mt)' : 'CO2e emissions (metric tons)');
+
+        ylabel2
+            .attr({dx: height/-1.8, x: width, 'transform': `rotate(-90, ${width}, 0)`})
+            .text(height < 250 ? 'Annual CO2e (Mt)' : 'Annual CO2e emissions (metric tons)');
+
+        countriesText
+            .attr({x: width, y: d => y(d.emissions), display: d => d.hideAtSmallSize && height < 250 && 'none'});
 
         countriesLines
             .attr({
                 x1: 0, y1: d => y(d.emissions),
-                x2: width, y2: d => y(d.emissions)
+                x2: width - 20, y2: d => y(d.emissions),
+                display: d => d.hideAtSmallSize && height < 250 && 'none'
             })
 
         if (animated) animate();
