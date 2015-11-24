@@ -107,6 +107,17 @@
     }
 }
 
+.idn-co2e-graph__heading {
+    @include fs-bodyHeading(1);
+    color: #767676;
+    @include mq(desktop) {
+        @include fs-bodyHeading(2, true);
+        // position: absolute;
+        // margin: 0;
+        // margin-left: 60px;
+    }
+}
+
 .idn-map {
     position: absolute;
     top: 0;
@@ -596,11 +607,15 @@ svg {
         stroke: #999999;
     }
 }
-.idn-y.idn-label {
+.idn-label {
     stroke-width: 10;
     stroke: #fff;
     paint-order: stroke;
     fill: #999999;
+}
+
+.idn-label--linelabel {
+    stroke-width: 4;
 }
 
 .idn-x.idn-axis {

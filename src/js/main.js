@@ -135,7 +135,7 @@ function load(features) {
 
     (function () { // EMISSIONS VIDEO
         let lastDateStr;
-        let startDate = new Date('2015/09/01'), endDate = new Date('2015/11/23'),
+        let startDate = new Date('2015/08/01'), endDate = new Date('2015/11/23'),
             timespan = endDate - startDate;
         let updateDate = () => {
             let newDate = startDate;
@@ -174,33 +174,37 @@ function load(features) {
     let graphAnimated = false;
 
     function autoPlay() {
-        iframeMessenger.getPositionInformation((msg) => {
-            let threshold = msg.innerHeight / 3.5;
+        if (window.self !== window.top) {
+            iframeMessenger.getPositionInformation((msg) => {
+                let threshold = msg.innerHeight / 3.5;
 
-            // let mapContainerTop = msg.iframeTop + els.mapContainer.getBoundingClientRect().top
-            // let autoplayMap = mapContainerTop > 0 && mapContainerTop < threshold;
+                // let mapContainerTop = msg.iframeTop + els.mapContainer.getBoundingClientRect().top
+                // let autoplayMap = mapContainerTop > 0 && mapContainerTop < threshold;
 
-            // let sumatraTop = msg.iframeTop + els.sumatraZoomMap.getBoundingClientRect().top
-            // let autoplaySumatra = sumatraTop > 0 && sumatraTop < threshold;
+                // let sumatraTop = msg.iframeTop + els.sumatraZoomMap.getBoundingClientRect().top
+                // let autoplaySumatra = sumatraTop > 0 && sumatraTop < threshold;
 
-            // let emissionTop = msg.iframeTop + els.emissionsContainer.getBoundingClientRect().top
-            // let autoplayEmissions = emissionTop > 0 && emissionTop < threshold;
+                // let emissionTop = msg.iframeTop + els.emissionsContainer.getBoundingClientRect().top
+                // let autoplayEmissions = emissionTop > 0 && emissionTop < threshold;
 
-            // bigTimelapse[autoplayMap ? 'play' : 'pause']();
-            // sumatraTimelapse[autoplaySumatra ? 'play' : 'pause']();
-            // canvasVideo[autoplayEmissions ? 'play' : 'pause']();
+                // bigTimelapse[autoplayMap ? 'play' : 'pause']();
+                // sumatraTimelapse[autoplaySumatra ? 'play' : 'pause']();
+                // canvasVideo[autoplayEmissions ? 'play' : 'pause']();
 
-            if (!graphAnimated) {
-                let graphTop = msg.iframeTop + els.co2eGraphContainer.getBoundingClientRect().top
-                let playGraph = graphTop > 0 && graphTop < (msg.innerHeight * 0.8) ;
-                if (playGraph) {
-                    graphFns.animate();
-                    graphAnimated = true;
+                if (!graphAnimated) {
+                    let graphTop = msg.iframeTop + els.co2eGraphContainer.getBoundingClientRect().top
+                    let playGraph = graphTop > 0 && graphTop < (msg.innerHeight * 0.8) ;
+                    if (playGraph) {
+                        graphFns.animate();
+                        graphAnimated = true;
+                    }
                 }
-            }
 
-            window.setTimeout(autoPlay, 200);
-        })
+                window.setTimeout(autoPlay, 200);
+            })
+        } else {
+            graphFns.animate();
+        }
     }
 
     autoPlay();

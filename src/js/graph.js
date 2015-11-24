@@ -107,6 +107,17 @@ function load(el) {
         .attr("dy", "12px")
         .attr("transform", "rotate(-90)")
 
+
+    var path = svg.append('path')
+        .datum([])
+        // .datum(cumulativeData)
+        .attr('class', 'idn-line')
+        .attr('d', line);
+
+    // let linelabel = svg.append("text")
+    //     .attr("class", "idn-label idn-label--linelabel")
+    //     .attr("text-anchor", "start")
+
     let ylabel2 = svg.append("text")
         .attr({
             "class": "idn-y idn-label",
@@ -144,6 +155,12 @@ function load(el) {
             .attr({x: width, y: y(1344.58 * 1000000) - 40})
             .text(height < 250 ? 'Annual CO2e (Mt)' : 'Annual CO2e emissions (metric tons)');
 
+        // linelabel
+        //     .attr({
+        //         y: y(100*1000000), x: 5
+        //     })
+        //     .text('Cumulative CO2e emissions from fires')
+
         countriesText
             .attr({x: width, y: d => y(d.emissions), display: d => d.hideAtSmallSize && height < 250 && 'none'});
 
@@ -156,12 +173,6 @@ function load(el) {
 
         if (animated) animate();
     }
-
-    var path = svg.append('path')
-        .datum([])
-        // .datum(cumulativeData)
-        .attr('class', 'idn-line')
-        .attr('d', line);
 
     function animationFrame(date, instant) {
         var co2e = cumulativeData[date];
