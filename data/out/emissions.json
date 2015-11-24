@@ -245,734 +245,830 @@
   },
   {
     "date": "2015/05/01",
-    "emissions": 2705030
+    "emissions": 378424
   },
   {
     "date": "2015/05/02",
-    "emissions": 1513696
+    "emissions": 224251
   },
   {
     "date": "2015/05/03",
-    "emissions": 2803140
+    "emissions": 126141
   },
   {
     "date": "2015/05/04",
-    "emissions": 2831171
+    "emissions": 392440
   },
   {
     "date": "2015/05/05",
-    "emissions": 2662983
+    "emissions": 280314
   },
   {
     "date": "2015/05/06",
-    "emissions": 3938412
+    "emissions": 911021
   },
   {
     "date": "2015/05/07",
-    "emissions": 1794010
+    "emissions": 252283
   },
   {
     "date": "2015/05/08",
-    "emissions": 2536842
+    "emissions": 686769
   },
   {
     "date": "2015/05/09",
-    "emissions": 1289444
+    "emissions": 420471
   },
   {
     "date": "2015/05/10",
-    "emissions": 2648967
+    "emissions": 812911
   },
   {
     "date": "2015/05/11",
-    "emissions": 1639837
+    "emissions": 476534
   },
   {
     "date": "2015/05/12",
-    "emissions": 1850072
+    "emissions": 462518
   },
   {
     "date": "2015/05/13",
-    "emissions": 2270543
+    "emissions": 490550
   },
   {
     "date": "2015/05/14",
-    "emissions": 1443617
+    "emissions": 350393
   },
   {
     "date": "2015/05/15",
-    "emissions": 2901250
+    "emissions": 168188
   },
   {
     "date": "2015/05/16",
-    "emissions": 1233382
+    "emissions": 154173
   },
   {
     "date": "2015/05/17",
-    "emissions": 2733062
+    "emissions": 504565
   },
   {
     "date": "2015/05/18",
-    "emissions": 1387554
+    "emissions": 308345
   },
   {
     "date": "2015/05/19",
-    "emissions": 3616051
-  },
-  {
-    "date": "2015/05/20",
-    "emissions": 1639837
-  },
-  {
-    "date": "2015/05/21",
-    "emissions": 1667868
-  },
-  {
-    "date": "2015/05/22",
-    "emissions": 2480779
-  },
-  {
-    "date": "2015/05/23",
-    "emissions": 981099
-  },
-  {
-    "date": "2015/05/24",
-    "emissions": 1429601
-  },
-  {
-    "date": "2015/05/25",
-    "emissions": 1822041
-  },
-  {
-    "date": "2015/05/26",
-    "emissions": 2144402
-  },
-  {
-    "date": "2015/05/27",
-    "emissions": 1653853
-  },
-  {
-    "date": "2015/05/28",
-    "emissions": 3952427
-  },
-  {
-    "date": "2015/05/29",
-    "emissions": 4597150
-  },
-  {
-    "date": "2015/05/30",
-    "emissions": 2985344
-  },
-  {
-    "date": "2015/05/31",
-    "emissions": 5368013
-  },
-  {
-    "date": "2015/06/01",
-    "emissions": 2018261
-  },
-  {
-    "date": "2015/06/02",
-    "emissions": 1737947
-  },
-  {
-    "date": "2015/06/03",
-    "emissions": 2214481
-  },
-  {
-    "date": "2015/06/04",
-    "emissions": 3013376
-  },
-  {
-    "date": "2015/06/05",
-    "emissions": 1836057
-  },
-  {
-    "date": "2015/06/06",
-    "emissions": 728816
-  },
-  {
-    "date": "2015/06/07",
-    "emissions": 1177319
-  },
-  {
-    "date": "2015/06/08",
-    "emissions": 1233382
-  },
-  {
-    "date": "2015/06/09",
-    "emissions": 1962198
-  },
-  {
-    "date": "2015/06/10",
-    "emissions": 1387554
-  },
-  {
-    "date": "2015/06/11",
-    "emissions": 2032277
-  },
-  {
-    "date": "2015/06/12",
-    "emissions": 798895
-  },
-  {
-    "date": "2015/06/13",
-    "emissions": 784879
-  },
-  {
-    "date": "2015/06/14",
-    "emissions": 981099
-  },
-  {
-    "date": "2015/06/15",
-    "emissions": 967083
-  },
-  {
-    "date": "2015/06/16",
-    "emissions": 1233382
-  },
-  {
-    "date": "2015/06/17",
-    "emissions": 1317476
-  },
-  {
-    "date": "2015/06/18",
-    "emissions": 1541727
-  },
-  {
-    "date": "2015/06/19",
     "emissions": 630707
   },
   {
+    "date": "2015/05/20",
+    "emissions": 784879
+  },
+  {
+    "date": "2015/05/21",
+    "emissions": 490550
+  },
+  {
+    "date": "2015/05/22",
+    "emissions": 546612
+  },
+  {
+    "date": "2015/05/23",
+    "emissions": 448502
+  },
+  {
+    "date": "2015/05/24",
+    "emissions": 350393
+  },
+  {
+    "date": "2015/05/25",
+    "emissions": 532597
+  },
+  {
+    "date": "2015/05/26",
+    "emissions": 686769
+  },
+  {
+    "date": "2015/05/27",
+    "emissions": 728816
+  },
+  {
+    "date": "2015/05/28",
+    "emissions": 742832
+  },
+  {
+    "date": "2015/05/29",
+    "emissions": 1471649
+  },
+  {
+    "date": "2015/05/30",
+    "emissions": 602675
+  },
+  {
+    "date": "2015/05/31",
+    "emissions": 1779994
+  },
+  {
+    "date": "2015/06/01",
+    "emissions": 406455
+  },
+  {
+    "date": "2015/06/02",
+    "emissions": 840942
+  },
+  {
+    "date": "2015/06/03",
+    "emissions": 686769
+  },
+  {
+    "date": "2015/06/04",
+    "emissions": 364408
+  },
+  {
+    "date": "2015/06/05",
+    "emissions": 574644
+  },
+  {
+    "date": "2015/06/06",
+    "emissions": 224251
+  },
+  {
+    "date": "2015/06/07",
+    "emissions": 154173
+  },
+  {
+    "date": "2015/06/08",
+    "emissions": 70079
+  },
+  {
+    "date": "2015/06/09",
+    "emissions": 168188
+  },
+  {
+    "date": "2015/06/10",
+    "emissions": 126141
+  },
+  {
+    "date": "2015/06/11",
+    "emissions": 252283
+  },
+  {
+    "date": "2015/06/12",
+    "emissions": 98110
+  },
+  {
+    "date": "2015/06/13",
+    "emissions": 182204
+  },
+  {
+    "date": "2015/06/14",
+    "emissions": 378424
+  },
+  {
+    "date": "2015/06/15",
+    "emissions": 252283
+  },
+  {
+    "date": "2015/06/16",
+    "emissions": 490550
+  },
+  {
+    "date": "2015/06/17",
+    "emissions": 280314
+  },
+  {
+    "date": "2015/06/18",
+    "emissions": 658738
+  },
+  {
+    "date": "2015/06/19",
+    "emissions": 182204
+  },
+  {
     "date": "2015/06/20",
-    "emissions": 1219366
+    "emissions": 574644
   },
   {
     "date": "2015/06/21",
-    "emissions": 1387554
+    "emissions": 1079209
   },
   {
     "date": "2015/06/22",
-    "emissions": 1415586
+    "emissions": 981099
   },
   {
     "date": "2015/06/23",
-    "emissions": 3195580
+    "emissions": 2901250
   },
   {
     "date": "2015/06/24",
-    "emissions": 1177319
+    "emissions": 812911
   },
   {
     "date": "2015/06/25",
-    "emissions": 3321721
+    "emissions": 2719046
   },
   {
     "date": "2015/06/26",
-    "emissions": 1499680
+    "emissions": 1079209
   },
   {
     "date": "2015/06/27",
-    "emissions": 5536202
+    "emissions": 4162663
   },
   {
     "date": "2015/06/28",
-    "emissions": 4541087
+    "emissions": 3139517
   },
   {
     "date": "2015/06/29",
-    "emissions": 5452107
+    "emissions": 2789124
   },
   {
     "date": "2015/06/30",
-    "emissions": 6152892
+    "emissions": 3770223
   },
   {
     "date": "2015/07/01",
-    "emissions": 3517941
+    "emissions": 1401570
   },
   {
     "date": "2015/07/02",
-    "emissions": 6152892
+    "emissions": 4106600
   },
   {
     "date": "2015/07/03",
-    "emissions": 3714161
+    "emissions": 2172434
   },
   {
     "date": "2015/07/04",
-    "emissions": 3952427
+    "emissions": 2522826
   },
   {
     "date": "2015/07/05",
-    "emissions": 3812270
+    "emissions": 3349752
   },
   {
     "date": "2015/07/06",
-    "emissions": 7302180
+    "emissions": 6208955
   },
   {
     "date": "2015/07/07",
-    "emissions": 2214481
+    "emissions": 1976214
   },
   {
     "date": "2015/07/08",
-    "emissions": 4120616
+    "emissions": 3840302
   },
   {
     "date": "2015/07/09",
-    "emissions": 4849432
+    "emissions": 4471008
   },
   {
     "date": "2015/07/10",
-    "emissions": 1247397
+    "emissions": 1065193
   },
   {
     "date": "2015/07/11",
-    "emissions": 7610525
+    "emissions": 6755567
   },
   {
     "date": "2015/07/12",
-    "emissions": 2662983
+    "emissions": 2368653
   },
   {
     "date": "2015/07/13",
-    "emissions": 2817156
+    "emissions": 2130386
   },
   {
     "date": "2015/07/14",
-    "emissions": 1583774
+    "emissions": 1177319
   },
   {
     "date": "2015/07/15",
-    "emissions": 3111485
+    "emissions": 2662983
   },
   {
     "date": "2015/07/16",
-    "emissions": 2831171
+    "emissions": 2410700
   },
   {
     "date": "2015/07/17",
-    "emissions": 1878104
+    "emissions": 1625821
   },
   {
     "date": "2015/07/18",
-    "emissions": 2438732
+    "emissions": 2060308
   },
   {
     "date": "2015/07/19",
-    "emissions": 3475894
+    "emissions": 2929281
   },
   {
     "date": "2015/07/20",
-    "emissions": 2214481
+    "emissions": 2060308
   },
   {
     "date": "2015/07/21",
-    "emissions": 3812270
+    "emissions": 3223611
   },
   {
     "date": "2015/07/22",
-    "emissions": 4527071
+    "emissions": 4162663
   },
   {
     "date": "2015/07/23",
-    "emissions": 5494154
+    "emissions": 4751322
   },
   {
     "date": "2015/07/24",
-    "emissions": 4555103
-  },
-  {
-    "date": "2015/07/25",
-    "emissions": 7820761
-  },
-  {
-    "date": "2015/07/26",
-    "emissions": 3602035
-  },
-  {
-    "date": "2015/07/27",
-    "emissions": 5199825
-  },
-  {
-    "date": "2015/07/28",
-    "emissions": 2971328
-  },
-  {
-    "date": "2015/07/29",
-    "emissions": 8311310
-  },
-  {
-    "date": "2015/07/30",
-    "emissions": 4218726
-  },
-  {
-    "date": "2015/07/31",
-    "emissions": 3167548
-  },
-  {
-    "date": "2015/08/01",
-    "emissions": 1541727
-  },
-  {
-    "date": "2015/08/02",
-    "emissions": 4513055
-  },
-  {
-    "date": "2015/08/03",
-    "emissions": 2564873
-  },
-  {
-    "date": "2015/08/04",
-    "emissions": 5297935
-  },
-  {
-    "date": "2015/08/05",
-    "emissions": 2382669
-  },
-  {
-    "date": "2015/08/06",
-    "emissions": 3559988
-  },
-  {
-    "date": "2015/08/07",
-    "emissions": 7414305
-  },
-  {
-    "date": "2015/08/08",
-    "emissions": 2817156
-  },
-  {
-    "date": "2015/08/09",
-    "emissions": 4583134
-  },
-  {
-    "date": "2015/08/10",
-    "emissions": 2831171
-  },
-  {
-    "date": "2015/08/11",
-    "emissions": 12754287
-  },
-  {
-    "date": "2015/08/12",
     "emissions": 3405815
   },
   {
+    "date": "2015/07/25",
+    "emissions": 6587379
+  },
+  {
+    "date": "2015/07/26",
+    "emissions": 3097470
+  },
+  {
+    "date": "2015/07/27",
+    "emissions": 3924396
+  },
+  {
+    "date": "2015/07/28",
+    "emissions": 2620936
+  },
+  {
+    "date": "2015/07/29",
+    "emissions": 7428321
+  },
+  {
+    "date": "2015/07/30",
+    "emissions": 3559988
+  },
+  {
+    "date": "2015/07/31",
+    "emissions": 3279674
+  },
+  {
+    "date": "2015/08/01",
+    "emissions": 1065193
+  },
+  {
+    "date": "2015/08/02",
+    "emissions": 4456993
+  },
+  {
+    "date": "2015/08/03",
+    "emissions": 1527711
+  },
+  {
+    "date": "2015/08/04",
+    "emissions": 5536202
+  },
+  {
+    "date": "2015/08/05",
+    "emissions": 1779994
+  },
+  {
+    "date": "2015/08/06",
+    "emissions": 3293690
+  },
+  {
+    "date": "2015/08/07",
+    "emissions": 6783599
+  },
+  {
+    "date": "2015/08/08",
+    "emissions": 2466763
+  },
+  {
+    "date": "2015/08/09",
+    "emissions": 4513055
+  },
+  {
+    "date": "2015/08/10",
+    "emissions": 2074324
+  },
+  {
+    "date": "2015/08/11",
+    "emissions": 12544052
+  },
+  {
+    "date": "2015/08/12",
+    "emissions": 3139517
+  },
+  {
     "date": "2015/08/13",
-    "emissions": 4218726
+    "emissions": 4891479
   },
   {
     "date": "2015/08/14",
-    "emissions": 3994475
+    "emissions": 5634311
   },
   {
     "date": "2015/08/15",
-    "emissions": 6377144
+    "emissions": 6349112
   },
   {
     "date": "2015/08/16",
-    "emissions": 17449547
+    "emissions": 16804824
   },
   {
     "date": "2015/08/17",
-    "emissions": 9110205
+    "emissions": 7498400
   },
   {
     "date": "2015/08/18",
-    "emissions": 13987669
+    "emissions": 12866413
   },
   {
     "date": "2015/08/19",
-    "emissions": 16720730
+    "emissions": 14281998
   },
   {
     "date": "2015/08/20",
-    "emissions": 14085779
+    "emissions": 15557427
   },
   {
     "date": "2015/08/21",
-    "emissions": 7400290
+    "emissions": 6307065
   },
   {
     "date": "2015/08/22",
-    "emissions": 12796334
+    "emissions": 11633031
   },
   {
     "date": "2015/08/23",
-    "emissions": 11675078
+    "emissions": 10553822
   },
   {
     "date": "2015/08/24",
-    "emissions": 8577608
+    "emissions": 7470368
   },
   {
     "date": "2015/08/25",
-    "emissions": 17183248
+    "emissions": 17029076
   },
   {
     "date": "2015/08/26",
-    "emissions": 6279034
+    "emissions": 5970688
   },
   {
     "date": "2015/08/27",
-    "emissions": 6152892
+    "emissions": 6895724
   },
   {
     "date": "2015/08/28",
-    "emissions": 8675718
+    "emissions": 7694619
   },
   {
     "date": "2015/08/29",
-    "emissions": 14267983
+    "emissions": 13847512
   },
   {
     "date": "2015/08/30",
-    "emissions": 21724335
+    "emissions": 21401974
   },
   {
     "date": "2015/08/31",
-    "emissions": 14394124
+    "emissions": 14225936
   },
   {
     "date": "2015/09/01",
-    "emissions": 28423840
+    "emissions": 29545096
   },
   {
     "date": "2015/09/02",
-    "emissions": 19159462
+    "emissions": 18598834
   },
   {
     "date": "2015/09/03",
-    "emissions": 21037566
+    "emissions": 24919915
   },
   {
     "date": "2015/09/04",
-    "emissions": 14492234
+    "emissions": 13777433
   },
   {
     "date": "2015/09/05",
-    "emissions": 19145446
+    "emissions": 20939456
   },
   {
     "date": "2015/09/06",
-    "emissions": 19930325
+    "emissions": 19481823
   },
   {
     "date": "2015/09/07",
-    "emissions": 15977898
+    "emissions": 16608605
   },
   {
     "date": "2015/09/08",
-    "emissions": 42593712
+    "emissions": 45831339
   },
   {
     "date": "2015/09/09",
-    "emissions": 25592668
+    "emissions": 25088103
   },
   {
     "date": "2015/09/10",
-    "emissions": 31114854
+    "emissions": 33623664
   },
   {
     "date": "2015/09/11",
-    "emissions": 18949226
+    "emissions": 18192379
   },
   {
     "date": "2015/09/12",
-    "emissions": 18668912
+    "emissions": 18332536
   },
   {
     "date": "2015/09/13",
-    "emissions": 22957717
+    "emissions": 22537246
   },
   {
     "date": "2015/09/14",
-    "emissions": 30736430
+    "emissions": 30133755
   },
   {
     "date": "2015/09/15",
-    "emissions": 19874263
+    "emissions": 19734106
   },
   {
     "date": "2015/09/16",
-    "emissions": 7540447
+    "emissions": 7680604
   },
   {
     "date": "2015/09/17",
-    "emissions": 10707995
+    "emissions": 15725615
   },
   {
     "date": "2015/09/18",
-    "emissions": 16720730
+    "emissions": 16160102
   },
   {
     "date": "2015/09/19",
-    "emissions": 16832856
+    "emissions": 23111889
   },
   {
     "date": "2015/09/20",
-    "emissions": 13441056
+    "emissions": 12137596
   },
   {
     "date": "2015/09/21",
-    "emissions": 37506013
+    "emissions": 41906943
   },
   {
     "date": "2015/09/22",
-    "emissions": 33441460
+    "emissions": 36286647
   },
   {
     "date": "2015/09/23",
-    "emissions": 42467571
+    "emissions": 47064721
   },
   {
     "date": "2015/09/24",
-    "emissions": 35726019
+    "emissions": 41892927
   },
   {
     "date": "2015/09/25",
-    "emissions": 8339342
+    "emissions": 7708635
   },
   {
     "date": "2015/09/26",
-    "emissions": 19019305
+    "emissions": 20364812
   },
   {
     "date": "2015/09/27",
-    "emissions": 11240591
+    "emissions": 9965163
   },
   {
     "date": "2015/09/28",
-    "emissions": 10287524
+    "emissions": 10834136
   },
   {
     "date": "2015/09/29",
-    "emissions": 9796974
+    "emissions": 8998079
   },
   {
     "date": "2015/09/30",
-    "emissions": 17954112
+    "emissions": 21121660
   },
   {
     "date": "2015/10/01",
-    "emissions": 17940096
+    "emissions": 21794414
   },
   {
     "date": "2015/10/02",
-    "emissions": 29432970
+    "emissions": 29769347
   },
   {
     "date": "2015/10/03",
-    "emissions": 26587783
+    "emissions": 29601158
   },
   {
     "date": "2015/10/04",
-    "emissions": 15851757
+    "emissions": 16019945
   },
   {
     "date": "2015/10/05",
-    "emissions": 19075368
+    "emissions": 25256291
   },
   {
     "date": "2015/10/06",
-    "emissions": 13020585
+    "emissions": 12502004
   },
   {
     "date": "2015/10/07",
-    "emissions": 19537886
+    "emissions": 21415990
   },
   {
     "date": "2015/10/08",
-    "emissions": 11689094
+    "emissions": 11759172
   },
   {
     "date": "2015/10/09",
-    "emissions": 21500084
+    "emissions": 23924800
   },
   {
     "date": "2015/10/10",
-    "emissions": 18626865
+    "emissions": 20406859
   },
   {
     "date": "2015/10/11",
-    "emissions": 8745797
+    "emissions": 8801860
   },
   {
     "date": "2015/10/12",
-    "emissions": 10932246
+    "emissions": 14478218
   },
   {
     "date": "2015/10/13",
-    "emissions": 13370978
+    "emissions": 13174758
   },
   {
     "date": "2015/10/14",
-    "emissions": 55754455
+    "emissions": 66013947
   },
   {
     "date": "2015/10/15",
-    "emissions": 23826690
+    "emissions": 24835820
   },
   {
     "date": "2015/10/16",
-    "emissions": 26629830
+    "emissions": 32838785
   },
   {
     "date": "2015/10/17",
-    "emissions": 24429365
+    "emissions": 25886998
   },
   {
     "date": "2015/10/18",
-    "emissions": 21626225
+    "emissions": 21668272
   },
   {
     "date": "2015/10/19",
-    "emissions": 37772312
+    "emissions": 45074491
   },
   {
     "date": "2015/10/20",
-    "emissions": 24121020
+    "emissions": 24471412
   },
   {
     "date": "2015/10/21",
-    "emissions": 29278797
+    "emissions": 38010578
   },
   {
     "date": "2015/10/22",
-    "emissions": 14380108
+    "emissions": 13973653
   },
   {
     "date": "2015/10/23",
-    "emissions": 35207438
+    "emissions": 40561436
   },
   {
     "date": "2015/10/24",
-    "emissions": 16061992
+    "emissions": 16496479
   },
   {
     "date": "2015/10/25",
-    "emissions": 20533001
+    "emissions": 20042451
   },
   {
     "date": "2015/10/26",
-    "emissions": 16230181
+    "emissions": 16622620
   },
   {
     "date": "2015/10/27",
-    "emissions": 7736666
+    "emissions": 7119976
   },
   {
     "date": "2015/10/28",
-    "emissions": 7806745
+    "emissions": 8213200
   },
   {
     "date": "2015/10/29",
-    "emissions": 5802500
+    "emissions": 4527071
   },
   {
     "date": "2015/10/30",
-    "emissions": 5213840
+    "emissions": 5592264
+  },
+  {
+    "date": "2015/10/31",
+    "emissions": 5003605
+  },
+  {
+    "date": "2015/11/01",
+    "emissions": 5872578
+  },
+  {
+    "date": "2015/11/02",
+    "emissions": 7133991
+  },
+  {
+    "date": "2015/11/03",
+    "emissions": 6251002
+  },
+  {
+    "date": "2015/11/04",
+    "emissions": 7021866
+  },
+  {
+    "date": "2015/11/05",
+    "emissions": 4414946
+  },
+  {
+    "date": "2015/11/06",
+    "emissions": 4793369
+  },
+  {
+    "date": "2015/11/07",
+    "emissions": 2172434
+  },
+  {
+    "date": "2015/11/08",
+    "emissions": 2775109
+  },
+  {
+    "date": "2015/11/09",
+    "emissions": 4148647
+  },
+  {
+    "date": "2015/11/10",
+    "emissions": 3503925
+  },
+  {
+    "date": "2015/11/11",
+    "emissions": 2494795
+  },
+  {
+    "date": "2015/11/12",
+    "emissions": 2200465
+  },
+  {
+    "date": "2015/11/13",
+    "emissions": 1864088
+  },
+  {
+    "date": "2015/11/14",
+    "emissions": 2915266
+  },
+  {
+    "date": "2015/11/15",
+    "emissions": 4849432
+  },
+  {
+    "date": "2015/11/16",
+    "emissions": 2186449
+  },
+  {
+    "date": "2015/11/17",
+    "emissions": 3770223
+  },
+  {
+    "date": "2015/11/18",
+    "emissions": 2522826
+  },
+  {
+    "date": "2015/11/19",
+    "emissions": 3181564
+  },
+  {
+    "date": "2015/11/20",
+    "emissions": 4569118
+  },
+  {
+    "date": "2015/11/21",
+    "emissions": 2186449
+  },
+  {
+    "date": "2015/11/22",
+    "emissions": 4022506
+  },
+  {
+    "date": "2015/11/23",
+    "emissions": 1653853
   }
 ]
