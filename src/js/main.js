@@ -56,6 +56,17 @@ function load(features) {
     };
 
 
+    els.firesVideo.innerHTML = window.innerWidth > 700 ?
+        '<source src="src/video/fires.mp4" type="video/mp4" />' :
+        '<source src="src/video/fires-small.mp4" type="video/mp4"/>';
+
+    els.sumatraVideo.innerHTML = window.innerWidth > 700 ?
+        '<source src="src/video/sumatra.mp4" type="video/mp4" />' :
+        '<source src="src/video/sumatra-small.mp4" type="video/mp4" />';
+
+
+
+
     function playBtnEvtHandler(evt) {
     }
 
@@ -82,7 +93,7 @@ function load(features) {
 
     (function () { // MAIN TIMELAPSE
         let lastDateStr;
-        let startDate = new Date('2015/07/01'), endDate = new Date('2015/11/13'),
+        let startDate = new Date('2015/07/01'), endDate = new Date('2015/11/23'),
             timespan = endDate - startDate;
         let updateDate = () => {
             let newDate = startDate;
@@ -103,7 +114,7 @@ function load(features) {
 
     (function () { // SUMATRA TIMELAPSE
         let lastDateStr;
-        let startDate = new Date('2015/09/01'), endDate = new Date('2015/11/13'),
+        let startDate = new Date('2015/09/01'), endDate = new Date('2015/11/23'),
             timespan = endDate - startDate;
         let updateDate = () => {
             let newDate = startDate;
@@ -124,7 +135,7 @@ function load(features) {
 
     (function () { // EMISSIONS VIDEO
         let lastDateStr;
-        let startDate = new Date('2015/09/01'), endDate = new Date('2015/11/14'),
+        let startDate = new Date('2015/09/01'), endDate = new Date('2015/11/23'),
             timespan = endDate - startDate;
         let updateDate = () => {
             let newDate = startDate;

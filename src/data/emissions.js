@@ -25,7 +25,7 @@ function main() {
 		[94.54439575802559, -5.920674895078703]
 	]
 
-	let fires = require(path.join(dataDir, 'fires.json'));
+	let fires = require(path.join(dataDir, 'indofires.json'));
 	let numFiresByDate = _(fires.features)
 		.groupBy(d => d.properties.ACQ_DATE)
 		.mapValues(arr => arr.length)
@@ -49,7 +49,7 @@ function main() {
 		return dates;
 	}
 
-	let out = dateRange('2015/03/01', '2015/10/30').map(date => {
+	let out = dateRange('2015/03/01', '2015/11/23').map(date => {
 		return {
 			date: date,
 			emissions: Math.round(numFiresByDate[date] * co2PerFire)

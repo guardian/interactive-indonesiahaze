@@ -239,6 +239,9 @@ svg {
         font-size: 9px;
         width: 52px;
         height: 52px;
+        @include mq($until: mobileLandscape) {
+            left: 10%;
+        }
         @include mq(mobileLandscape) {
             font-size: 13px;
             width: 75px;
@@ -345,6 +348,13 @@ svg {
     max-width: 1260px;
     margin-bottom: 48px;
     overflow: hidden;
+    @include mq($until: mobileLandscape) {
+        margin-left: -20%;
+        margin-right: -10%;
+        .idn-map__heading {
+            margin-right: 8%;
+        }
+    }
 }
 
 .idn-fires__inner {
@@ -376,15 +386,20 @@ svg {
 
 
 .idn-sumatra__zoombox__label {
-    width: 100%;
+    // width: 100%;
     position: absolute;
     top: 100%;
-    margin-top: 2px;
+    margin-top: 4px;
     z-index: 2;
     @include fs-textSans(2);
     color: #767676;
+    white-space: nowrap;
+    left: -50px; right: -50px;
+    text-align: center;
+    width: auto;
     @include mq($until: tablet) {
-        display: none;
+        font-size: 10px;
+        line-height: 14px;
     }
 }
 
@@ -451,7 +466,7 @@ svg {
 
 .idn-sumatra {
     @include mq(wide) {
-        max-width: 720px;
+        max-width: 800px;
     }
 }
 
@@ -596,10 +611,11 @@ svg {
 
 .idn-breakdown {
     width: 266px;
+    margin-bottom: -372px;
     position: relative;
     padding-left: 120px;
     @include mq($until: wide) {
-        padding-top: 24px;
+        // padding-top: 24px;
         clear: both;
     }
     @include mq(wide) {
@@ -629,9 +645,9 @@ svg {
     }
     li {
         position: absolute;
-        &:nth-child(1) { top: 10%; }
-        &:nth-child(2) { top: 23%; }
-        &:nth-child(3) { top: 37%; }
+        &:nth-child(1) { top: 6.5%; }
+        &:nth-child(2) { top: 20%; }
+        &:nth-child(3) { top: 34.5%; }
         &:nth-child(4) { top: 56%; }
         &:nth-child(5) { top: 83%; }
     }

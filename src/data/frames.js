@@ -304,7 +304,7 @@ function main() {
             projection: bigTimelapseProjection,
             fires:features.filteredfires.features,
             width: width, height: height,
-            startDate: new Date('2015/07/01'), endDate: new Date('2015/11/13'),
+            startDate: new Date('2015/07/01'), endDate: new Date('2015/11/23'),
             duration: 15000, fps: 20, bgUrl: __dirname + '/../img/indonesia-bg.png'
         });
 
@@ -312,7 +312,7 @@ function main() {
     }
 
     function sumatraTimelapse() {
-        let sumatraWidth = 620, sumatraHeight = 500;
+        let sumatraWidth = 775, sumatraHeight = 625;
         var sumatraTimelapseProjection = d3.geo.mercator()
             .center([105.2, -3.1]) //-2.739543, 105.554825
             .scale(sumatraWidth*28)
@@ -329,13 +329,13 @@ function main() {
             // },
             radiusMultiplier: 4.5,
             bgUrl: __dirname  + '/../img/sumatra-satellite.png',
-            startDate: new Date('2015/09/01'), endDate: new Date('2015/11/13'),
+            startDate: new Date('2015/09/01'), endDate: new Date('2015/11/23'),
             duration: 10000, fps: 20
         });
         sumatraTimelapse.go();
     }
 
-    mainTimelapse();
+    // mainTimelapse();
     sumatraTimelapse();
 }
 

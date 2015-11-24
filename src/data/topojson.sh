@@ -33,13 +33,16 @@ DATAOUT="$ROOTDIR/data/out"
 #   $DATAOUT/logging.json \
 #   $DATAIN/logging/GFW_logging_20131023.shp
 
+rm $DATAOUT/merged_fires.shp
+rm $DATAOUT/fires.json
+ogr2ogr -f "ESRI Shapefile" $DATAOUT/merged_fires.shp $DATAIN/nasa2/firms281271447607437_NRT.shp
+ogr2ogr -f "ESRI Shapefile" -update -append $DATAOUT/merged_fires.shp $DATAIN/nasa3/firms284631448365501_NRT.shp -nln merged_fires
+
 ogr2ogr \
   -overwrite \
   -f GeoJSON \
   $DATAOUT/fires.json \
-  $DATAIN/nasa2/firms281271447607437_NRT.shp
-#   $DATAIN/nasa/firms275521446295496_NRT.shp
-
+  $DATAOUT/merged_fires.shp
 
 # ogr2ogr \
 #   -overwrite \

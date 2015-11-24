@@ -54,7 +54,7 @@ def window(seq, n=2):
     it = iter(seq)
     result = tuple(islice(it, n))
     if len(result) == n:
-        yield result    
+        yield result
     for elem in it:
         result = result[1:] + (elem,)
         yield result
@@ -62,7 +62,8 @@ def window(seq, n=2):
 if __name__ == "__main__":
     # output color range
     start_lch = rgb_to_lch('#fdfaf5')
-    end_lch = rgb_to_lch('#ad4300')
+    # end_lch = rgb_to_lch('#ad4300')
+    end_lch = rgb_to_lch('#993B00')
     window_size = 6
 
     thisdir = path.dirname(path.realpath(__file__))

@@ -66,7 +66,7 @@ function load(el) {
     var line = d3.svg.line().x(d => x(d.date)).y(d => y(d.emissions));
 
     x.domain(d3.extent(cumulativeData, d => d.date)).nice();
-    y.domain([0, d3.max(cumulativeData, d => d.emissions) * 1.05]);
+    y.domain([0, d3.max(cumulativeData, d => d.emissions) * 1.10]);
 
     let xaxis = svg.append('g')
         .attr('class', 'idn-x idn-axis');
@@ -132,12 +132,14 @@ function load(el) {
             .attr("height", height + margin.top + margin.bottom)
         xaxis.attr('transform', 'translate(0,' + height + ')')
 
-        xAxis.ticks(width < 300 ? 3 : 4)
-            .tickFormat(d3.time.format(width < 450 ? '%b' : '%B'))
+        xAxis.ticks(width < 300 ? 3 : 5)
+            .tickFormat(d3.time.format(width < 800   ? '%b' : '%B'))
+
+        yAxis.ticks(height < 250 ? 4 : 10)
 
         ylabel
-            .attr("dx", height/-1.7)
-            .text(height < 250 ? 'CO2e (Mt)' : 'CO2e emissions (metric tons)');
+            .attr("dx", height/-1.8)
+            .text(height < 250 ? 'Fires CO2e (Mt)' : 'Fires CO2e emissions (metric tons)');
 
         ylabel2
             .attr({dx: height/-1.8, x: width, 'transform': `rotate(-90, ${width}, 0)`})
