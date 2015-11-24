@@ -14,6 +14,7 @@ function main() {
 		.filter(f => isPointInsideFeature(f, idn))
 
 	firesgeo.features = indofiresFeatures;
+	console.log(`${firesgeo.features.length} fires in indonesia`)
 	fs.writeFileSync(outpath('indofires.json'), JSON.stringify(firesgeo, null, 2));
 }
 
