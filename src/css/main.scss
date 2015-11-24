@@ -487,15 +487,18 @@ svg {
 }
 
 .idn-co2e-graph {
-    width: calc(100% - 10px);
+    // width: calc(100% - 10px);
     height: 0;
-    padding-bottom: 50%;
+    padding-bottom: 70%;
+    @include mq(tablet) {
+        padding-bottom: 50%;
+    }
     position: relative;
     // margin-bottom: 48px;
     // float: left;
 
     @include mq(desktop) {
-        margin-left: -50px;
+        // margin-left: -50px;
     }
 
     svg {
@@ -587,17 +590,17 @@ svg {
 }
 .idn-y, .idn-x {
     text {
-        fill: #767676;
+        fill: #999999;
     }
     .tick line {
-        stroke: #767676;
+        stroke: #999999;
     }
 }
 .idn-y.idn-label {
     stroke-width: 10;
     stroke: #fff;
     paint-order: stroke;
-    fill: #767676;
+    fill: #999999;
 }
 
 .idn-x.idn-axis {
@@ -610,6 +613,7 @@ svg {
 }
 
 .idn-breakdown {
+    display: none;
     width: 266px;
     margin-bottom: -372px;
     position: relative;
@@ -835,12 +839,74 @@ svg {
 
 .idn-haze-picture--2 {
     width: calc(50% - 2px);
-    margin-right: 4px;
     float: left;
 }
 
 .idn-haze-picture--3 {
     width: calc(50% - 2px);
+    margin-right: 4px;
     float: left;
 }
 
+
+.idn-breakdown2-container {
+    overflow: hidden;
+}
+
+.idn-breakdown2 {
+    width: 195%;
+    @include mq(desktop) {
+        width: 170%;
+    }
+    > h3 {
+        color: #767676;
+        clear: both;
+        @include fs-bodyHeading(2);
+        line-height: 20px;
+        margin: 6px 0;
+    }
+    ul {
+
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        li {
+            float: left;
+            text-align: center;
+        }
+    }
+    .idn-breakdown2__labels {
+        color: #767676;
+        @include fs-bodyHeading(1);
+    }
+    .idn-breakdown2__land,
+    .idn-breakdown2__fires {
+        color: #f7f7f7;
+        @include fs-textSans(3);
+        display: block;
+        clear: both;
+        overflow: hidden;
+        li {
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+        }
+        li:first-child { background: #EBC1CB; }
+        li:nth-child(2) { background: #C97D8A; }
+        li:nth-child(3) { background: #964F5D; }
+    }
+
+    .idn-breakdown2__land {
+        li:nth-child(1) { margin: 0 2.36%; }
+        li:nth-child(2) { margin: 0 calc(6.29% + 10px); }
+    }
+
+
+    .idn-breakdown2__fires {
+        li:nth-child(2) { margin: 0 10px; }
+        li:nth-child(3) { margin: 0 4.45%; }
+    }
+
+
+
+}

@@ -41,7 +41,7 @@ Date.prototype.addDays = function(days) {
 
 function load(el) {
 
-    const margin = {top: 0, right: 10, bottom: 30, left: 50}
+    const margin = {top: 0, right: 0, bottom: 30, left: 50}
 
 
     var cumulativeCO2e = 0;
@@ -58,14 +58,14 @@ function load(el) {
       .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    var x = d3.time.scale()
+    var x = d3.time.scale();
     var y = d3.scale.linear()
     var xAxis = d3.svg.axis().scale(x).orient('bottom');
     var yAxis = d3.svg.axis().scale(y).orient('left').tickFormat(d3.format('s'));
 
     var line = d3.svg.line().x(d => x(d.date)).y(d => y(d.emissions));
 
-    x.domain(d3.extent(cumulativeData, d => d.date)).nice();
+    x.domain(d3.extent(cumulativeData, d => d.date));
     y.domain([0, d3.max(cumulativeData, d => d.emissions) * 1.10]);
 
     let xaxis = svg.append('g')
@@ -97,7 +97,7 @@ function load(el) {
         .data(countries)
     countriesText.enter()
         .append('text')
-        .attr({'class': 'idn-preset__country', 'dy': '0.3em', 'dx': -20})
+        .attr({'class': 'idn-preset__country', 'dy': '0.3em'/*, 'dx': -20*/})
         .text(d => d.name)
 
     let ylabel = svg.append("text")
@@ -110,10 +110,9 @@ function load(el) {
     let ylabel2 = svg.append("text")
         .attr({
             "class": "idn-y idn-label",
-            "fill": "#767676",
-            "text-anchor": "middle",
-            "y": 0, "dy": "10px",
-            "transform": "rotate(-90)"
+            "text-anchor": "end",
+            /*"dx": -20,*/
+            "y": 0, "dy": "10px"
         })
 
     let resize = () => {
@@ -139,10 +138,10 @@ function load(el) {
 
         ylabel
             .attr("dx", height/-1.8)
-            .text(height < 250 ? 'Fires CO2e (Mt)' : 'Fires CO2e emissions (metric tons)');
+            .text(height < 250 ? 'CO2e (Mt)' : 'CO2e emissions (metric tons)');
 
         ylabel2
-            .attr({dx: height/-1.8, x: width, 'transform': `rotate(-90, ${width}, 0)`})
+            .attr({x: width, y: y(1344.58 * 1000000) - 40})
             .text(height < 250 ? 'Annual CO2e (Mt)' : 'Annual CO2e emissions (metric tons)');
 
         countriesText
