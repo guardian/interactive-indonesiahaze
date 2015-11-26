@@ -104,8 +104,8 @@
             </svg>
         </div>
 
-        <div class="idn-breakdown2-container">
-            <div class="idn-breakdown2">
+        <div class="idn-breakdown3-container">
+            <div class="idn-breakdown3">
                 <!-- <h2>% of land</h2>
                 <h2>% of fires</h2>
                 <ul>
@@ -113,23 +113,17 @@
                     <li>Pulpwood</li>
                     <li>Logging</li>
                 </ul> -->
-                <h3>% of land</h3>
-                <ul class="idn-breakdown2__land">
-                    <li style="width:7.92%;">7.9%</li>
-                    <li style="width:6.15%;">6.2%</li>
-                    <li style="width:14.44%;">14.4%</li>
+                <h3>% of total land area</h3>
+                <ul class="idn-breakdown3__type">
+                    {{~it.breakdown :d:i}}
+                    <li style="width: {{=d.max}}%">
+                        <div style="width: {{=d.landWidth}}%; background: {{=d.color}}">{{=d.land.toFixed(1)}}%</div>
+                        <div>{{=d.type}}</div>
+                        <div style="width: {{=d.firesWidth}}%; background: {{=d.color}}">{{=d.fires.toFixed(1)}}%</div>
+                    </li>
+                    {{~}}
                 </ul>
-                <ul class="idn-breakdown2__labels">
-                    <li style="width:12.64%;">Palm oil</li>
-                    <li style="width:18.73%; margin: 0 10px;">Pulpwood</li>
-                    <li style="width:14.44%;">Logging</li>
-                </ul>
-                <ul class="idn-breakdown2__fires">
-                    <li style="width:12.64%;">12.6%</li>
-                    <li style="width:18.73%;">18.7%</li>
-                    <li style="width:5.54%;">5.5%</li>
-                </ul>
-                <h3>% of fires</h3>
+                <h3>% of fires detected on that land</h3>
             </div>
 
         </div>
@@ -148,7 +142,7 @@
                     <span class="idn-sumatra__date"></span>
                 </div>
                 <div class="idn-sumatra__label idn-sumatra__label--concession">Concession areas</div>
-                <div class="idn-sumatra__label idn-sumatra__label--sinar">Onwed by Asia Pulp &amp; Paper</div>
+                <div class="idn-sumatra__label idn-sumatra__label--sinar">Owned by Asia Pulp &amp; Paper</div>
                 <div class="idn-sumatra__label idn-sumatra__label--palembang">Palembang</div>
 
                 <video class="idn-sumatra__video" poster="src/video/sumatra.png">

@@ -31,6 +31,22 @@ Date.prototype.addDays = function(days) {
     return dat;
 }
 
+let breakdownData = [
+    {type: 'Palm oil', color: '#EBC1CB', land: 7.92, fires: 12.64},
+    {type: 'Pulpwood', color: '#C97D8A', land: 6.15, fires: 18.73},
+    {type: 'Logging', color: '#964F5D', land: 14.44, fires: 5.54},
+    {type: 'Moratorium', color: '#bdbdbd', land: 33.40, fires: 30.00},
+    {type: 'Other', color: '#bdbdbd', land: 38.09, fires: 33.0}
+];
+
+let processedBreakdownData = breakdownData
+    .map(d => {
+        d.max = Math.max(d.land, d.fires);
+        d.landWidth = d.land > d.fires ? 100 : (d.land / d.fires) * 100;
+        d.firesWidth = d.fires > d.land ? 100 : (d.fires / d.land) * 100;
+        return d;
+    })
+
 function load(features) {
 
     var container = d3.select("#map-container");
@@ -223,6 +239,6 @@ domready(() => {
     if (document.readyState !== 'complete') window.addEventListener('load', evt => resize());
     else resize();
 
-    document.body.innerHTML = renderMainTemplate();
+    document.body.innerHTML = renderMainTemplate({breakdown: processedBreakdownData});
 
 })
