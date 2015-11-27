@@ -1,12 +1,38 @@
-var fs = require('fs')
+var fs = require('fs');
+var ini = require('ini')
+var path = require('path')
+
+function getAWSCredentials(grunt, cfg) {
+    var awsCredentialsFilePath = cfg.credentialsFile.replace('$HOME', process.env['HOME']);
+    if (!fs.existsSync(awsCredentialsFilePath)) {
+        grunt.log.warn('Credentials file missing: ' + awsCredentialsFilePath);
+        return
+    }
+    var iniFile = ini.parse(fs.readFileSync(awsCredentialsFilePath, 'utf-8'));
+    if (iniFile[cfg.profile]) {
+        grunt.log.ok('Using AWS credentials ' + cfg.profile + ' profile');
+        return iniFile[cfg.profile];
+    }
+
+    grunt.log.warn('AWS Credentials profile ' + cfg.profile + ' does not exist. Using default credentials.')
+    return iniFile.default;
+}
 
 module.exports = function(grunt) {
 
     require('jit-grunt')(grunt);
 
+    var deploy = require('./deploy.json');
+    deploy.versionedPath = path.join(deploy.path, Date.now().toString());
+    var awsCredentials = getAWSCredentials(grunt, deploy);
+
     grunt.initConfig({
 
         watch: {
+            inlinejs: {
+                files: ['src/js/**/*', 'src/templates/**/*', '!src/js/boot.js'],
+                tasks: ['shell:inlinedev'],
+            },
             css: {
                 files: ['src/css/**/*'],
                 tasks: ['sass'],
@@ -32,36 +58,54 @@ module.exports = function(grunt) {
             options: {
                 execOptions: { cwd: '.' }
             },
-            main: {
-                command: './node_modules/.bin/jspm bundle-sfx -m src/js/main build/main.js'
+            inlinedev: {
+                command: './node_modules/.bin/jspm bundle-sfx src/js/main build/main.js --format amd'
+            },
+            inlineprod: {
+                command: './node_modules/.bin/jspm bundle-sfx -m src/js/main build/main.js --format amd'
             }
         },
 
-        aws: grunt.file.readJSON('./aws-keys.json'),
+
+        template: {
+            'bootjsdev': {
+                'options': { 'data': { 'assetPath': '' } },
+                'files': { 'build/boot.js': ['src/js/boot.js'] }
+            },
+            'bootjsprod': {
+                'options': { 'data': { 'assetPath': deploy.domain + deploy.versionedPath } },
+                'files': { 'build/boot.js': ['src/js/boot.js'] }
+            }
+        },
 
         aws_s3: {
             options: {
-                accessKeyId: '<%= aws.AWSAccessKeyId %>',
-                secretAccessKey: '<%= aws.AWSSecretKey %>',
+                accessKeyId: awsCredentials.aws_access_key_id,
+                secretAccessKey: awsCredentials.aws_secret_access_key,
                 region: 'us-east-1',
                 uploadConcurrency: 10, // 5 simultaneous uploads
                 downloadConcurrency: 10, // 5 simultaneous downloads
                 debug: grunt.option('dry'),
-                bucket: 'gdn-cdn',
+                bucket: deploy.bucket,
                 differential: true
             },
-            production: {
+            inline: {
                 files: [
+                    {
+                        expand: true,
+                        cwd: 'build',
+                        src: [ 'boot.js' ],
+                        dest: deploy.path,
+                        params: { CacheControl: 'max-age=5' }
+                    },
                     {
                         expand: true,
                         cwd: '.',
                         src: [
-                            'prod.html', 'build/main.js', 'build/main.js.map', 'build/main.css', 'build/main.css.map',
+                            'prod.html', 'build/boot.js', 'build/main.js', 'build/main.js.map', 'build/main.css', 'build/main.css.map',
                             'src/img/**/*', 'src/video/**/*',
-                            // data
-                            'data/out/indonesia.topojson',
                         ],
-                        dest: 'embed/indonesia/',
+                        dest: deploy.versionedPath,
                         params: { CacheControl: 'max-age=60' }
                     }
                 ]
@@ -77,6 +121,7 @@ module.exports = function(grunt) {
                     middleware: function (connect, options, middlewares) {
                         // inject a custom middleware http://stackoverflow.com/a/24508523
                         middlewares.unshift(function (req, res, next) {
+                            // console.log('req');
                             if (req.url === '/') req.url = '/test.html';
                             res.setHeader('Access-Control-Allow-Origin', '*');
                             res.setHeader('Access-Control-Allow-Methods', '*');
@@ -93,7 +138,13 @@ module.exports = function(grunt) {
         }
     });
 
+    grunt.registerTask('boot_url', function() {
+        grunt.log.write('\nBOOT URL: '['green'].bold)
+        grunt.log.writeln(deploy.domain + deploy.path + '/boot.js');
+    })
+
     grunt.registerTask('build', ['clean', 'sass'])
-    grunt.registerTask('deploy', ['build', 'shell', 'aws_s3:production']);
+    grunt.registerTask('deploy', ['clean', 'sass', 'template:bootjsprod', 'shell:inlineprod', 'aws_s3:inline', 'boot_url']);
     grunt.registerTask('default', ['build', 'connect', 'watch']);
+    grunt.registerTask('dev', ['clean', 'sass', 'shell:inlinedev', 'template:bootjsdev', 'connect', 'watch']);
 }

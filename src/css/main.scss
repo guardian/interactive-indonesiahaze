@@ -5,6 +5,8 @@
     max-width: 1300px;
     background: white;
     margin: auto;
+    width: 100%;
+    overflow: hidden;
 }
 
 .idn-content {
@@ -51,6 +53,7 @@
     padding-right: 10px;
     padding-top: 6px;
     font-size: 24px;
+    white-space: nowrap;
     @include mq(mobileLandscape) { font-size: 28px; }
     @include mq(tablet) { font-size: 32px; }
     @include mq(desktop) { font-size: 38px; }
@@ -172,9 +175,9 @@ svg {
   fill: none;
   stroke: steelblue;
   stroke-width: 1.5px;
-  stroke-dasharray: 1200;
-  stroke-dashoffset: 1200;
-  animation: test 2s linear forwards;
+  // stroke-dasharray: 1200;
+  // stroke-dashoffset: 1200;
+  // animation: test 2s linear forwards;
 }
 
 .idn-preset__line {
@@ -490,7 +493,7 @@ svg {
     margin-right: 24px;
     width: 100%;
 
-    video {
+    video, canvas {
         position: absolute;
         top: 0;
         left: 0;
@@ -812,9 +815,15 @@ svg {
         width: 180%;
     }
     > h3 {
-        @include fs-header(1);
+        @include f-header;
+        font-size: 14px;
+        line-height: 18px;
         margin: 6px 0;
         color: #767676;
+        @include mq(mobileLandscape) {
+            font-size: 16px;
+            line-height: 20px;
+        }
     }
 }
 
@@ -850,5 +859,20 @@ svg {
                 display: none;
             }
         }
+    }
+}
+
+.idn-canvasvideo {
+    display: none;
+
+}
+.idn-content--canvasvideo {
+
+    .idn-canvasvideo {
+        display: block;
+    }
+
+    .idn-video {
+        display: none;
     }
 }

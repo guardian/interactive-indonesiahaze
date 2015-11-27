@@ -36,7 +36,7 @@
 
         </div>
 
-        <button class="idn-play-button--container" video=".idn-fires__video">
+        <button class="idn-play-button--container">
             <div class="idn-play-button">
                 <span class="idn-play-button__restart">Restart</span>
             </div>
@@ -52,9 +52,8 @@
         </div> -->
 
         <div class="idn-fires__inner">
-            <video class="idn-fires__video" poster="src/video/fires.png">
-            </video>
-            <!-- <canvas class="idn-fires__canvas"></canvas> -->
+            <video class="idn-fires__video idn-video" poster="{{=it.config.assetPath}}/src/video/fires.png"></video>
+            <canvas class="idn-fires__canvas idn-canvasvideo"></canvas>
         </div>
     </div>
 
@@ -100,8 +99,10 @@
                 <div class="idn-sumatra__label idn-sumatra__label--sinar">Owned by Asia Pulp &amp; Paper</div>
                 <div class="idn-sumatra__label idn-sumatra__label--palembang">Palembang</div>
 
-                <video class="idn-sumatra__video" poster="src/video/sumatra.png">
-                </video>
+                <video class="idn-sumatra__video idn-video" poster="{{=it.config.assetPath}}/src/video/sumatra.png"></video>
+
+                <canvas class="idn-sumatra__canvas idn-canvasvideo"></canvas>
+
                 <button class="idn-play-button--container" video=".idn-sumatra__video">
                     <div class="idn-play-button">
                         <span class="idn-play-button__restart">Restart</span>
@@ -155,11 +156,13 @@
             <div class="idn-map__heading idn-map__heading--co-emissions-date"><span class="idn-co-emissions__date"></span></div>
             <div class="idn-co-emissions__inner">
 
-                <video class="idn-co-emissions__video" poster="src/video/airs-fs8.png">
-                    <source src="src/video/airs.mp4" type="video/mp4" />
+                <video class="idn-co-emissions__video idn-video" poster="{{=it.config.assetPath}}/src/video/airs-fs8.png">
+                    <source src="{{=it.config.assetPath}}/src/video/airs.mp4" type="video/mp4" />
                 </video>
-                <canvas class="idn-co-emissions__canvas"></canvas>
-                <img src="src/img/emissions-mask-highres-fs8.png" />
+
+                <canvas class="idn-co-emissions__canvas idn-canvas"></canvas>
+
+                <img src="{{=it.config.assetPath}}/src/img/emissions-mask-highres-fs8.png" />
                 <button class="idn-play-button--container" video=".idn-co-emissions__video">
                     <div class="idn-play-button">
                         <span class="idn-play-button__restart">Restart</span>

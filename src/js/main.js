@@ -2,16 +2,17 @@ import domready from 'ded/domready'
 import doT from 'olado/doT'
 import mainTemplate from '../templates/main.html!text'
 import bean from 'fat/bean'
-// import bonzo from 'ded/bonzo'
-// import reqwest from 'reqwest';
+import bonzo from 'ded/bonzo'
+// import reqwest from 'reqwest'
+import bowser from 'ded/bowser'
 import debounce from './lib/debounce'
+import throttle from './lib/throttle'
 import d3 from 'd3'
 import topojson from 'mbostock/topojson'
 import strftime from 'samsonjs/strftime'
 import Emitter from './emitter.js';
 import CanvasVideoPlayer from './lib/canvas-video-player'
 import graph from './graph.js';
-import iframeMessenger from 'guardian/iframe-messenger';
 
 var renderMainTemplate = doT.template(mainTemplate);
 
@@ -47,63 +48,87 @@ let processedBreakdownData = breakdownData
         return d;
     })
 
-function load(features) {
+function load(el, config) {
 
     var container = d3.select("#map-container");
 
     var els = {
-        firesContainer: document.querySelector(".idn-fires"),
-        firesDate: document.querySelector('.idn-fires__date'),
-        firesPlayBtn: document.querySelector('.idn-fires .idn-play-button--container'),
-        firesVideo: document.querySelector('.idn-fires__video'),
+        contentEl: el.querySelector('.idn-content'),
 
-        sumatraVideo: document.querySelector('.idn-sumatra__video'),
-        sumatraDate: document.querySelector('.idn-sumatra__date'),
-        sumatraFireDate: document.querySelector('.idn-fire-date--sumatra'),
-        sumatraZoomMap: document.querySelector('.idn-sumatra-zoom__map'),
-        sumatraPlayBtn: document.querySelector('.idn-sumatra .idn-play-button--container'),
+        firesContainer: el.querySelector(".idn-fires"),
+        firesDate: el.querySelector('.idn-fires__date'),
+        firesPlayBtn: el.querySelector('.idn-fires .idn-play-button--container'),
+        firesVideo: el.querySelector('.idn-fires__video'),
 
-        emissionsContainer: document.body.querySelector('.idn-co-emissions'),
-        emissionsVideo: document.body.querySelector('.idn-co-emissions__video'),
-        emissionsDate: document.body.querySelector('.idn-co-emissions__date'),
-        emissionsPlayBtn: document.body.querySelector('.idn-co-emissions .idn-play-button--container'),
+        sumatraVideo: el.querySelector('.idn-sumatra__video'),
+        sumatraDate: el.querySelector('.idn-sumatra__date'),
+        sumatraFireDate: el.querySelector('.idn-fire-date--sumatra'),
+        sumatraZoomMap: el.querySelector('.idn-sumatra-zoom__map'),
+        sumatraPlayBtn: el.querySelector('.idn-sumatra .idn-play-button--container'),
 
-        co2eGraphContainer: document.body.querySelector('.idn-co2e-graph'),
+        emissionsContainer: el.querySelector('.idn-co-emissions'),
+        emissionsVideo: el.querySelector('.idn-co-emissions__video'),
+        emissionsDate: el.querySelector('.idn-co-emissions__date'),
+        emissionsPlayBtn: el.querySelector('.idn-co-emissions .idn-play-button--container'),
+
+        co2eGraphContainer: el.querySelector('.idn-co2e-graph'),
     };
 
-
     els.firesVideo.innerHTML = window.innerWidth > 700 ?
-        '<source src="src/video/fires.mp4" type="video/mp4" />' :
-        '<source src="src/video/fires-small.mp4" type="video/mp4"/>';
+        `<source src="${config.assetPath}/src/video/fires.mp4" type="video/mp4" />` :
+        `<source src="${config.assetPath}/src/video/fires-small.mp4" type="video/mp4"/>`;
 
     els.sumatraVideo.innerHTML = window.innerWidth > 700 ?
-        '<source src="src/video/sumatra.mp4" type="video/mp4" />' :
-        '<source src="src/video/sumatra-small.mp4" type="video/mp4" />';
+        `<source src="${config.assetPath}/src/video/sumatra.mp4" type="video/mp4" />` :
+        `<source src="${config.assetPath}/src/video/sumatra-small.mp4" type="video/mp4" />`;
 
+    // let playFns = {};
+    // playFns[els.firesPlayBtn] = () =>
 
-
+    let useCanvasVideo = bowser.ios;
+    if (useCanvasVideo) bonzo(els.contentEl).addClass('idn-content--canvasvideo');
 
     function playBtnEvtHandler(evt) {
     }
 
-    ([els.sumatraPlayBtn, els.firesPlayBtn, els.emissionsPlayBtn]).forEach(el => {
-        let vid = document.querySelector(el.getAttribute('video'));
-        el.addEventListener('click', evt => {
-            el.setAttribute('firstplay', '');
-            if (vid.paused) el.setAttribute('playing', '');
-            else el.removeAttribute('playing');
-            vid[vid.paused ? 'play' : 'pause']();
+    function setupVideo(containerSelector, fps) {
+
+        let btnEl = el.querySelector(containerSelector + ' .idn-play-button--container');
+        let vid = el.querySelector(containerSelector + ' video');
+        let canvasVideo = useCanvasVideo && new CanvasVideoPlayer({
+            videoSelector: containerSelector + ' video',
+            canvasSelector: containerSelector + ' canvas',
+            framesPerSecond: 20
         });
-        bean.on(el, 'click', '.idn-play-button__restart', evt => {
-            console.log('adsf');
+
+        let play = () => {
+            useCanvasVideo ? canvasVideo.play() : vid.play();
+            btnEl.setAttribute('playing', '');
+        }
+        let pause = () => {
+            useCanvasVideo ? canvasVideo.pause() : vid.pause();
+            btnEl.removeAttribute('playing');
+        }
+        let isPaused = () => useCanvasVideo ? !canvasVideo.playing : vid.paused;
+
+        btnEl.addEventListener('click', evt => {
+            btnEl.setAttribute('firstplay', '');
+            if (isPaused()) play();
+            else pause();
+        });
+        bean.on(btnEl, 'click', '.idn-play-button__restart', evt => {
             vid.currentTime = 0;
-            vid.play();
+            play();
             evt.stopPropagation();
             evt.preventDefault();
         })
-    });
+    }
 
-    document.querySelector('.idn-fires__video').addEventListener('ended', evt => {
+    setupVideo('.idn-fires', 20);
+    setupVideo('.idn-sumatra', 20);
+    setupVideo('.idn-co-emissions', 10);
+
+    el.querySelector('.idn-fires__video').addEventListener('ended', evt => {
         els.firesPlayBtn.removeAttribute('playing');
     });
 
@@ -174,71 +199,39 @@ function load(features) {
         })
     })();
 
-    document.querySelector('.idn-sumatra__video').addEventListener('ended', evt => {
+    el.querySelector('.idn-sumatra__video').addEventListener('ended', evt => {
         els.sumatraPlayBtn.removeAttribute('playing');
     })
 
-    // var canvasVideo = new CanvasVideoPlayer({
-    //     videoSelector: '.idn-fires__video',
-    //     canvasSelector: '.idn-fires__canvas',
-    //     framesPerSecond: 20
-    // });
-    // canvasVideo.play()
+    let graphFns = graph(el.querySelector('.idn-co2e-graph'));
 
+    if (bowser.mobile) {
+        graphFns.go();
+    } else {
+        let autoPlay = throttle(function() {
+            let threshold = window.innerHeight / 3.5;
+            let graphTop = els.co2eGraphContainer.getBoundingClientRect().top
+            let playGraph = graphTop > 0 && graphTop < (window.innerHeight * 0.8) ;
+            if (playGraph) {
+                graphFns.animate();
+                window.removeEventListener('scroll', autoPlay);
+            }
+        }, 250)
 
-    let graphFns = graph(document.body.querySelector('.idn-co2e-graph'));
-    let graphAnimated = false;
-
-    function autoPlay() {
-        if (window.self !== window.top) {
-            iframeMessenger.getPositionInformation((msg) => {
-                let threshold = msg.innerHeight / 3.5;
-
-                // let mapContainerTop = msg.iframeTop + els.mapContainer.getBoundingClientRect().top
-                // let autoplayMap = mapContainerTop > 0 && mapContainerTop < threshold;
-
-                // let sumatraTop = msg.iframeTop + els.sumatraZoomMap.getBoundingClientRect().top
-                // let autoplaySumatra = sumatraTop > 0 && sumatraTop < threshold;
-
-                // let emissionTop = msg.iframeTop + els.emissionsContainer.getBoundingClientRect().top
-                // let autoplayEmissions = emissionTop > 0 && emissionTop < threshold;
-
-                // bigTimelapse[autoplayMap ? 'play' : 'pause']();
-                // sumatraTimelapse[autoplaySumatra ? 'play' : 'pause']();
-                // canvasVideo[autoplayEmissions ? 'play' : 'pause']();
-
-                if (!graphAnimated) {
-                    let graphTop = msg.iframeTop + els.co2eGraphContainer.getBoundingClientRect().top
-                    let playGraph = graphTop > 0 && graphTop < (msg.innerHeight * 0.8) ;
-                    if (playGraph) {
-                        graphFns.animate();
-                        graphAnimated = true;
-                    }
-                }
-
-                window.setTimeout(autoPlay, 200);
-            })
-        } else {
-            graphFns.animate();
-        }
+        window.addEventListener('scroll', autoPlay);
+        window.addEventListener('resize', debounce(evt => graphFns.resize(), 250))
     }
 
-    autoPlay();
-
-    window.addEventListener('resize', debounce(evt => graphFns.resize(), 250))
 
 }
 
-domready(() => {
-    window.setTimeout(() => {
-        load();
-        document.querySelector('.idn-content--loading').className = 'idn-content';
-    }, 10);
-    let resize = debounce(iframeMessenger.resize.bind(iframeMessenger), 200);
-    window.addEventListener('resize', evt => resize());
-    if (document.readyState !== 'complete') window.addEventListener('load', evt => resize());
-    else resize();
+export function init(el, context, config, mediator) {
+    domready(() => {
+        window.setTimeout(() => {
+            load(el, config);
+            bonzo(el.querySelector('.idn-content--loading')).removeClass('idn-content--loading');
+        }, 10);
 
-    document.body.innerHTML = renderMainTemplate({breakdown: processedBreakdownData});
-
-})
+        el.innerHTML = renderMainTemplate({breakdown: processedBreakdownData, config: config});
+    })
+}

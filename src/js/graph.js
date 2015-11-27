@@ -194,8 +194,15 @@ function load(el) {
         animated = true;
     }
     resize();
+
+    function go () {
+        animated = true;
+        animate();
+    }
+
     return {
         animate: animate,
+        go: go,
         resize: resize
     }
 }
