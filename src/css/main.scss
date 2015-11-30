@@ -113,23 +113,9 @@
     }
 }
 
-.idn-co2e-graph__heading {
-    @include fs-header(1);
-    color: #767676;
-    margin-top: 0;
-    padding-top: 6px;
-    padding-bottom: 12px;
-    @include mq(mobileLandscape) {
-        display: none;
-    }
-    @include mq(desktop) {
-        @include fs-header(2, true);
-    }
-    a, a:visited {
-        color: #767676;
-    }
+.idn-co2e-graph {
+    margin-top: 12px;
 }
-
 .idn-map {
     position: absolute;
     top: 0;
@@ -642,9 +628,9 @@ svg {
 .idn-x.idn-label {
     fill: #4982b9;
     font-weight: 500;
-    @include mq($until: mobileLandscape) {
-        display: none;
-    }
+    // @include mq($until: mobileLandscape) {
+    //     display: none;
+    // }
     stroke-width: 10;
     stroke: #fff;
     paint-order: stroke;
