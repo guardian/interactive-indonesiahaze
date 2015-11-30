@@ -123,6 +123,9 @@
         // margin: 0;
         // margin-left: 60px;
     }
+    a, a:visited {
+        color: #767676;
+    }
 }
 
 .idn-map {
@@ -816,15 +819,17 @@ svg {
     }
 }
 
-.idn-haze-picture--2 {
-    width: calc(50% - 2px);
-    float: left;
-}
+@include mq(mobileLandscape) {
+    .idn-haze-picture--2 {
+        width: calc(50% - 2px);
+        float: left;
+    }
 
-.idn-haze-picture--3 {
-    width: calc(50% - 2px);
-    margin-right: 4px;
-    float: left;
+    .idn-haze-picture--3 {
+        width: calc(50% - 2px);
+        margin-right: 4px;
+        float: left;
+    }
 }
 
 .idn-breakdown3 {
