@@ -41,7 +41,7 @@ Date.prototype.addDays = function(days) {
 
 function load(el) {
 
-    const margin = {top: 0, right: 10, bottom: 30, left: 50}
+    const margin = {top: 0, right: 10, bottom: 30, left: 15}
 
 
     var cumulativeCO2e = 0;
@@ -67,12 +67,6 @@ function load(el) {
 
     x.domain(d3.extent(cumulativeData, d => d.date));
     y.domain([0, d3.max(cumulativeData, d => d.emissions) * 1.10]);
-
-    let xaxis = svg.append('g')
-        .attr('class', 'idn-x idn-axis');
-
-    let yaxis = svg.append('g')
-        .attr('class', 'idn-y idn-axis');
 
     var countryLines,
         visibleDateCO2e = [];
@@ -104,8 +98,14 @@ function load(el) {
         .attr("class", "idn-y idn-label")
         .attr("text-anchor", "middle")
         .attr("y", 0)
-        .attr("dy", "12px")
+        .attr("dy", "-6px")
         .attr("transform", "rotate(-90)")
+
+    let xaxis = svg.append('g')
+        .attr('class', 'idn-x idn-axis');
+
+    let yaxis = svg.append('g')
+        .attr('class', 'idn-y idn-axis');
 
 
     var path = svg.append('path')
@@ -123,7 +123,7 @@ function load(el) {
             "class": "idn-y idn-label",
             "text-anchor": "end",
             /*"dx": -20,*/
-            "y": 0, "dy": "10px"
+            "y": 0, "dy": "-10px"
         })
 
     let resize = () => {
@@ -144,6 +144,7 @@ function load(el) {
             .tickFormat(d3.time.format(width < 800 ? '%b' : '%B'))
 
         yAxis.ticks(height < 250 ? 4 : 10)
+            .orient('right');
 
         xaxis.call(xAxis);
         yaxis.call(yAxis);

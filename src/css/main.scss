@@ -611,6 +611,15 @@ svg {
         stroke: #999999;
     }
 }
+
+.idn-y {
+    .tick text {
+        stroke-width: 8px;
+        stroke: #fff;
+        paint-order: stroke;
+        fill: #999999;
+    }
+}
 .idn-label {
     stroke-width: 10;
     stroke: #fff;
