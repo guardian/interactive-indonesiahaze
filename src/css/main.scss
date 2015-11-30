@@ -113,6 +113,7 @@
     color: #767676;
     margin-top: 0;
     padding-top: 6px;
+    padding-bottom: 12px;
     @include mq(mobileLandscape) {
         display: none;
     }
