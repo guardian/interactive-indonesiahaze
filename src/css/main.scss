@@ -106,10 +106,6 @@
         color: #333;
         margin: 0;
     }
-
-    .idn-section--co2 & {
-        // background: white;
-    }
 }
 
 .idn-co2e-graph__heading {
@@ -122,9 +118,6 @@
     }
     @include mq(desktop) {
         @include fs-header(2, true);
-        // position: absolute;
-        // margin: 0;
-        // margin-left: 60px;
     }
     a, a:visited {
         color: #767676;
@@ -218,7 +211,6 @@ svg {
 }
 
 .idn-co-emissions {
-    // max-width: 720px;
     @include mq(desktop) {
         margin-left: -10px;
     }
