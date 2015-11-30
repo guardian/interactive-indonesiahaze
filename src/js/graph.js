@@ -104,15 +104,15 @@ function load(el) {
     let xaxis = svg.append('g')
         .attr('class', 'idn-x idn-axis');
 
-    let yaxis = svg.append('g')
-        .attr('class', 'idn-y idn-axis');
-
-
     var path = svg.append('path')
         .datum([])
         // .datum(cumulativeData)
         .attr('class', 'idn-line')
         .attr('d', line);
+
+    let yaxis = svg.append('g')
+        .attr('class', 'idn-y idn-axis');
+
 
     // let linelabel = svg.append("text")
     //     .attr("class", "idn-label idn-label--linelabel")
