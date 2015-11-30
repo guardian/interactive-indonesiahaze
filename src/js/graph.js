@@ -41,7 +41,7 @@ Date.prototype.addDays = function(days) {
 
 function load(el) {
 
-    const margin = {top: 0, right: 0, bottom: 30, left: 50}
+    const margin = {top: 0, right: 10, bottom: 30, left: 50}
 
 
     var cumulativeCO2e = 0;
@@ -134,8 +134,6 @@ function load(el) {
         x.range([0, width]);
         y.range([height, 0]);
 
-        xaxis.call(xAxis);
-        yaxis.call(yAxis);
 
         svg
             .attr("width", width + margin.left + margin.right)
@@ -143,9 +141,12 @@ function load(el) {
         xaxis.attr('transform', 'translate(0,' + height + ')')
 
         xAxis.ticks(width < 300 ? 3 : 5)
-            .tickFormat(d3.time.format(width < 800   ? '%b' : '%B'))
+            .tickFormat(d3.time.format(width < 800 ? '%b' : '%B'))
 
         yAxis.ticks(height < 250 ? 4 : 10)
+
+        xaxis.call(xAxis);
+        yaxis.call(yAxis);
 
         ylabel
             .attr("dx", height/-1.8)
