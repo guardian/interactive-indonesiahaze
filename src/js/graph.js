@@ -41,7 +41,7 @@ Date.prototype.addDays = function(days) {
 
 function load(el) {
 
-    const margin = {top: 0, right: 10, bottom: 30, left: 15}
+    const margin = {top: 0, right: 18, bottom: 30, left: 15}
 
 
     var cumulativeCO2e = 0;
@@ -122,8 +122,7 @@ function load(el) {
         .attr({
             "class": "idn-y idn-label",
             "text-anchor": "end",
-            /*"dx": -20,*/
-            "y": 0, "dy": "-10px"
+            "y": 0, "dy": "16px"
         })
 
     let xlabel2 = svg.append("text")
@@ -160,8 +159,9 @@ function load(el) {
             .attr("dx", height/-1.8)
             .text(height < 250 ? 'CO2e (Mt)' : 'CO2e emissions (metric tons)');
 
+        let ylabel2y = y(1344.58 * 1000000) - 40;
         ylabel2
-            .attr({x: width, y: y(1344.58 * 1000000) - 40})
+            .attr({x: width, y: ylabel2y, "transform": `rotate(-90, ${width}, ${ylabel2y})`})
             .text(height < 250 ? 'Annual CO2e (Mt)' : 'Annual CO2e emissions (metric tons)');
 
         xlabel2

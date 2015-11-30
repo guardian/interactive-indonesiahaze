@@ -631,15 +631,13 @@ svg {
         fill: #999999;
     }
 }
-.idn-label {
-    stroke-width: 10;
-    stroke: #fff;
-    paint-order: stroke;
-    fill: #999999;
-}
 
 .idn-label--linelabel {
     stroke-width: 4;
+}
+
+.idn-label {
+    fill: #999999;
 }
 
 .idn-x.idn-label {
@@ -648,6 +646,9 @@ svg {
     @include mq($until: mobileLandscape) {
         display: none;
     }
+    stroke-width: 10;
+    stroke: #fff;
+    paint-order: stroke;
 }
 
 .idn-fires__city {
