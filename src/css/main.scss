@@ -11,7 +11,6 @@
 
 .idn-content {
     max-width: 1260px;
-    min-width: 280px;
     margin: auto;
     overflow: visible;
     position: relative;
@@ -454,14 +453,14 @@ svg {
     top: 12px;
     z-index: 2;
     color: #767676;
-    @include fs-header(3);
     padding-top: 6px;
     line-height: 24px;
-    @include mq($until: tablet) {
+    @include fs-header(1);
+    @include mq(mobileLandscape) {
         @include fs-header(2,true);
-        > span {
-                display: none;
-        }
+    }
+    @include mq(tablet) {
+        @include fs-header(3,true);
     }
 }
 
@@ -792,6 +791,7 @@ svg {
     display: block;
     width: 100%;
     position: relative;
+    margin-bottom: 3px;
     img {
         width: 100%;
     }
@@ -845,10 +845,6 @@ svg {
             text-align: center;
             display: inline-block;
             color: white;
-            // @include mq($until: mobileLandscape){
-            //     color: #333;
-            //     text-shadow: 0 0 2px white;
-            // }
         }
         > div:nth-child(2) {
             line-height: 24px;
@@ -875,4 +871,8 @@ svg {
     .idn-video {
         display: none;
     }
+}
+
+.idn-section--breakdown {
+    min-height: 280px;
 }
