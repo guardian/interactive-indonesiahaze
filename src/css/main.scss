@@ -64,14 +64,16 @@
 
 .idn-section {
     clear: both;
+
     @include mq(desktop) {
         padding-left: 240px;
     }
+
     &:after {
         display: block;
         content: '';
         clear: both;
-        height: 48px;
+        height: 24px;
     }
     p {
         @include fs-bodyCopy(2);
@@ -81,17 +83,18 @@
     }
 }
 
+.idn-section--fullwidth {
+    @include mq(desktop) {
+        padding-left: 0px;
+        .idn-section__heading {
+            padding-left: 240px;
+        }
+    }
+}
 .idn-section__heading {
     padding-right: 10px;
     padding-bottom: 12px;
 
-    @include mq(desktop) {
-        width: 230px;
-        position: absolute;
-        z-index: 3;
-        left: 0;
-        background: rgba(255,255,255,0.6);
-    }
     h2 {
         @include fs-header(2);
         line-height: 24px;
@@ -216,6 +219,9 @@ svg {
 
 .idn-co-emissions {
     // max-width: 720px;
+    @include mq(desktop) {
+        margin-left: -10px;
+    }
 }
 
 .idn-co-emissions__inner {
@@ -468,6 +474,13 @@ svg {
     @include mq(tablet) {
         @include fs-header(3,true);
     }
+    @include mq(desktop) {
+        position: absolute;
+        top: auto;
+        left: auto;
+        margin-left: 10px;
+        text-shadow: 0 0 20px white, 0 0 20px white, 0 0 20px white, 0 0 20px white
+    }
 }
 
 .idn-sumatra__copy {
@@ -639,6 +652,7 @@ svg {
 
 .idn-x.idn-label {
     fill: #4982b9;
+    font-weight: 500;
     @include mq($until: mobileLandscape) {
         display: none;
     }

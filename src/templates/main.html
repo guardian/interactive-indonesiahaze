@@ -4,60 +4,54 @@
     <h2></h2>
     <div class="idn-cumulative-fires"></div>
     <div class="idn-active-fires"></div>
-    <div class="idn-section__heading">
-        <h2>NASA satellites have detected more than 130,000 fire hotspots across Indonesia this year</h2>
-        <p>A long dry season and weather patterns created by the El Nino phenomenon created highly flammable conditions for fires to spread over the summer</p>
-    </div>
 
-    <div class="idn-fires">
-
-        <div class="idn-map__heading">
-            <span class="idn-fires__date"></span>
+    <div class="idn-section idn-section--fullwidth">
+        <div class="idn-section__heading">
+            <h2>NASA satellites have detected more than 130,000 fire hotspots across Indonesia this year</h2>
+            <p>A long dry season and weather patterns created by the El Nino phenomenon created highly flammable conditions for fires to spread over the summer</p>
         </div>
+        <div class="idn-fires">
 
-        <div>
-            <div class="idn-fires__city idn-fires__city--palembang">Palembang</div>
-            <div class="idn-fires__city idn-fires__city--jambi">Jambi</div>
-            <div class="idn-fires__city idn-fires__city--singapore">Singapore</div>
-            <div class="idn-fires__city idn-fires__city--banjarmasin">Banjarmasin</div>
-            <div class="idn-fires__city idn-fires__city--pontianak">Pontianak</div>
-            <div class="idn-fires__city idn-fires__city--kualalumpur">Kuala Lumpur</div>
-            <div class="idn-fires__city idn-fires__city--pekanbaru">Pekanbaru</div>
-
-            <div class="idn-fires__regionlabel idn-fires__regionlabel--sumatra">Sumatra</div>
-            <div class="idn-fires__regionlabel idn-fires__regionlabel--malaysia">Malaysia</div>
-            <div class="idn-fires__regionlabel idn-fires__regionlabel--indonesia">Indonesia</div>
-            <div class="idn-fires__regionlabel idn-fires__regionlabel--kalimantan">Kalimantan</div>
-
-            <div class="idn-sumatra__zoombox">
-                <div class="idn-sumatra__zoombox__label">Enlarged below</div>
+            <div class="idn-map__heading">
+                <span class="idn-fires__date"></span>
             </div>
 
+            <div>
+                <div class="idn-fires__city idn-fires__city--palembang">Palembang</div>
+                <div class="idn-fires__city idn-fires__city--jambi">Jambi</div>
+                <div class="idn-fires__city idn-fires__city--singapore">Singapore</div>
+                <div class="idn-fires__city idn-fires__city--banjarmasin">Banjarmasin</div>
+                <div class="idn-fires__city idn-fires__city--pontianak">Pontianak</div>
+                <div class="idn-fires__city idn-fires__city--kualalumpur">Kuala Lumpur</div>
+                <div class="idn-fires__city idn-fires__city--pekanbaru">Pekanbaru</div>
 
-        </div>
+                <div class="idn-fires__regionlabel idn-fires__regionlabel--sumatra">Sumatra</div>
+                <div class="idn-fires__regionlabel idn-fires__regionlabel--malaysia">Malaysia</div>
+                <div class="idn-fires__regionlabel idn-fires__regionlabel--indonesia">Indonesia</div>
+                <div class="idn-fires__regionlabel idn-fires__regionlabel--kalimantan">Kalimantan</div>
 
-        <button class="idn-play-button--container">
-            <div class="idn-play-button">
-                <span class="idn-play-button__restart">Restart</span>
+                <div class="idn-sumatra__zoombox">
+                    <div class="idn-sumatra__zoombox__label">Enlarged below</div>
+                </div>
+
+
             </div>
-        </button>
 
-        <!-- <div>
-            <svg class="gv-video-play" x="0px" y="0px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
-                <circle fill="#ffbb00" cx="50" cy="50" r="50"></circle>
-                <polygon fill="#333333" class="guPause" points="45.9,65.5 37.6,65.5 37.6,34.5 39.6,32.5 45.9,32.5 "></polygon>
-                <polygon fill="#333333" class="guPause" points="62.4,63.5 60.4,65.5 54.1,65.5 54.1,32.5 62.4,32.5 "></polygon>
-                <polygon fill="#333333" class="guPlay" points="72.2,49.3 38.1,35.2 36.9,36.1 36.9,63.9 38.1,64.8 72.2,50.7 "></polygon>
-            </svg>
-        </div> -->
+            <button class="idn-play-button--container">
+                <div class="idn-play-button">
+                    <span class="idn-play-button__restart">Restart</span>
+                </div>
+            </button>
 
-        <div class="idn-fires__inner">
-            <video class="idn-fires__video idn-video" poster="{{=it.config.assetPath}}/src/video/fires.png"></video>
-            <canvas class="idn-fires__canvas idn-canvasvideo"></canvas>
+            <div class="idn-fires__inner">
+                <video class="idn-fires__video idn-video" poster="{{=it.config.assetPath}}/src/video/fires.png"></video>
+                <canvas class="idn-fires__canvas idn-canvasvideo"></canvas>
+            </div>
         </div>
+        <div class="idn-fires__credits">Source: Daily active fires data taken from <a href="https://earthdata.nasa.gov/earth-observation-data/near-real-time/firms/active-fire-data" target="_blank">NASA MODIS</a></div>
     </div>
 
-    <div class="idn-fires__credits">Source: Daily active fires data taken from <a href="https://earthdata.nasa.gov/earth-observation-data/near-real-time/firms/active-fire-data" target="_blank">NASA MODIS</a></div>
+
 
     <div class="idn-section idn-section--breakdown">
         <div class="idn-section__heading">
@@ -119,11 +113,12 @@
 
 
 
-    <div class="idn-section">
+    <div class="idn-section idn-section--fullwidth">
         <div class="idn-section__heading">
             <h2>An acrid haze enveloped Indonesia and neighbouring countries as the fires spread</h2>
             <p>It grounded flights, closed schools and reduced visibility to 30 metres in some areas while also severely affecting public health</p>
         </div>
+
         <div class="idn-haze-pictures">
             <picture class="idn-haze-picture idn-haze-picture--1">
                 <source srcset="https://media.guim.co.uk/54f63bfe6b0324598db921a4e81a18f850862c12/0_0_3000_1801/2000.jpg" media="(min-width: 1500px)">
@@ -144,6 +139,7 @@
                 <img src="https://media.guim.co.uk/5b17185fed075e0681de802e256791902245919d/0_82_2500_1499/500.jpg" alt="haze">
             </picture>
         </div>
+
     </div>
 
     <div class="idn-section">
