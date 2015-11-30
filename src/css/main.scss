@@ -114,6 +114,9 @@
     color: #767676;
     margin-top: 0;
     padding-top: 6px;
+    @include mq(mobileLandscape) {
+        display: none;
+    }
     @include mq(desktop) {
         @include fs-header(2, true);
         // position: absolute;
@@ -172,7 +175,7 @@ svg {
 
 .idn-line {
   fill: none;
-  stroke: steelblue;
+  stroke: #4982b9;
   stroke-width: 1.5px;
   // stroke-dasharray: 1200;
   // stroke-dashoffset: 1200;
@@ -629,6 +632,13 @@ svg {
 
 .idn-label--linelabel {
     stroke-width: 4;
+}
+
+.idn-x.idn-label {
+    fill: #4982b9;
+    @include mq($until: mobileLandscape) {
+        display: none;
+    }
 }
 
 .idn-fires__city {

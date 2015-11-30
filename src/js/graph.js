@@ -126,6 +126,13 @@ function load(el) {
             "y": 0, "dy": "-10px"
         })
 
+    let xlabel2 = svg.append("text")
+        .attr({
+            "class": "idn-x idn-label",
+            "text-anchor": "start",
+            "dx": "35px"
+        })
+
     let resize = () => {
         let rect = el.getBoundingClientRect(),
         width = rect.width - margin.left - margin.right,
@@ -156,6 +163,10 @@ function load(el) {
         ylabel2
             .attr({x: width, y: y(1344.58 * 1000000) - 40})
             .text(height < 250 ? 'Annual CO2e (Mt)' : 'Annual CO2e emissions (metric tons)');
+
+        xlabel2
+            .attr({x: margin.left, y: y(0) - 30})
+            .text('Cumulative CO2e emissions from fires');
 
         // linelabel
         //     .attr({
