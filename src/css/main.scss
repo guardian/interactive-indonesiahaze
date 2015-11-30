@@ -43,13 +43,13 @@
 }
 
 .idn-map__heading {
-    text-align: right;
-    font-family: "Guardian Egyptian Web";
+    @include f-header;
+    font-weight: normal;
     position: absolute;
     z-index: 2;
-    right: 0;
+    left: 0;
     color: #767676;
-    padding-right: 10px;
+    padding-left: 10px;
     padding-top: 6px;
     font-size: 24px;
     white-space: nowrap;
@@ -58,7 +58,12 @@
     @include mq(desktop) { font-size: 38px; }
     .idn-sumatra & {
         color: white;
-        text-shadow: 0 0 50px rgba(0,0,0,0.9);
+        text-shadow: 0 0 50px rgba(0,0,0,0.3);
+    }
+    .idn-section--fires & {
+        @include mq(desktop) {
+            left: 240px;
+        }
     }
 }
 
@@ -212,8 +217,9 @@ svg {
 }
 
 .idn-co-emissions {
-    @include mq(desktop) {
-        margin-left: -10px;
+
+    @include mq($until: tablet) {
+        margin-left: -80%;
     }
 }
 
@@ -244,6 +250,12 @@ svg {
     outline: none;
     cursor: pointer;
     background: transparent;
+
+    .idn-co-emissions & {
+        @include mq($until: tablet) {
+            margin-left: calc(25% - 25px);
+        }
+    }
 
     .idn-play-button {
         cursor: pointer;
@@ -448,8 +460,7 @@ svg {
 }
 
 .idn-map__heading--co-emissions-date {
-    padding-right: 10px;
-    padding-top: 12px;
+    left: auto;
 }
 
 .idn-co-emissions__title {
@@ -458,22 +469,9 @@ svg {
     top: 12px;
     z-index: 2;
     color: #767676;
-    padding-top: 6px;
+    padding: 6px 0;
     line-height: 24px;
     @include fs-header(1);
-    @include mq(mobileLandscape) {
-        @include fs-header(2,true);
-    }
-    @include mq(tablet) {
-        @include fs-header(3,true);
-    }
-    @include mq(desktop) {
-        position: absolute;
-        top: auto;
-        left: auto;
-        margin-left: 10px;
-        text-shadow: 0 0 20px white, 0 0 20px white, 0 0 20px white, 0 0 20px white
-    }
 }
 
 .idn-sumatra__copy {
@@ -740,6 +738,9 @@ svg {
     top: 11.5%;
     width: 80px;
     text-align: center;
+    @include mq($until: mobileLandscape) {
+        display: none;
+    }
 }
 
 .idn-fires__regionlabel--sumatra {
@@ -847,15 +848,12 @@ svg {
         width: 200%;
     }
     > h3 {
-        @include f-header;
+        @include f-textSans;
+        font-weight: 500;
         font-size: 14px;
         line-height: 18px;
         margin: 6px 0;
         color: #767676;
-        @include mq(mobileLandscape) {
-            font-size: 16px;
-            line-height: 20px;
-        }
     }
 }
 
