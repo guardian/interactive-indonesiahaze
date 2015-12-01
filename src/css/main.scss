@@ -58,7 +58,7 @@
     @include mq(desktop) { font-size: 38px; }
     .idn-sumatra & {
         color: white;
-        text-shadow: 0 0 50px rgba(0,0,0,0.3);
+        text-shadow: 0 0 5px rgba(0, 0, 0, 0.9);
     }
     .idn-section--fires & {
         @include mq(leftCol) {
