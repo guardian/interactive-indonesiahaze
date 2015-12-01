@@ -81,7 +81,7 @@
         height: 24px;
     }
     p {
-        @include fs-bodyCopy(2);
+        @include fs-bodyCopy(3);
         color: #333;
         max-width: 640px;
         overflow: visible;
@@ -107,7 +107,7 @@
         margin: 6px 0;
     }
     p {
-        @include fs-bodyCopy(1);
+        @include fs-bodyCopy(2);
         color: #333;
         margin: 0;
     }
