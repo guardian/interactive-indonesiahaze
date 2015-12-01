@@ -936,3 +936,12 @@ svg {
 .idn-section--breakdown {
     min-height: 280px;
 }
+
+// app overrides
+.prose ul>li:before {
+    display: none;
+}
+
+.prose h2+p {
+    margin-top: 0;
+}
