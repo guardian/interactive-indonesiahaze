@@ -111,6 +111,10 @@ function load(el, config) {
         }
         let isPaused = () => useCanvasVideo ? !canvasVideo.playing : vid.paused;
 
+        if (bowser.android && bowser.webkit) {
+            vid.style.backgroundImage = `url(${vid.poster})`;
+        }
+
         btnEl.addEventListener('click', evt => {
             btnEl.setAttribute('firstplay', '');
             if (isPaused()) play();
