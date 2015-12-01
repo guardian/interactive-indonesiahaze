@@ -75,20 +75,32 @@ function load(el) {
     let animated, raf;
 
     let groups = {
+        lines: svg.append('g'),
+        strokes: svg.append('g').attr('class', 'idn-countries'),
         countries: svg.append('g').attr('class', 'idn-countries')
     }
 
 
-    let countriesLines = groups.countries
+    let countriesLines = groups.lines
         .selectAll('line')
         .data(countries)
     countriesLines.enter()
         .append('line')
         .attr({'class': 'idn-preset__line'})
 
+    let strokesText = groups.strokes
+        .selectAll('text')
+        .data(countries)
+
+    strokesText.enter()
+        .append('text')
+        .attr({'class': 'idn-preset__country-stroke', 'dy': '0.3em'/*, 'dx': -20*/})
+        .text(d => d.name)
+
     let countriesText = groups.countries
         .selectAll('text')
         .data(countries)
+
     countriesText.enter()
         .append('text')
         .attr({'class': 'idn-preset__country', 'dy': '0.3em'/*, 'dx': -20*/})
@@ -173,6 +185,9 @@ function load(el) {
         //         y: y(100*1000000), x: 5
         //     })
         //     .text('Cumulative CO2e emissions from fires')
+
+        strokesText
+            .attr({x: width, y: d => y(d.emissions), display: d => d.hideAtSmallSize && height < 250 && 'none'});
 
         countriesText
             .attr({x: width, y: d => y(d.emissions), display: d => d.hideAtSmallSize && height < 250 && 'none'});
