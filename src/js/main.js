@@ -142,7 +142,7 @@ function load(el, config) {
                 let progress = els.firesVideo.currentTime / els.firesVideo.duration;
                 newDate = new Date((progress * timespan) + startDate.getTime());
             }
-            let newDateStr = strftime('%B %e %Y', newDate);
+            let newDateStr = strftime('%e %B %Y', newDate);
             if (newDateStr !== lastDateStr) {
                 els.firesDate.textContent = newDateStr;
                 lastDateStr = newDateStr;
@@ -163,7 +163,7 @@ function load(el, config) {
                 let progress = els.sumatraVideo.currentTime / els.sumatraVideo.duration;
                 newDate = new Date((progress * timespan) + startDate.getTime());
             }
-            let newDateStr = strftime('%b %e %Y', newDate);
+            let newDateStr = strftime('%e %B %Y', newDate);
             if (newDateStr !== lastDateStr) {
                 els.sumatraDate.textContent = newDateStr;
                 lastDateStr = newDateStr;
@@ -184,7 +184,7 @@ function load(el, config) {
                 let progress = els.emissionsVideo.currentTime / els.emissionsVideo.duration;
                 newDate = new Date((progress * timespan) + startDate.getTime());
             }
-            let newDateStr = strftime('%b %e %Y', newDate);
+            let newDateStr = strftime('%e %B %Y', newDate);
             if (newDateStr !== lastDateStr) {
                 els.emissionsDate.textContent = newDateStr;
                 lastDateStr = newDateStr;
