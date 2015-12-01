@@ -894,12 +894,12 @@ svg {
     > h3 {
         @include f-textSans;
         font-weight: 600;
-        font-size: 15px;
+        font-size: 15px !important;
         line-height: 18px;
         margin: 6px 0;
         color: #333;
         @include mq(mobileLandscape) {
-            font-size: 16px;
+            font-size: 16px !important;
         }
     }
 }
