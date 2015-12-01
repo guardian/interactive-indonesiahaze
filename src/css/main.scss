@@ -61,7 +61,10 @@
         text-shadow: 0 0 50px rgba(0,0,0,0.3);
     }
     .idn-section--fires & {
-        @include mq(desktop) {
+        @include mq(leftCol) {
+            left: 160px;
+        }
+        @include mq(wide) {
             left: 240px;
         }
     }
@@ -70,7 +73,11 @@
 .idn-section {
     clear: both;
 
-    @include mq(desktop) {
+    @include mq(leftCol) {
+        padding-left: 160px;
+    }
+
+    @include mq(wide) {
         padding-left: 240px;
     }
 
@@ -89,8 +96,13 @@
 }
 
 .idn-section--fullwidth {
-    @include mq(desktop) {
+    @include mq(leftCol) {
         padding-left: 0px;
+        .idn-section__heading {
+            padding-left: 160px;
+        }
+    }
+    @include mq(wide) {
         .idn-section__heading {
             padding-left: 240px;
         }
@@ -829,7 +841,19 @@ svg {
         float: left;
     }
 }
-@include mq(desktop) {
+@include mq(leftCol) {
+    .idn-haze-picture--2 {
+        width: calc(50% - 82px);
+    }
+
+    .idn-haze-picture--3 {
+        width: calc(50% - 82px);
+        margin-right: 4px;
+        margin-left: 160px;
+    }
+}
+
+@include mq(wide) {
     .idn-haze-picture--2 {
         width: calc(50% - 122px);
     }
