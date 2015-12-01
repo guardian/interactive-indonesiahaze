@@ -86,6 +86,9 @@
         content: '';
         clear: both;
         height: 24px;
+        @include mq(desktop) {
+            height: 48px;
+        }
     }
     p {
         @include fs-bodyCopy(3);
