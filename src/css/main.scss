@@ -6,13 +6,13 @@
     background: white;
     margin: auto;
     width: 100%;
-    overflow: hidden;
+    // overflow: hidden;
 }
 
 .idn-content {
     max-width: 1260px;
     margin: auto;
-    overflow: visible;
+    // overflow: visible;
     position: relative;
     &:after {
         display: block;
@@ -231,6 +231,11 @@ svg {
     width: 100%;
     padding-bottom: 50.55%;
 
+    @include mq($until: mobileLandscape) {
+        margin-left: -10px;
+        width: calc(100% + 20px);
+    }
+
     video,
     canvas,
     img {
@@ -396,6 +401,10 @@ svg {
     position: relative;
     width: 100%;
     padding-bottom: 47.6190476%;
+    @include mq($until: mobileLandscape) {
+        margin-left: -10px;
+        width: calc(100% + 20px);
+    }
 
     video,
     canvas,
@@ -507,6 +516,11 @@ svg {
     float: left;
     margin-right: 24px;
     width: 100%;
+
+    @include mq($until: mobileLandscape) {
+        margin-left: -10px;
+        width: calc(100% + 20px);
+    }
 
     video, canvas {
         position: absolute;
@@ -819,6 +833,10 @@ svg {
 
 .idn-haze-pictures {
     width: 100%;
+    @include mq($until: mobileLandscape) {
+        margin-left: -10px;
+        width: calc(100% + 20px);
+    }
 }
 
 .idn-haze-picture {
@@ -943,4 +961,11 @@ svg {
 
 .prose h2+p {
     margin-top: 0;
+}
+
+.prose figure {
+    margin: 0 !important;
+}
+.article--standard .article__body {
+    padding: 12px 10px 0 !important;
 }
