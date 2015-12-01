@@ -826,6 +826,17 @@ svg {
         float: left;
     }
 }
+@include mq(desktop) {
+    .idn-haze-picture--2 {
+        width: calc(50% - 122px);
+    }
+
+    .idn-haze-picture--3 {
+        width: calc(50% - 122px);
+        margin-right: 4px;
+        margin-left: 240px;
+    }
+}
 
 .idn-breakdown3 {
     width: 80%;
