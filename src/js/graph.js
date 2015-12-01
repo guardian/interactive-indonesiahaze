@@ -41,7 +41,7 @@ Date.prototype.addDays = function(days) {
 
 function load(el) {
 
-    const margin = {top: 0, right: 18, bottom: 30, left: 15}
+    const margin = {top: 10, right: 18, bottom: 30, left: 15}
 
 
     var cumulativeCO2e = 0;
@@ -146,8 +146,8 @@ function load(el) {
 
     let resize = () => {
         let rect = el.getBoundingClientRect(),
-        width = rect.width - margin.left - margin.right,
-        height = rect.height - margin.top - margin.bottom;
+        width = Math.min(620, rect.width - margin.left - margin.right),
+        height = Math.max(width / 1.8, rect.height - margin.top - margin.bottom);
 
         x.range([0, width]);
         y.range([height, 0]);
@@ -177,7 +177,7 @@ function load(el) {
             .text(height < 250 ? 'Annual CO2e (Mt)' : 'Annual CO2e emissions (metric tons)');
 
         xlabel2
-            .attr({x: width - margin.right - margin.left, y: 6})
+            .attr({x: width - margin.right - margin.left, y: top})
             .text('Cumulative CO2e emissions from fires');
 
         // linelabel
