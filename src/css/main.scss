@@ -166,11 +166,8 @@ svg {
 
 .idn-line {
   fill: none;
-  stroke: #4982b9;
-  stroke-width: 1.5px;
-  // stroke-dasharray: 1200;
-  // stroke-dashoffset: 1200;
-  // animation: test 2s linear forwards;
+  stroke: #333;
+  stroke-width: 3px;
 }
 
 .idn-preset__line {
@@ -454,10 +451,13 @@ svg {
     left: 20px;
     top: 12px;
     z-index: 2;
-    color: #767676;
+    color: #333;
     padding: 6px 0;
-    line-height: 24px;
-    @include fs-header(1);
+    @include f-textSans;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 600;
+
 }
 
 .idn-sumatra__copy {
@@ -626,14 +626,15 @@ svg {
 }
 
 .idn-x.idn-label {
-    fill: #4982b9;
-    font-weight: 500;
-    // @include mq($until: mobileLandscape) {
-    //     display: none;
-    // }
+    fill: #333;
+    font-weight: 600;
     stroke-width: 10;
     stroke: #fff;
     paint-order: stroke;
+    font-size: 13px;
+    @include mq(mobileLandscape) {
+        font-size: 16px;
+    }
 }
 
 .idn-fires__city {
@@ -846,11 +847,14 @@ svg {
     }
     > h3 {
         @include f-textSans;
-        font-weight: 500;
-        font-size: 14px;
+        font-weight: 600;
+        font-size: 15px;
         line-height: 18px;
         margin: 6px 0;
-        color: #767676;
+        color: #333;
+        @include mq(mobileLandscape) {
+            font-size: 16px;
+        }
     }
 }
 
